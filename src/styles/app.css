@@ -145,6 +145,10 @@ body { margin: 0; background: var(--c-bg); color: var(--c-ink); }
 .row__main{flex:1;min-width:0;min-height:58px;display:flex;align-items:center;gap:8px;padding:6px 8px;border:0;background:none;text-align:left;border-radius:var(--r-md);touch-action:manipulation}
 .row__txt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .row__name{font-weight:700;font-size:var(--fs-md);line-height:1.2}
+.row__full{margin-top:-3px;font-size:12px;line-height:1.2;color:var(--c-ink-3)}
+.row.is-selected .row__full{color:var(--c-on-select)}
+.posed .alias{margin-top:4px}
+.posed .alias .fld__l,.posed .alias .posed__label{margin-bottom:0}
 .row__pts{flex:none;text-align:right;white-space:nowrap}
 .row__pts .num{font-size:20px}
 .chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--r-pill);background:var(--c-ink);color:var(--c-bg);font-size:var(--fs-xs);font-weight:700;white-space:nowrap}

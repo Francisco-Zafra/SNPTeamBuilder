@@ -1,4 +1,6 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { useEffect, useRef, useState } from "react";
+import { MAX_ALIAS_LENGTH } from "../domain/aliases.js";
 import { SIDE_ORDER } from "../domain/sides.js";
 import { SLOT_META, sideMeta } from "../ui/labels.js";
 import { formatPoints } from "../utils/format.js";
@@ -81,12 +83,13 @@ function PlayerRow({ player, location, selected, dragging, editing, shared, lock
           {...(locked ? {} : { ...attributes, ...listeners })}
           onClick={() => actions.tapPlayer(player.id)}
           aria-pressed={selected}
-          aria-label={`${player.name}, ${points} puntos, ${
+          aria-label={`${player.alias ? `${player.alias} (${player.fullName})` : player.name}, ${points} puntos, ${
             location ? `en pista ${location.court} ${SLOT_META[location.slot].label}` : "sin alinear"
           }`}
         >
           <span className="row__txt">
             <span className="row__name">{player.name}</span>
+            {player.alias && <span className="row__full">{player.fullName}</span>}
             {location && (
               <span className="chip">
                 <Icon name="check" size="xs" />
@@ -100,15 +103,22 @@ function PlayerRow({ player, location, selected, dragging, editing, shared, lock
           </span>
         </button>
       </div>
-      {editing && <PositionEditor player={player} shared={shared} onSelect={actions.setSide} />}
+      {editing && (
+        <PositionEditor player={player} shared={shared} onSelect={actions.setSide} onAlias={actions.setAlias} />
+      )}
     </div>
   );
 }
 
-function PositionEditor({ player, shared, onSelect }) {
+function PositionEditor({ player, shared, onSelect, onAlias }) {
   const current = sideMeta(player.preferredSide);
+  const ref = useRef(null);
+  // Si el jugador está abajo en la lista, que el panel (con el alias) quede a la vista.
+  useEffect(() => {
+    ref.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, []);
   return (
-    <div className="posed">
+    <div className="posed" ref={ref}>
       <div className="posed__label">Posición preferente</div>
       <div className="seg" role="group" aria-label={`Posición preferente de ${player.name}: ${current.label}`}>
         {SIDE_ORDER.map((side) => {
@@ -131,6 +141,48 @@ function PositionEditor({ player, shared, onSelect }) {
         {shared ? "Se comparte con el equipo." : "Se guarda en este dispositivo."} Ambos y Sin asignar nunca generan
         aviso.
       </p>
+      <AliasField player={player} onSave={onAlias} />
+    </div>
+  );
+}
+
+/** Alias del jugador: se guarda al salir del campo o con Enter. */
+function AliasField({ player, onSave }) {
+  const [value, setValue] = useState(player.alias ?? "");
+  const id = `alias-${player.id}`;
+  return (
+    <div className="fld alias">
+      <label className="posed__label" htmlFor={id}>
+        Alias <span className="fld__opt">(opcional)</span>
+      </label>
+      <div className="joinrow">
+        <input
+          id={id}
+          className="inp"
+          type="text"
+          value={value}
+          maxLength={MAX_ALIAS_LENGTH}
+          placeholder={`Ej.: ${player.firstName?.split(" ")[0] || "Fran"}`}
+          autoComplete="off"
+          enterKeyHint="done"
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={() => onSave(player.id, value)}
+          onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+        />
+        {player.alias && (
+          <button
+            type="button"
+            className="btn btn--soft"
+            onClick={() => {
+              setValue("");
+              onSave(player.id, "");
+            }}
+          >
+            Quitar
+          </button>
+        )}
+      </div>
+      <p className="posed__note">Si tiene alias, se muestra siempre en lugar de «{player.fullName}».</p>
     </div>
   );
 }

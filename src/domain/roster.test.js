@@ -17,6 +17,18 @@ describe("withPreferredSides", () => {
   });
 });
 
+describe("withPreferredSides con alias", () => {
+  it("el alias sustituye al nombre y se conserva el completo", () => {
+    const [p] = withPreferredSides([{ id: "1", name: "Francisco Zafra Del Moral", points: 1 }], {}, { 1: "Fran" });
+    expect(p).toMatchObject({ name: "Fran", alias: "Fran", fullName: "Francisco Zafra Del Moral" });
+  });
+
+  it("sin alias todo queda igual", () => {
+    const [p] = withPreferredSides([{ id: "1", name: "Paco Muro", points: 1 }], {});
+    expect(p).toMatchObject({ name: "Paco Muro", alias: null, fullName: "Paco Muro" });
+  });
+});
+
 describe("sortByPoints", () => {
   it("ordena de mayor a menor y desempata por nombre", () => {
     expect(sortByPoints(players).map((p) => p.name)).toEqual([

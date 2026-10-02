@@ -54,6 +54,12 @@ export const sideFeedback = (player, side, mode = "local") => ({
   kind: "ok",
 });
 
+export const aliasFeedback = (player, alias, mode = "local") => ({
+  title: alias ? `${player.fullName} → «${alias}»` : `${player.fullName} sin alias`,
+  sub: mode === "shared" ? "Se ve así para todo el equipo" : "Se ve así en este dispositivo",
+  kind: "ok",
+});
+
 export const MESSAGES = {
   copied: { title: "Alineación copiada", sub: "Pégala en el grupo de WhatsApp", kind: "ok" },
   copyFailed: { title: "No se ha podido copiar", sub: "Este navegador no permite copiar aquí", kind: "warn" },

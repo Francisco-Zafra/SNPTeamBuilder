@@ -147,7 +147,7 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
         const from = form.from !== "empty" ? byId(form.from) : null;
         setForm(null);
         setSheet(null);
-        const id = await team.store.createLineup({ name, date, fromId: from?.id });
+        const id = await team.store.createLineup({ name, date, fromId: from?.id, onError: failed });
         setActiveId(id);
         onLineupOpened();
         flash(MESSAGES.lineupCreated(from?.name));

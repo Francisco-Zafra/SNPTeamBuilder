@@ -3,7 +3,8 @@ import { createEmptyLineup, lineupReducer } from "../domain/lineupReducer.js";
 import { countPlacedPlayers, getCourts, getTotalPoints, indexPlayers } from "../domain/lineupSelectors.js";
 import { groupPlayersBySide, withPreferredSides } from "../domain/roster.js";
 import { SLOT_ORDER } from "../domain/sides.js";
-import { MESSAGES, placementFeedback, removalFeedback, sideFeedback } from "../ui/feedback.js";
+import { cleanAlias } from "../domain/aliases.js";
+import { MESSAGES, aliasFeedback, placementFeedback, removalFeedback, sideFeedback } from "../ui/feedback.js";
 import { copyToClipboard, shareText } from "../utils/clipboard.js";
 import { buildLineupText } from "../utils/share.js";
 import { STORAGE_KEYS } from "../utils/storage.js";
@@ -84,7 +85,10 @@ export function useLineupBuilder({ roster, isDesktop }) {
     return validIds.length ? lineupReducer(pairs, { type: "PRUNE", validIds }) : pairs;
   }, [activeLineup?.pairs, validIds]);
 
-  const players = useMemo(() => withPreferredSides(roster.players, team.sides), [roster.players, team.sides]);
+  const players = useMemo(
+    () => withPreferredSides(roster.players, team.sides, team.aliases),
+    [roster.players, team.sides, team.aliases]
+  );
   const playersById = useMemo(() => indexPlayers(players), [players]);
   const groups = useMemo(() => groupPlayersBySide(players), [players]);
   const courts = useMemo(() => getCourts(lineup, playersById), [lineup, playersById]);
@@ -101,8 +105,8 @@ export function useLineupBuilder({ roster, isDesktop }) {
   const totalPoints = getTotalPoints(courts);
   const count = countPlacedPlayers(courts);
   const copyText = useMemo(
-    () => buildLineupText({ teamName: roster.teamName, lineupName: activeLineup?.name, courts, totalPoints }),
-    [roster.teamName, activeLineup?.name, courts, totalPoints]
+    () => buildLineupText({ lineupName: activeLineup?.name, courts }),
+    [activeLineup?.name, courts]
   );
 
   // Cambios llegados de otro dispositivo en la alineación activa: aviso y resalte de pistas.
@@ -248,6 +252,15 @@ export function useLineupBuilder({ roster, isDesktop }) {
       team.store.setSide(playerId, side).catch(saveFailed);
       const player = playersById.get(playerId);
       if (player) flash(sideFeedback(player, side, team.mode));
+    },
+
+    setAlias(playerId, alias) {
+      if (readOnly) return flash(MESSAGES.readOnly);
+      const player = playersById.get(playerId);
+      if (!player || cleanAlias(alias) === (player.alias ?? "")) return;
+      lastOwnChange.current = Date.now();
+      team.store.setAlias(playerId, alias).catch(saveFailed);
+      flash(aliasFeedback(player, cleanAlias(alias), team.mode));
     },
 
     cancel: clearTransient,

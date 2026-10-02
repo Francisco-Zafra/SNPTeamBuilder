@@ -490,20 +490,19 @@ El valor numérico interno no se modifica. El redondeo es solo de presentación,
 
 ## 17. Copiar alineación
 
-Botón **Copiar alineación** que genera texto plano listo para WhatsApp:
+Botón **Copiar alineación** que genera texto listo para WhatsApp. El título es el nombre de la alineación, con negritas de WhatsApp (`*…*`) y **sin puntos**:
 
 ```text
-IMPACTO 360 MÁLAGA PADEL TEAM — Alineación
+*Jornada 4 · vs Pádel Indoor Sur*
 
-Pista 1 · 154.968,75 pts
-  R: David Gerardo Trujillo Vasquez (78.500)
-  D: Francisco Zafra Del Moral (75.468,75)
+*Pista 1*
+R: David Gerardo Trujillo Vasquez
+D: Francisco Zafra Del Moral
 
-Pista 2 · …
-  R: —
-  D: …
-
-Total: 600.000 pts
+*Pista 2*
+R: Raul Garcia Raga
+D: —
+…
 ```
 
 - Pistas en el mismo orden que en pantalla. Los huecos vacíos se muestran como `—`.
@@ -736,3 +735,12 @@ teams/{código}/lineups/{id}    { name, date, pairs[5], createdAt, updatedAt }
 - **Usar esta:** la convierte en la alineación activa y, opcionalmente, borra las otras comparadas. Sin conexión solo se puede usar, no borrar.
 - **Lógica pura:** `src/domain/compare.js` (con tests); interfaz en `src/components/CompareUI.jsx`. En escritorio se muestra como modal ancho.
 - El límite de 3 viene del diseño a 360 px. Subirlo es cambiar `MAX_COMPARE`, pero las celdas necesitarían otro diseño para seguir legibles.
+
+---
+
+## 26. Alias de jugadores
+
+- **Dónde se edita:** en el panel que se abre al tocar la letra de posición de un jugador, campo **Alias** (opcional, máximo 24 caracteres). Se guarda al salir del campo o con Enter; «Quitar» lo borra.
+- **Dónde se ve:** si un jugador tiene alias, se muestra **siempre** en su lugar: plantilla, huecos, hojas, comparación, avisos y mensaje de WhatsApp. En la plantilla, el nombre de SNP aparece debajo en pequeño.
+- **Cómo funciona:** `withPreferredSides` pone el alias en `name` y guarda el original en `fullName`. Los formatos `shortName`, `mediumName` y `compactName` devuelven el alias tal cual.
+- **Dónde se guarda:** como las posiciones. En modo local, `snp:v1:player-aliases`; en modo compartido, el campo `aliases` del documento `teams/{código}`. Las reglas admiten `sides` y `aliases`: tras añadir los alias hay que **volver a publicar `firestore.rules`**.

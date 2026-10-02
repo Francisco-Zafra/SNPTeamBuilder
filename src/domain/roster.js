@@ -1,11 +1,21 @@
 import { SIDES, SIDE_ORDER } from "./sides.js";
 
-/** Combina la plantilla normalizada con las posiciones guardadas. */
-export const withPreferredSides = (players, sides) =>
-  players.map((player) => ({
-    ...player,
-    preferredSide: sides[player.id] ?? SIDES.SIN_ASIGNAR,
-  }));
+/**
+ * Combina la plantilla normalizada con las posiciones y los alias guardados.
+ * Con alias, `name` pasa a ser el alias (se muestra en todas partes) y el nombre
+ * de SNP queda en `fullName`.
+ */
+export const withPreferredSides = (players, sides, aliases = {}) =>
+  players.map((player) => {
+    const alias = aliases[player.id] ?? null;
+    return {
+      ...player,
+      preferredSide: sides[player.id] ?? SIDES.SIN_ASIGNAR,
+      alias,
+      fullName: player.name,
+      name: alias ?? player.name,
+    };
+  });
 
 /** Puntos de mayor a menor; a igualdad, por nombre para que el orden sea estable. */
 export const compareByPoints = (a, b) =>

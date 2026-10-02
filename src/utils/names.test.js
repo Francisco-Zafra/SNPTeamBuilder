@@ -20,6 +20,15 @@ describe("shortName", () => {
   });
 });
 
+describe("alias", () => {
+  it("si hay alias, todos los formatos lo usan", () => {
+    const fran = { name: "Fran", alias: "Fran", firstName: "Francisco", lastName: "Zafra Del Moral" };
+    expect(shortName(fran)).toBe("Fran");
+    expect(mediumName(fran)).toBe("Fran");
+    expect(compactName(fran)).toBe("Fran");
+  });
+});
+
 describe("mediumName", () => {
   it("usa el primer nombre y el primer apellido", () => {
     expect(mediumName(daniel)).toBe("Daniel García");

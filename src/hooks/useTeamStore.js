@@ -3,7 +3,7 @@ import { isSyncAvailable } from "../store/firebase.js";
 import { createLocalStore } from "../store/localStore.js";
 import { forgetTeamCode, inviteLink, rememberTeamCode, resolveTeamCode } from "../store/teamCode.js";
 
-const LOADING = { status: "connecting", saving: false, ready: false, sides: {}, lineups: [] };
+const LOADING = { status: "connecting", saving: false, ready: false, sides: {}, aliases: {}, lineups: [] };
 
 const initialCode = () => (isSyncAvailable() ? resolveTeamCode() : { code: null, joined: false });
 

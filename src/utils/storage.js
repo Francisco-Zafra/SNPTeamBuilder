@@ -2,6 +2,7 @@ const PREFIX = "snp:v1:";
 
 export const STORAGE_KEYS = Object.freeze({
   sides: "player-sides",
+  aliases: "player-aliases",
   /** Alineación única de la versión anterior; se migra a `lineups`. */
   legacyLineup: "lineup",
   lineups: "lineups",

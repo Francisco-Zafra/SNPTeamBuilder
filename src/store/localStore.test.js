@@ -73,6 +73,14 @@ describe("createLocalStore", () => {
     expect(latest(createLocalStore()).sides).toEqual({ p1: "REVES" });
   });
 
+  it("guarda los alias", async () => {
+    const store = createLocalStore();
+    await store.setAlias("p1", " Fran ");
+    expect(latest(createLocalStore()).aliases).toEqual({ p1: "Fran" });
+    await store.setAlias("p1", "");
+    expect(latest(store).aliases).toEqual({});
+  });
+
   it("falla al editar una alineación inexistente", async () => {
     await expect(createLocalStore().applyAction("nope", { type: "CLEAR" })).rejects.toMatchObject({ code: "not-found" });
   });

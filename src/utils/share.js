@@ -1,24 +1,17 @@
-import { formatPoints } from "./format.js";
-
 const EMPTY_SLOT = "—";
 
-const slotLine = (label, slot) =>
-  slot
-    ? `  ${label}: ${slot.player.name} (${formatPoints(slot.player.points)})`
-    : `  ${label}: ${EMPTY_SLOT}`;
+/** Negrita de WhatsApp: `*texto*`. */
+const bold = (text) => `*${text}*`;
 
-/** Texto plano de la alineación para pegar en WhatsApp. `courts` viene de `getCourts`. */
-export function buildLineupText({ teamName, lineupName, courts, totalPoints }) {
-  const name = lineupName || "Alineación";
-  const title = teamName ? `${teamName} — ${name}` : name;
+const slotLine = (label, slot) => `${label}: ${slot ? slot.player.name : EMPTY_SLOT}`;
 
+/**
+ * Texto de la alineación para pegar en WhatsApp: nombre de la alineación y las
+ * parejas de cada pista, sin puntos. `courts` viene de `getCourts`.
+ */
+export function buildLineupText({ lineupName, courts }) {
   const blocks = courts.map((c) =>
-    [
-      `Pista ${c.court} · ${formatPoints(c.points)} pts`,
-      slotLine("R", c.reves),
-      slotLine("D", c.derecha),
-    ].join("\n")
+    [bold(`Pista ${c.court}`), slotLine("R", c.reves), slotLine("D", c.derecha)].join("\n")
   );
-
-  return [title, ...blocks, `Total: ${formatPoints(totalPoints)} pts`].join("\n\n");
+  return [bold(lineupName || "Alineación"), ...blocks].join("\n\n");
 }

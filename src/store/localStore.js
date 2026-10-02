@@ -1,3 +1,4 @@
+import { restoreAliases, setAlias as setAliasIn } from "../domain/aliases.js";
 import { restoreSides, setSide as setSideIn } from "../domain/sides.js";
 import { STORAGE_KEYS, readJSON, writeJSON } from "../utils/storage.js";
 import { applyLineupAction, lineupMetaFields, newLineupFields, restoreLineupDoc, sortLineups } from "./lineupDocs.js";
@@ -24,6 +25,7 @@ function loadLineups() {
  */
 export function createLocalStore() {
   let sides = restoreSides(readJSON(STORAGE_KEYS.sides));
+  let aliases = restoreAliases(readJSON(STORAGE_KEYS.aliases));
   let lineups = loadLineups();
   const listeners = new Set();
 
@@ -32,11 +34,13 @@ export function createLocalStore() {
     saving: false,
     ready: true,
     sides,
+    aliases,
     lineups: sortLineups(lineups),
   });
 
   const commit = () => {
     writeJSON(STORAGE_KEYS.sides, sides);
+    writeJSON(STORAGE_KEYS.aliases, aliases);
     writeJSON(STORAGE_KEYS.lineups, lineups);
     const state = snapshot();
     listeners.forEach((listener) => listener(state));
@@ -58,7 +62,12 @@ export function createLocalStore() {
       commit();
     },
 
-    async createLineup(options = {}) {
+    async setAlias(playerId, alias) {
+      aliases = setAliasIn(aliases, playerId, alias);
+      commit();
+    },
+
+    async createLineup({ onError, ...options } = {}) {
       const from = options.fromId ? lineups.find((l) => l.id === options.fromId) : null;
       const doc = { id: newId(), ...newLineupFields({ ...options, from }) };
       lineups = [...lineups, doc];

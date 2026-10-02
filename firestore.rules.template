@@ -11,10 +11,10 @@ service cloud.firestore {
       return code == '__TEAM_CODE__';
     }
 
-    function validSides(data) {
-      return data.keys().hasOnly(['sides'])
-        && data.sides is map
-        && data.sides.size() <= 100;
+    function validTeam(data) {
+      return data.keys().hasOnly(['sides', 'aliases'])
+        && (!('sides' in data) || (data.sides is map && data.sides.size() <= 100))
+        && (!('aliases' in data) || (data.aliases is map && data.aliases.size() <= 100));
     }
 
     function validLineup(data) {
@@ -29,7 +29,7 @@ service cloud.firestore {
     match /teams/{code} {
       // Solo el documento del equipo cuyo código se conoce; nunca listar equipos.
       allow get: if isTeam(code);
-      allow create, update: if isTeam(code) && validSides(request.resource.data);
+      allow create, update: if isTeam(code) && validTeam(request.resource.data);
 
       match /lineups/{lineupId} {
         allow read: if isTeam(code);

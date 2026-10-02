@@ -1,4 +1,5 @@
 import { restoreLineup } from "../domain/lineupReducer.js";
+import { cleanAlias, restoreAliases } from "../domain/aliases.js";
 import { SIDES, isSide, restoreSides } from "../domain/sides.js";
 import { getFirestore } from "./firebase.js";
 import { applyLineupAction, lineupMetaFields, newLineupFields, restoreLineupDoc, sortLineups } from "./lineupDocs.js";
@@ -9,7 +10,7 @@ const samePairs = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 /**
  * Almacén compartido en Firestore para el espacio `teams/{code}`:
  *
- *   teams/{code}                 { sides: { [playerId]: Side } }
+ *   teams/{code}                 { sides: { [playerId]: Side }, aliases: { [playerId]: string } }
  *   teams/{code}/lineups/{id}    { name, date, pairs, createdAt, updatedAt }
  *
  * Los cambios de alineación se aplican con `lineupReducer` dentro de una
@@ -25,6 +26,7 @@ export async function createFirestoreStore(code) {
   const lineupsRef = fs.collection(teamRef, "lineups");
 
   let sides = {};
+  let aliases = {};
   let remote = [];
   let teamMeta = null;
   let lineupsMeta = null;
@@ -49,6 +51,7 @@ export async function createFirestoreStore(code) {
     saving: pendingWrites > 0 || inFlight.size > 0,
     ready: Boolean(teamMeta && lineupsMeta) || failure != null,
     sides,
+    aliases,
     lineups: sortLineups(
       remote.map((l) => (optimistic.has(l.id) ? { ...l, pairs: optimistic.get(l.id) } : l))
     ),
@@ -78,6 +81,7 @@ export async function createFirestoreStore(code) {
     (snap) => {
       teamMeta = snap.metadata;
       sides = restoreSides(snap.data()?.sides);
+      aliases = restoreAliases(snap.data()?.aliases);
       emit();
     },
     onListenError
@@ -147,12 +151,27 @@ export async function createFirestoreStore(code) {
       return track(fs.setDoc(teamRef, { sides: { [playerId]: side } }, { merge: true }));
     },
 
-    async createLineup(options = {}) {
+    setAlias(playerId, alias) {
+      const clean = cleanAlias(alias);
+      if (!clean) {
+        return track(fs.updateDoc(teamRef, new fs.FieldPath("aliases", playerId), fs.deleteField())).catch((error) => {
+          if (error?.code !== "not-found") throw error;
+        });
+      }
+      return track(fs.setDoc(teamRef, { aliases: { [playerId]: clean } }, { merge: true }));
+    },
+
+    /**
+     * Devuelve el id al momento (Firestore lo genera en el dispositivo) y la nueva
+     * alineación ya aparece en el listener; la confirmación del servidor sigue de fondo
+     * y, si falla, avisa con `onError`.
+     */
+    async createLineup({ onError, ...options } = {}) {
       const from = options.fromId ? remote.find((l) => l.id === options.fromId) : null;
       const ref = fs.doc(lineupsRef);
       const fields = newLineupFields({ ...options, from });
-      await track(
-        fs.setDoc(ref, { ...fields, createdAt: fs.serverTimestamp(), updatedAt: fs.serverTimestamp() })
+      track(fs.setDoc(ref, { ...fields, createdAt: fs.serverTimestamp(), updatedAt: fs.serverTimestamp() })).catch(
+        (error) => (onError ? onError(error) : console.error("No se ha creado la alineación:", error))
       );
       return ref.id;
     },
