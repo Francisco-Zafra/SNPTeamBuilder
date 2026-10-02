@@ -48,9 +48,9 @@ export const removalFeedback = (player, slot) => ({
   kind: "ok",
 });
 
-export const sideFeedback = (player, side) => ({
+export const sideFeedback = (player, side, mode = "local") => ({
   title: `${shortName(player)} · ${sideMeta(side).label}`,
-  sub: "Posición preferente guardada en este dispositivo",
+  sub: mode === "shared" ? "Posición preferente compartida con el equipo" : "Posición preferente guardada en este dispositivo",
   kind: "ok",
 });
 
@@ -60,5 +60,11 @@ export const MESSAGES = {
   cleared: { title: "Alineación vacía", sub: "Las posiciones preferentes se mantienen", kind: "ok" },
   pickFirst: { title: "Primero toca un jugador", sub: "Después toca este hueco para colocarlo", kind: "warn" },
   stillOffline: { title: "Sigue sin conexión", sub: "Se muestran los datos guardados", kind: "warn" },
+  readOnly: { title: "Sin conexión", sub: "La alineación se puede ver, pero no editar", kind: "warn" },
+  notReady: { title: "Conectando…", sub: "Espera un momento para editar", kind: "warn" },
+  saveFailed: { title: "No se ha guardado el cambio", sub: "Comprueba la conexión y vuelve a intentarlo", kind: "warn" },
+  lineupGone: { title: "Esta alineación ya no existe", sub: "Otra persona la ha borrado", kind: "warn" },
+  remoteUpdate: { title: "Alineación actualizada", sub: "Cambios desde otro dispositivo", kind: "ok" },
+  invalidTeamCode: { title: "Enlace no válido", sub: "Se usa el modo local en este dispositivo", kind: "warn" },
   refreshed: (count) => ({ title: "Plantilla actualizada", sub: `${count} jugadores descargados ahora`, kind: "ok" }),
 };

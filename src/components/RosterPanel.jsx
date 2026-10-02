@@ -5,7 +5,7 @@ import { formatPoints } from "../utils/format.js";
 import { Icon } from "./Icon.jsx";
 import { SideBadge } from "./SideBadge.jsx";
 
-export function RosterPanel({ groups, total, locations, selectedId, dragId, posFor, dropEnabled, actions }) {
+export function RosterPanel({ groups, total, locations, selectedId, dragId, posFor, dropEnabled, shared, actions }) {
   const { setNodeRef } = useDroppable({ id: "roster", data: { type: "roster" }, disabled: !dropEnabled });
 
   return (
@@ -32,6 +32,7 @@ export function RosterPanel({ groups, total, locations, selectedId, dragId, posF
                 selected={selectedId === player.id}
                 dragging={dragId === player.id}
                 editing={posFor === player.id}
+                shared={shared}
                 actions={actions}
               />
             ))}
@@ -42,7 +43,7 @@ export function RosterPanel({ groups, total, locations, selectedId, dragId, posF
   );
 }
 
-function PlayerRow({ player, location, selected, dragging, editing, actions }) {
+function PlayerRow({ player, location, selected, dragging, editing, shared, actions }) {
   const { setNodeRef, listeners, attributes } = useDraggable({
     id: `player:${player.id}`,
     data: { playerId: player.id, from: null },
@@ -98,12 +99,12 @@ function PlayerRow({ player, location, selected, dragging, editing, actions }) {
           </span>
         </button>
       </div>
-      {editing && <PositionEditor player={player} onSelect={actions.setSide} />}
+      {editing && <PositionEditor player={player} shared={shared} onSelect={actions.setSide} />}
     </div>
   );
 }
 
-function PositionEditor({ player, onSelect }) {
+function PositionEditor({ player, shared, onSelect }) {
   const current = sideMeta(player.preferredSide);
   return (
     <div className="posed">
@@ -125,7 +126,10 @@ function PositionEditor({ player, onSelect }) {
           );
         })}
       </div>
-      <p className="posed__note">Se guarda en este dispositivo. Ambos y Sin asignar nunca generan aviso.</p>
+      <p className="posed__note">
+        {shared ? "Se comparte con el equipo." : "Se guarda en este dispositivo."} Ambos y Sin asignar nunca generan
+        aviso.
+      </p>
     </div>
   );
 }

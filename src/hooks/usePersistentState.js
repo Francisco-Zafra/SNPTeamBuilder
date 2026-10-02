@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { readJSON, writeJSON } from "../utils/storage.js";
 
 /** `useState` que se guarda en localStorage. `restore` valida lo leído. */
@@ -10,15 +10,4 @@ export function usePersistentState(key, restore) {
   }, [key, value]);
 
   return [value, setValue];
-}
-
-/** `useReducer` que se guarda en localStorage. `restore` valida lo leído. */
-export function usePersistentReducer(key, reducer, restore) {
-  const [state, dispatch] = useReducer(reducer, undefined, () => restore(readJSON(key)));
-
-  useEffect(() => {
-    writeJSON(key, state);
-  }, [key, state]);
-
-  return [state, dispatch];
 }

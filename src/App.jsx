@@ -108,6 +108,7 @@ export default function App() {
             posFor={b.posFor}
             // Soltar en la plantilla quita al jugador (solo tiene efecto si viene de un hueco).
             dropEnabled={isDesktop}
+            shared={b.sync.mode === "shared"}
             actions={actions}
           />
           <LineupPanel

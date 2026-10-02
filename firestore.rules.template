@@ -1,0 +1,44 @@
+rules_version = '2';
+
+// Plantilla. NO pegar tal cual: `npm run team-code` genera `firestore.rules`
+// (ignorado por git) sustituyendo __TEAM_CODE__ por el código secreto del equipo.
+// El código solo vive en las reglas de Firebase y en el enlace que se comparte.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isTeam(code) {
+      return code == '__TEAM_CODE__';
+    }
+
+    function validSides(data) {
+      return data.keys().hasOnly(['sides'])
+        && data.sides is map
+        && data.sides.size() <= 100;
+    }
+
+    function validLineup(data) {
+      return data.keys().hasOnly(['name', 'date', 'pairs', 'createdAt', 'updatedAt'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 80
+        && (data.date == null || (data.date is string && data.date.size() == 10))
+        && data.pairs is list && data.pairs.size() == 5
+        && data.createdAt is timestamp
+        && data.updatedAt == request.time;
+    }
+
+    match /teams/{code} {
+      // Solo el documento del equipo cuyo código se conoce; nunca listar equipos.
+      allow get: if isTeam(code);
+      allow create, update: if isTeam(code) && validSides(request.resource.data);
+
+      match /lineups/{lineupId} {
+        allow read: if isTeam(code);
+        allow create: if isTeam(code) && validLineup(request.resource.data)
+          && request.resource.data.createdAt == request.time;
+        allow update: if isTeam(code) && validLineup(request.resource.data)
+          && request.resource.data.createdAt == resource.data.createdAt;
+        allow delete: if isTeam(code);
+      }
+    }
+  }
+}

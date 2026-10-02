@@ -2,8 +2,12 @@ const PREFIX = "snp:v1:";
 
 export const STORAGE_KEYS = Object.freeze({
   sides: "player-sides",
-  lineup: "lineup",
+  /** Alineación única de la versión anterior; se migra a `lineups`. */
+  legacyLineup: "lineup",
+  lineups: "lineups",
+  activeLineup: "active-lineup",
   roster: "roster-cache",
+  teamCode: "team-code",
 });
 
 function defaultStorage() {
@@ -33,5 +37,13 @@ export function writeJSON(key, value, storage = defaultStorage()) {
     return true;
   } catch {
     return false;
+  }
+}
+
+export function removeJSON(key, storage = defaultStorage()) {
+  try {
+    storage?.removeItem(PREFIX + key);
+  } catch {
+    // Nada que hacer.
   }
 }

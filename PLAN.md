@@ -675,9 +675,7 @@ No implementar todavía:
 - login de usuarios;
 - base de datos;
 - edición de datos en SNP;
-- guardar alineaciones en la nube;
 - múltiples equipos (no está previsto);
-- múltiples jornadas o varias alineaciones guardadas;
 - rivales;
 - estadísticas históricas;
 - generación automática de la alineación óptima;
@@ -686,3 +684,40 @@ No implementar todavía:
 - roles de administrador.
 
 Diseñar el código de forma que estas funciones puedan añadirse más adelante sin rehacer el MVP.
+
+---
+
+## 24. Sincronización entre dispositivos (Firebase)
+
+**Qué se comparte:** las posiciones preferentes y las alineaciones (solo parejas de IDs, nombre y fecha). Los datos de los jugadores **no** se guardan en Firebase: siguen llegando de la API de SNP.
+
+**Acceso por enlace con código secreto**, sin login: `…/SNPTeamBuilder/#k=<código>`.
+- Al abrir el enlace, el código se guarda en el dispositivo (`snp:v1:team-code`) y se quita de la barra de direcciones.
+- Sin código (o si Firebase no está configurado) la app funciona en **modo local** como antes. La alineación única antigua se migra a la lista de alineaciones.
+- Un código que no existe en las reglas devuelve `permission-denied`: aviso «Enlace no válido» y vuelta a modo local.
+
+**Datos en Firestore:**
+
+```text
+teams/{código}                 { sides: { [playerId]: Side } }
+teams/{código}/lineups/{id}    { name, date, pairs[5], createdAt, updatedAt }
+```
+
+**Edición:**
+- Los cambios de alineación se aplican con `lineupReducer` dentro de `runTransaction`, de modo que dos personas editando a la vez no se pisan. Antes se limpian los IDs que ya no están en la plantilla.
+- Mientras la transacción viaja se muestra el resultado previsto (optimista).
+- Las posiciones se escriben campo a campo (`sides.<id>`).
+- **Sin conexión, solo lectura:** se ve la última versión (caché persistente de Firestore), pero no se edita.
+- Los cambios llegados de otro dispositivo muestran el aviso «Alineación actualizada».
+
+**Seguridad (`firestore.rules.template`):**
+- Solo se accede a `teams/{código}` si el código coincide con el de las reglas. No se pueden listar equipos.
+- Se valida la forma de los documentos: campos permitidos, 5 parejas, nombre ≤ 80, timestamps del servidor.
+- El repo es público, así que el código real **nunca** se commitea: `npm run team-code` genera `.team-code` y `firestore.rules` (ambos ignorados por git), y las reglas se pegan en la consola de Firebase.
+- Rotar el código (`npm run team-code -- --new`) invalida los enlaces anteriores.
+
+**Código:** `src/store/` contiene `localStore.js` y `firestoreStore.js` (misma interfaz), `lineupDocs.js`, `teamCode.js` y `firebase.js`. El SDK de Firebase se carga bajo demanda. El hook es `src/hooks/useTeamStore.js`.
+
+**Desarrollo con emulador:** `npm run emulator` (requiere Java) y, en otra terminal, `npm run dev:emulator`.
+
+**Pendiente de diseño:** lista y gestión de alineaciones (crear, duplicar, renombrar, borrar, elegir activa), indicador de sincronización, invitar/salir del espacio y resalte de pistas cambiadas. Hasta entonces se usa la alineación más reciente. La lógica ya está en `useLineupBuilder` (`sync`, `lineups`, `setActiveLineup`) y en los almacenes.
