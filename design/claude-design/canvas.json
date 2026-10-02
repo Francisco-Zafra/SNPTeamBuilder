@@ -1,85 +1,634 @@
 {
-  "v": 3,
-  "attachments": {},
-  "boards": {
-    "A-Arrastrando.dc.html": {"h": 800, "title": "A · Arrastrando (pulsación larga)", "w": 360, "x": 1320, "y": 0},
-    "A-ElegirHueco.dc.html": {"h": 800, "title": "A · Hueco vacío tocado → elegir jugador", "w": 360, "x": 2200, "y": 0},
-    "A-Plantilla.dc.html": {"h": 800, "title": "A · Plantilla agrupada", "w": 360, "x": 440, "y": 0},
-    "A-Posicion.dc.html": {"h": 800, "title": "A · Cambiar posición preferente", "w": 360, "x": 2640, "y": 0},
-    "A-SeleccionHueco.dc.html": {"h": 800, "title": "A · Jugador de un hueco seleccionado", "w": 360, "x": 1760, "y": 0},
-    "A-Seleccionado.dc.html": {"h": 800, "title": "A · Jugador seleccionado → hoja de huecos", "w": 360, "x": 880, "y": 0},
-    "B-Apilada.dc.html": {"h": 800, "title": "B · Pantalla única apilada", "w": 360, "x": 1040, "y": 2960},
-    "B-Seleccionado.dc.html": {"h": 800, "title": "B · Jugador seleccionado", "w": 360, "x": 1480, "y": 2960},
-    "D-Alineacion.dc.html": {"h": 1120, "title": "Oscuro · Alineación", "w": 360, "x": 0, "y": 2960},
-    "D-Seleccionado.dc.html": {"h": 800, "title": "Oscuro · Seleccionado", "w": 360, "x": 440, "y": 2960},
-    "E-Cargando.dc.html": {"h": 800, "title": "Cargando", "w": 360, "x": 0, "y": 1480},
-    "E-Completa.dc.html": {"h": 1120, "title": "Alineación completa (10/10)", "w": 360, "x": 1760, "y": 1480},
-    "E-Confirmar.dc.html": {"h": 800, "title": "Confirmar limpiar", "w": 360, "x": 2200, "y": 1480},
-    "E-Copiada.dc.html": {"h": 800, "title": "Alineación copiada", "w": 360, "x": 2640, "y": 1480},
-    "E-Error.dc.html": {"h": 800, "title": "Error sin datos", "w": 360, "x": 440, "y": 1480},
-    "E-Guardados.dc.html": {"h": 800, "title": "Datos guardados", "w": 360, "x": 880, "y": 1480},
-    "E-Vacia.dc.html": {"h": 800, "title": "Alineación vacía (primer uso)", "w": 360, "x": 1320, "y": 1480},
-    "Escritorio.dc.html": {"h": 820, "is_interactive": true, "title": "Escritorio · 1280 px", "w": 1280, "x": 0, "y": 4440},
-    "Main.dc.html": {"h": 1120, "is_interactive": true, "title": "A · Alineación a medias (prototipo interactivo)", "w": 360, "x": 0, "y": 0},
-    "Sistema.dc.html": {"h": 2480, "title": "Tokens y reglas", "w": 1280, "x": 1360, "y": 4440},
-
-    "C-Local.dc.html": {"h": 800, "title": "Modo local", "w": 360, "x": 0, "y": 7280},
-    "C-LocalCompartir.dc.html": {"h": 800, "title": "Modo local → Compartir con el equipo", "w": 360, "x": 440, "y": 7280},
-    "C-CrearConfirmar.dc.html": {"h": 800, "title": "Crear espacio · confirmación", "w": 360, "x": 880, "y": 7280},
-    "C-Creado.dc.html": {"h": 800, "title": "Espacio creado · comparte el enlace", "w": 360, "x": 1320, "y": 7280},
-    "C-Unirse.dc.html": {"h": 800, "title": "Unirme pegando un enlace", "w": 360, "x": 1760, "y": 7280},
-    "C-Bienvenida.dc.html": {"h": 800, "title": "Primer acceso con enlace · bienvenida", "w": 360, "x": 2200, "y": 7280},
-    "C-EnlaceInvalido.dc.html": {"h": 800, "title": "Enlace con código no válido", "w": 360, "x": 2640, "y": 7280},
-    "C-Invitar.dc.html": {"h": 800, "title": "Invitar / salir del espacio", "w": 360, "x": 3080, "y": 7280},
-    "C-Salir.dc.html": {"h": 800, "title": "Confirmar salir del espacio", "w": 360, "x": 3520, "y": 7280},
-
-    "C-Lista.dc.html": {"h": 800, "title": "Lista de alineaciones · varias (menú de fila abierto)", "w": 360, "x": 0, "y": 8440},
-    "C-ListaUna.dc.html": {"h": 800, "title": "Lista · una sola", "w": 360, "x": 440, "y": 8440},
-    "C-ListaVacia.dc.html": {"h": 800, "title": "Lista · vacía (primer uso del espacio)", "w": 360, "x": 880, "y": 8440},
-    "C-Nueva.dc.html": {"h": 800, "title": "Nueva alineación · duplicar desde…", "w": 360, "x": 1320, "y": 8440},
-    "C-Renombrar.dc.html": {"h": 800, "title": "Renombrar · nombre obligatorio", "w": 360, "x": 1760, "y": 8440},
-    "C-Borrar.dc.html": {"h": 800, "title": "Confirmar borrar alineación", "w": 360, "x": 2200, "y": 8440},
-    "C-Prototipo.dc.html": {"h": 800, "title": "Prototipo interactivo · espacio compartido", "w": 360, "x": 2640, "y": 8440, "is_interactive": true},
-
-    "C-Indicador.dc.html": {"h": 980, "title": "Indicador de sincronización · 4 estados", "w": 360, "x": 0, "y": 9600},
-    "C-Guardando.dc.html": {"h": 800, "title": "Guardando…", "w": 360, "x": 440, "y": 9600},
-    "C-SinConexion.dc.html": {"h": 800, "title": "Sin conexión · alineación bloqueada (tras tocar)", "w": 360, "x": 880, "y": 9600},
-    "C-SinConexionPlantilla.dc.html": {"h": 800, "title": "Sin conexión · plantilla bloqueada", "w": 360, "x": 1320, "y": 9600},
-    "C-CambioRemoto.dc.html": {"h": 1180, "title": "Cambio llegado de otro dispositivo", "w": 360, "x": 1760, "y": 9600},
-    "C-Borrada.dc.html": {"h": 800, "title": "La alineación activa la ha borrado otro", "w": 360, "x": 2200, "y": 9600},
-
-    "C-D-Lista.dc.html": {"h": 800, "title": "Oscuro · Lista de alineaciones", "w": 360, "x": 0, "y": 11140},
-    "C-D-SinConexion.dc.html": {"h": 800, "title": "Oscuro · Sin conexión", "w": 360, "x": 440, "y": 11140},
-    "C-Alt.dc.html": {"h": 800, "title": "Alternativa · pestaña Alineaciones", "w": 360, "x": 1040, "y": 11140},
-    "C-AltAlineacion.dc.html": {"h": 800, "title": "Alternativa · tres pestañas, vista Alineación", "w": 360, "x": 1480, "y": 11140},
-    "C-Escritorio.dc.html": {"h": 820, "title": "Escritorio · selector de alineación abierto", "w": 1280, "x": 2080, "y": 11140, "is_interactive": true}
+ "v": 3,
+ "attachments": {},
+ "boards": {
+  "A-Arrastrando.dc.html": {
+   "h": 800,
+   "title": "A · Arrastrando (pulsación larga)",
+   "w": 360,
+   "x": 1320,
+   "y": 0
   },
-  "createdOnFiles": {"at": "2026-10-02T10:23:03Z", "v": 1},
-  "designSystems": [],
-  "launch": {"view": "canvas"},
-  "notes": {
-    "t_a": {"kind": "title1", "maxW": 3000, "text": "Propuesta A (recomendada) · Pestañas + hoja de huecos", "w": 240, "x": 0, "y": -260},
-    "t_b": {"kind": "title1", "maxW": 800, "text": "Propuesta B · Pantalla única apilada", "w": 240, "x": 1040, "y": 2700},
-    "t_d": {"kind": "title1", "maxW": 800, "text": "Modo oscuro", "w": 240, "x": 0, "y": 2700},
-    "t_e": {"kind": "title1", "maxW": 3000, "text": "Estados", "w": 240, "x": 0, "y": 1220},
-    "t_s": {"kind": "title1", "maxW": 1280, "text": "Tokens de diseño", "w": 240, "x": 1360, "y": 4180},
-    "t_w": {"kind": "title1", "maxW": 1280, "text": "Escritorio", "w": 240, "x": 0, "y": 4180},
-    "t_c1": {"kind": "title1", "maxW": 3880, "text": "Compartido · espacio del equipo por enlace", "w": 240, "x": 0, "y": 7020},
-    "t_c2": {"kind": "title1", "maxW": 3000, "text": "Compartido · varias alineaciones", "w": 240, "x": 0, "y": 8180},
-    "t_c3": {"kind": "title1", "maxW": 2560, "text": "Compartido · sincronización y cambios de otros", "w": 240, "x": 0, "y": 9340},
-    "t_c4": {"kind": "title1", "maxW": 800, "text": "Compartido · oscuro", "w": 240, "x": 0, "y": 10880},
-    "t_c5": {"kind": "title1", "maxW": 800, "text": "Alternativa · tercera pestaña", "w": 240, "x": 1040, "y": 10880},
-    "t_c6": {"kind": "title1", "maxW": 1280, "text": "Compartido · escritorio", "w": 240, "x": 2080, "y": 10880}
+  "A-ElegirHueco.dc.html": {
+   "h": 800,
+   "title": "A · Hueco vacío tocado → elegir jugador",
+   "w": 360,
+   "x": 2200,
+   "y": 0
   },
-  "order": [
-    "Main.dc.html", "A-Plantilla.dc.html", "A-Seleccionado.dc.html", "A-Arrastrando.dc.html", "A-SeleccionHueco.dc.html", "A-ElegirHueco.dc.html", "A-Posicion.dc.html",
-    "E-Cargando.dc.html", "E-Error.dc.html", "E-Guardados.dc.html", "E-Vacia.dc.html", "E-Completa.dc.html", "E-Confirmar.dc.html", "E-Copiada.dc.html",
-    "D-Alineacion.dc.html", "D-Seleccionado.dc.html", "B-Apilada.dc.html", "B-Seleccionado.dc.html", "Escritorio.dc.html", "Sistema.dc.html",
-    "C-Local.dc.html", "C-LocalCompartir.dc.html", "C-CrearConfirmar.dc.html", "C-Creado.dc.html", "C-Unirse.dc.html", "C-Bienvenida.dc.html", "C-EnlaceInvalido.dc.html", "C-Invitar.dc.html", "C-Salir.dc.html",
-    "C-Lista.dc.html", "C-ListaUna.dc.html", "C-ListaVacia.dc.html", "C-Nueva.dc.html", "C-Renombrar.dc.html", "C-Borrar.dc.html", "C-Prototipo.dc.html",
-    "C-Indicador.dc.html", "C-Guardando.dc.html", "C-SinConexion.dc.html", "C-SinConexionPlantilla.dc.html", "C-CambioRemoto.dc.html", "C-Borrada.dc.html",
-    "C-D-Lista.dc.html", "C-D-SinConexion.dc.html", "C-Alt.dc.html", "C-AltAlineacion.dc.html", "C-Escritorio.dc.html"
-  ],
-  "pages": [],
-  "title": "Alineación SNP · Impacto 360"
+  "A-Plantilla.dc.html": {
+   "h": 800,
+   "title": "A · Plantilla agrupada",
+   "w": 360,
+   "x": 440,
+   "y": 0
+  },
+  "A-Posicion.dc.html": {
+   "h": 800,
+   "title": "A · Cambiar posición preferente",
+   "w": 360,
+   "x": 2640,
+   "y": 0
+  },
+  "A-SeleccionHueco.dc.html": {
+   "h": 800,
+   "title": "A · Jugador de un hueco seleccionado",
+   "w": 360,
+   "x": 1760,
+   "y": 0
+  },
+  "A-Seleccionado.dc.html": {
+   "h": 800,
+   "title": "A · Jugador seleccionado → hoja de huecos",
+   "w": 360,
+   "x": 880,
+   "y": 0
+  },
+  "B-Apilada.dc.html": {
+   "h": 800,
+   "title": "B · Pantalla única apilada",
+   "w": 360,
+   "x": 1040,
+   "y": 2960
+  },
+  "B-Seleccionado.dc.html": {
+   "h": 800,
+   "title": "B · Jugador seleccionado",
+   "w": 360,
+   "x": 1480,
+   "y": 2960
+  },
+  "D-Alineacion.dc.html": {
+   "h": 1120,
+   "title": "Oscuro · Alineación",
+   "w": 360,
+   "x": 0,
+   "y": 2960
+  },
+  "D-Seleccionado.dc.html": {
+   "h": 800,
+   "title": "Oscuro · Seleccionado",
+   "w": 360,
+   "x": 440,
+   "y": 2960
+  },
+  "E-Cargando.dc.html": {
+   "h": 800,
+   "title": "Cargando",
+   "w": 360,
+   "x": 0,
+   "y": 1480
+  },
+  "E-Completa.dc.html": {
+   "h": 1120,
+   "title": "Alineación completa (10/10)",
+   "w": 360,
+   "x": 1760,
+   "y": 1480
+  },
+  "E-Confirmar.dc.html": {
+   "h": 800,
+   "title": "Confirmar limpiar",
+   "w": 360,
+   "x": 2200,
+   "y": 1480
+  },
+  "E-Copiada.dc.html": {
+   "h": 800,
+   "title": "Alineación copiada",
+   "w": 360,
+   "x": 2640,
+   "y": 1480
+  },
+  "E-Error.dc.html": {
+   "h": 800,
+   "title": "Error sin datos",
+   "w": 360,
+   "x": 440,
+   "y": 1480
+  },
+  "E-Guardados.dc.html": {
+   "h": 800,
+   "title": "Datos guardados",
+   "w": 360,
+   "x": 880,
+   "y": 1480
+  },
+  "E-Vacia.dc.html": {
+   "h": 800,
+   "title": "Alineación vacía (primer uso)",
+   "w": 360,
+   "x": 1320,
+   "y": 1480
+  },
+  "Escritorio.dc.html": {
+   "h": 820,
+   "is_interactive": true,
+   "title": "Escritorio · 1280 px",
+   "w": 1280,
+   "x": 0,
+   "y": 4440
+  },
+  "Main.dc.html": {
+   "h": 1120,
+   "is_interactive": true,
+   "title": "A · Alineación a medias (prototipo interactivo)",
+   "w": 360,
+   "x": 0,
+   "y": 0
+  },
+  "Sistema.dc.html": {
+   "h": 2780,
+   "title": "Tokens y reglas",
+   "w": 1280,
+   "x": 4040,
+   "y": 0
+  },
+  "C-Local.dc.html": {
+   "h": 800,
+   "title": "Modo local",
+   "w": 360,
+   "x": 0,
+   "y": 7280
+  },
+  "C-LocalCompartir.dc.html": {
+   "h": 800,
+   "title": "Modo local → Compartir con el equipo",
+   "w": 360,
+   "x": 440,
+   "y": 7280
+  },
+  "C-CrearConfirmar.dc.html": {
+   "h": 800,
+   "title": "Crear espacio · confirmación",
+   "w": 360,
+   "x": 880,
+   "y": 7280
+  },
+  "C-Creado.dc.html": {
+   "h": 800,
+   "title": "Espacio creado · comparte el enlace",
+   "w": 360,
+   "x": 1320,
+   "y": 7280
+  },
+  "C-Unirse.dc.html": {
+   "h": 800,
+   "title": "Unirme pegando un enlace",
+   "w": 360,
+   "x": 1760,
+   "y": 7280
+  },
+  "C-Bienvenida.dc.html": {
+   "h": 800,
+   "title": "Primer acceso con enlace · bienvenida",
+   "w": 360,
+   "x": 2200,
+   "y": 7280
+  },
+  "C-EnlaceInvalido.dc.html": {
+   "h": 800,
+   "title": "Enlace con código no válido",
+   "w": 360,
+   "x": 2640,
+   "y": 7280
+  },
+  "C-Invitar.dc.html": {
+   "h": 800,
+   "title": "Invitar / salir del espacio",
+   "w": 360,
+   "x": 3080,
+   "y": 7280
+  },
+  "C-Salir.dc.html": {
+   "h": 800,
+   "title": "Confirmar salir del espacio",
+   "w": 360,
+   "x": 3520,
+   "y": 7280
+  },
+  "C-Lista.dc.html": {
+   "h": 800,
+   "title": "Lista de alineaciones · varias (menú de fila abierto)",
+   "w": 360,
+   "x": 0,
+   "y": 8440
+  },
+  "C-ListaUna.dc.html": {
+   "h": 800,
+   "title": "Lista · una sola",
+   "w": 360,
+   "x": 440,
+   "y": 8440
+  },
+  "C-ListaVacia.dc.html": {
+   "h": 800,
+   "title": "Lista · vacía (primer uso del espacio)",
+   "w": 360,
+   "x": 880,
+   "y": 8440
+  },
+  "C-Nueva.dc.html": {
+   "h": 800,
+   "title": "Nueva alineación · duplicar desde…",
+   "w": 360,
+   "x": 1320,
+   "y": 8440
+  },
+  "C-Renombrar.dc.html": {
+   "h": 800,
+   "title": "Renombrar · nombre obligatorio",
+   "w": 360,
+   "x": 1760,
+   "y": 8440
+  },
+  "C-Borrar.dc.html": {
+   "h": 800,
+   "title": "Confirmar borrar alineación",
+   "w": 360,
+   "x": 2200,
+   "y": 8440
+  },
+  "C-Prototipo.dc.html": {
+   "h": 800,
+   "title": "Prototipo interactivo · espacio compartido",
+   "w": 360,
+   "x": 2640,
+   "y": 8440,
+   "is_interactive": true
+  },
+  "C-Indicador.dc.html": {
+   "h": 980,
+   "title": "Indicador de sincronización · 4 estados",
+   "w": 360,
+   "x": 0,
+   "y": 9600
+  },
+  "C-Guardando.dc.html": {
+   "h": 800,
+   "title": "Guardando…",
+   "w": 360,
+   "x": 440,
+   "y": 9600
+  },
+  "C-SinConexion.dc.html": {
+   "h": 800,
+   "title": "Sin conexión · alineación bloqueada (tras tocar)",
+   "w": 360,
+   "x": 880,
+   "y": 9600
+  },
+  "C-SinConexionPlantilla.dc.html": {
+   "h": 800,
+   "title": "Sin conexión · plantilla bloqueada",
+   "w": 360,
+   "x": 1320,
+   "y": 9600
+  },
+  "C-CambioRemoto.dc.html": {
+   "h": 1180,
+   "title": "Cambio llegado de otro dispositivo",
+   "w": 360,
+   "x": 1760,
+   "y": 9600
+  },
+  "C-Borrada.dc.html": {
+   "h": 800,
+   "title": "La alineación activa la ha borrado otro",
+   "w": 360,
+   "x": 2200,
+   "y": 9600
+  },
+  "C-D-Lista.dc.html": {
+   "h": 800,
+   "title": "Oscuro · Lista de alineaciones",
+   "w": 360,
+   "x": 0,
+   "y": 11140
+  },
+  "C-D-SinConexion.dc.html": {
+   "h": 800,
+   "title": "Oscuro · Sin conexión",
+   "w": 360,
+   "x": 440,
+   "y": 11140
+  },
+  "C-Alt.dc.html": {
+   "h": 800,
+   "title": "Alternativa · pestaña Alineaciones",
+   "w": 360,
+   "x": 1040,
+   "y": 11140
+  },
+  "C-AltAlineacion.dc.html": {
+   "h": 800,
+   "title": "Alternativa · tres pestañas, vista Alineación",
+   "w": 360,
+   "x": 1480,
+   "y": 11140
+  },
+  "C-Escritorio.dc.html": {
+   "h": 820,
+   "title": "Escritorio · selector de alineación abierto",
+   "w": 1280,
+   "x": 2080,
+   "y": 11140,
+   "is_interactive": true
+  },
+  "K-Sel0.dc.html": {
+   "h": 800,
+   "title": "Comparar · modo selección, 0 marcadas",
+   "w": 360,
+   "x": 0,
+   "y": 12320
+  },
+  "K-Sel1.dc.html": {
+   "h": 800,
+   "title": "Comparar · 1 marcada",
+   "w": 360,
+   "x": 440,
+   "y": 12320
+  },
+  "K-Sel2.dc.html": {
+   "h": 800,
+   "title": "Comparar · 2 marcadas",
+   "w": 360,
+   "x": 880,
+   "y": 12320
+  },
+  "K-Sel3.dc.html": {
+   "h": 800,
+   "title": "Comparar · 3 marcadas (límite)",
+   "w": 360,
+   "x": 1320,
+   "y": 12320
+  },
+  "K-Prototipo.dc.html": {
+   "h": 800,
+   "title": "Prototipo interactivo · comparar y usar",
+   "w": 360,
+   "x": 1760,
+   "y": 12320,
+   "is_interactive": true
+  },
+  "K-Cmp3.dc.html": {
+   "h": 1000,
+   "title": "Comparación de 3 · referencia Paco",
+   "w": 360,
+   "x": 0,
+   "y": 13480
+  },
+  "K-Referencia.dc.html": {
+   "h": 1000,
+   "title": "Cambio de referencia · Fran",
+   "w": 360,
+   "x": 440,
+   "y": 13480
+  },
+  "K-Cmp2.dc.html": {
+   "h": 1000,
+   "title": "Comparación de 2 · misma pareja en otra pista",
+   "w": 360,
+   "x": 880,
+   "y": 13480
+  },
+  "K-Incompleta.dc.html": {
+   "h": 1000,
+   "title": "Propuesta incompleta (9/10)",
+   "w": 360,
+   "x": 1320,
+   "y": 13480
+  },
+  "K-Iguales.dc.html": {
+   "h": 800,
+   "title": "Todas iguales",
+   "w": 360,
+   "x": 1760,
+   "y": 13480
+  },
+  "K-Usar.dc.html": {
+   "h": 800,
+   "title": "Usar esta · borrar las demás",
+   "w": 360,
+   "x": 2200,
+   "y": 13480
+  },
+  "K-SinConexion.dc.html": {
+   "h": 800,
+   "title": "Sin conexión · usar sin borrar",
+   "w": 360,
+   "x": 2640,
+   "y": 13480
+  },
+  "K-D-Cmp3.dc.html": {
+   "h": 1000,
+   "title": "Oscuro · Comparación de 3",
+   "w": 360,
+   "x": 3080,
+   "y": 13480
+  },
+  "K-Escritorio.dc.html": {
+   "h": 820,
+   "title": "Escritorio · comparación en modal ancho",
+   "w": 1280,
+   "x": 0,
+   "y": 14840,
+   "is_interactive": true
+  }
+ },
+ "createdOnFiles": {
+  "at": "2026-10-02T10:23:03Z",
+  "v": 1
+ },
+ "designSystems": [],
+ "launch": {
+  "view": "canvas"
+ },
+ "notes": {
+  "t_a": {
+   "kind": "title1",
+   "maxW": 3000,
+   "text": "Propuesta A (recomendada) · Pestañas + hoja de huecos",
+   "w": 240,
+   "x": 0,
+   "y": -260
+  },
+  "t_b": {
+   "kind": "title1",
+   "maxW": 800,
+   "text": "Propuesta B · Pantalla única apilada",
+   "w": 240,
+   "x": 1040,
+   "y": 2700
+  },
+  "t_d": {
+   "kind": "title1",
+   "maxW": 800,
+   "text": "Modo oscuro",
+   "w": 240,
+   "x": 0,
+   "y": 2700
+  },
+  "t_e": {
+   "kind": "title1",
+   "maxW": 3000,
+   "text": "Estados",
+   "w": 240,
+   "x": 0,
+   "y": 1220
+  },
+  "t_s": {
+   "kind": "title1",
+   "maxW": 1280,
+   "text": "Tokens de diseño",
+   "w": 240,
+   "x": 4040,
+   "y": -260
+  },
+  "t_w": {
+   "kind": "title1",
+   "maxW": 1280,
+   "text": "Escritorio",
+   "w": 240,
+   "x": 0,
+   "y": 4180
+  },
+  "t_c1": {
+   "kind": "title1",
+   "maxW": 3880,
+   "text": "Compartido · espacio del equipo por enlace",
+   "w": 240,
+   "x": 0,
+   "y": 7020
+  },
+  "t_c2": {
+   "kind": "title1",
+   "maxW": 3000,
+   "text": "Compartido · varias alineaciones",
+   "w": 240,
+   "x": 0,
+   "y": 8180
+  },
+  "t_c3": {
+   "kind": "title1",
+   "maxW": 2560,
+   "text": "Compartido · sincronización y cambios de otros",
+   "w": 240,
+   "x": 0,
+   "y": 9340
+  },
+  "t_c4": {
+   "kind": "title1",
+   "maxW": 800,
+   "text": "Compartido · oscuro",
+   "w": 240,
+   "x": 0,
+   "y": 10880
+  },
+  "t_c5": {
+   "kind": "title1",
+   "maxW": 800,
+   "text": "Alternativa · tercera pestaña",
+   "w": 240,
+   "x": 1040,
+   "y": 10880
+  },
+  "t_c6": {
+   "kind": "title1",
+   "maxW": 1280,
+   "text": "Compartido · escritorio",
+   "w": 240,
+   "x": 2080,
+   "y": 10880
+  },
+  "t_k1": {
+   "kind": "title1",
+   "maxW": 2120,
+   "text": "Comparar · elegir propuestas",
+   "w": 240,
+   "x": 0,
+   "y": 12060
+  },
+  "t_k2": {
+   "kind": "title1",
+   "maxW": 3440,
+   "text": "Comparar · comparación",
+   "w": 240,
+   "x": 0,
+   "y": 13220
+  },
+  "t_k3": {
+   "kind": "title1",
+   "maxW": 1280,
+   "text": "Comparar · escritorio",
+   "w": 240,
+   "x": 0,
+   "y": 14580
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "A-Plantilla.dc.html",
+  "A-Seleccionado.dc.html",
+  "A-Arrastrando.dc.html",
+  "A-SeleccionHueco.dc.html",
+  "A-ElegirHueco.dc.html",
+  "A-Posicion.dc.html",
+  "E-Cargando.dc.html",
+  "E-Error.dc.html",
+  "E-Guardados.dc.html",
+  "E-Vacia.dc.html",
+  "E-Completa.dc.html",
+  "E-Confirmar.dc.html",
+  "E-Copiada.dc.html",
+  "D-Alineacion.dc.html",
+  "D-Seleccionado.dc.html",
+  "B-Apilada.dc.html",
+  "B-Seleccionado.dc.html",
+  "Escritorio.dc.html",
+  "Sistema.dc.html",
+  "C-Local.dc.html",
+  "C-LocalCompartir.dc.html",
+  "C-CrearConfirmar.dc.html",
+  "C-Creado.dc.html",
+  "C-Unirse.dc.html",
+  "C-Bienvenida.dc.html",
+  "C-EnlaceInvalido.dc.html",
+  "C-Invitar.dc.html",
+  "C-Salir.dc.html",
+  "C-Lista.dc.html",
+  "C-ListaUna.dc.html",
+  "C-ListaVacia.dc.html",
+  "C-Nueva.dc.html",
+  "C-Renombrar.dc.html",
+  "C-Borrar.dc.html",
+  "C-Prototipo.dc.html",
+  "C-Indicador.dc.html",
+  "C-Guardando.dc.html",
+  "C-SinConexion.dc.html",
+  "C-SinConexionPlantilla.dc.html",
+  "C-CambioRemoto.dc.html",
+  "C-Borrada.dc.html",
+  "C-D-Lista.dc.html",
+  "C-D-SinConexion.dc.html",
+  "C-Alt.dc.html",
+  "C-AltAlineacion.dc.html",
+  "C-Escritorio.dc.html",
+  "K-Sel0.dc.html",
+  "K-Sel1.dc.html",
+  "K-Sel2.dc.html",
+  "K-Sel3.dc.html",
+  "K-Prototipo.dc.html",
+  "K-Cmp3.dc.html",
+  "K-Referencia.dc.html",
+  "K-Cmp2.dc.html",
+  "K-Incompleta.dc.html",
+  "K-Iguales.dc.html",
+  "K-Usar.dc.html",
+  "K-SinConexion.dc.html",
+  "K-D-Cmp3.dc.html",
+  "K-Escritorio.dc.html"
+ ],
+ "pages": [],
+ "title": "Alineación SNP · Impacto 360"
 }

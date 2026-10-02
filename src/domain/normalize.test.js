@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   cleanSpaces,
   getPlayerPoints,
+  getTeamCategory,
   getTeamName,
   normalizeRoster,
   toTitleCase,
@@ -22,10 +23,30 @@ describe("cleanSpaces / toTitleCase", () => {
 });
 
 describe("getPlayerPoints", () => {
-  it("usa la primera entrada de Ranking, no `orden`", () => {
-    expect(getPlayerPoints({ Ranking: [{ puntos: "57343.75", orden: "172" }, { puntos: "0" }] })).toBe(
-      57343.75
-    );
+  // Alexis (real): categoría 20 con 57.343,75 y categoría 19 con 0. SNP devuelve el orden al azar.
+  const alexis = [
+    { idcategoria: "19", puntos: "0", orden: "14399" },
+    { idcategoria: "20", puntos: "57343.75", orden: "172" },
+    { idcategoria: "19", puntos: "0", orden: "1826" },
+    { idcategoria: "20", puntos: "57343.75", orden: "1984" },
+  ];
+
+  it("usa la categoría del equipo, sea cual sea el orden de Ranking", () => {
+    for (let i = 0; i < alexis.length; i++) {
+      const rotated = [...alexis.slice(i), ...alexis.slice(0, i)];
+      expect(getPlayerPoints({ Ranking: rotated }, "20")).toBe(57343.75);
+      expect(getPlayerPoints({ Ranking: [...rotated].reverse() }, 20)).toBe(57343.75);
+    }
+  });
+
+  it("respeta la categoría aunque otra tenga más puntos", () => {
+    const ranking = [{ idcategoria: "19", puntos: "90000" }, { idcategoria: "20", puntos: "1000" }];
+    expect(getPlayerPoints({ Ranking: ranking }, "20")).toBe(1000);
+  });
+
+  it("sin categoría conocida o sin entradas de ella, el máximo; nunca `orden`", () => {
+    expect(getPlayerPoints({ Ranking: alexis })).toBe(57343.75);
+    expect(getPlayerPoints({ Ranking: alexis }, "99")).toBe(57343.75);
   });
 
   it("devuelve 0 si no hay ranking o el valor no es numérico", () => {
@@ -63,6 +84,13 @@ describe("normalizeRoster con datos reales de SNP", () => {
   it("ignora entradas sin id y duplicadas", () => {
     const result = normalizeRoster([...response.entities, response.entities[0], {}], 8201);
     expect(result.players).toHaveLength(response.entities.length);
+  });
+});
+
+describe("getTeamCategory (datos reales)", () => {
+  it("obtiene la categoría del equipo", () => {
+    expect(getTeamCategory(response.entities, 8201)).toBe("20");
+    expect(getTeamCategory(response.entities, 1)).toBeNull();
   });
 });
 

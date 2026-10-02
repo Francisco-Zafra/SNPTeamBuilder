@@ -1,3 +1,4 @@
+import { MAX_COMPARE } from "../domain/compare.js";
 import { getLineupStats } from "../domain/lineupSelectors.js";
 import { formatPoints, formatRelative, formatShortDate } from "../utils/format.js";
 import { Icon } from "./Icon.jsx";
@@ -115,29 +116,61 @@ function Sheet({ cls = "sheet--confirm", label, role = "dialog", onClose, childr
 }
 
 /** Lista de alineaciones con menú ⋯ por fila (renombrar, duplicar, borrar). */
-export function LineupsSheet({ lineups, activeId, menuFor, playersById, shared, locked, lists, onShareSpace }) {
+const SELECT_HINTS = [
+  `Marca 2 o ${MAX_COMPARE} alineaciones para compararlas`,
+  "1 marcada · marca al menos otra",
+  `2 marcadas · puedes añadir ${MAX_COMPARE - 2} más`,
+  `Máximo ${MAX_COMPARE} · desmarca una para cambiarla`,
+];
+
+export function LineupsSheet({
+  lineups,
+  activeId,
+  menuFor,
+  playersById,
+  shared,
+  locked,
+  lists,
+  onShareSpace,
+  selecting,
+  picked,
+  compare,
+}) {
   const now = Date.now();
   const emptyText = shared ? "Crea la primera; el equipo la verá al momento." : "Crea la primera para empezar a montar parejas.";
+  const atLimit = picked.length >= MAX_COMPARE;
   return (
-    <Sheet cls="sheet--list" label="Alineaciones" onClose={lists.close}>
+    <Sheet cls="sheet--list" label={selecting ? "Comparar alineaciones" : "Alineaciones"} onClose={lists.close}>
       <div className="sheet__head">
         <div style={{ flex: 1, minWidth: 0 }}>
           <div className="eyebrow">
             {shared ? "Espacio del equipo" : "En este dispositivo"} · {lineups.length}
           </div>
-          <div className="sheet__title">Alineaciones</div>
+          <div className="sheet__title">{selecting ? "Comparar" : "Alineaciones"}</div>
         </div>
+        {!selecting && lineups.length >= 2 && (
+          <button type="button" className="btn btn--soft btn--sm" onClick={compare.startSelect}>
+            <Icon name="compare" size="sm" />
+            Comparar
+          </button>
+        )}
         <button type="button" className="iconbtn" onClick={lists.close} aria-label="Cerrar">
           <Icon name="close" />
         </button>
       </div>
       <div className="sheet__body">
-        <div className="lnew">
-          <button type="button" className="btn btn--primary btn--block" onClick={lists.openNew} disabled={locked}>
-            <Icon name="plus" />
-            Nueva alineación
-          </button>
-        </div>
+        {selecting ? (
+          <p className={"sel-hint" + (atLimit ? " is-limit" : "")} role="status" aria-live="polite">
+            {SELECT_HINTS[Math.min(picked.length, 3)]}
+          </p>
+        ) : (
+          <div className="lnew">
+            <button type="button" className="btn btn--primary btn--block" onClick={lists.openNew} disabled={locked}>
+              <Icon name="plus" />
+              Nueva alineación
+            </button>
+          </div>
+        )}
         {lineups.length === 0 && (
           <div className="lempty">
             <div className="state__ic">
@@ -152,6 +185,46 @@ export function LineupsSheet({ lineups, activeId, menuFor, playersById, shared, 
           const open = menuFor === lineup.id;
           const { totalPoints, count } = getLineupStats(lineup.pairs, playersById);
           const date = formatShortDate(lineup.date);
+          const meta = (
+            <span className="lrow__meta">
+              {date && (
+                <>
+                  <span>{date}</span>
+                  <span className="sep">·</span>
+                </>
+              )}
+              <span>
+                <span className="num">{formatPoints(totalPoints)}</span> pts
+              </span>
+              <span className="sep">·</span>
+              <span>
+                <span className="num">{count}</span>/10
+              </span>
+            </span>
+          );
+          if (selecting) {
+            const checked = picked.includes(lineup.id);
+            const disabled = !checked && atLimit;
+            return (
+              <label
+                key={lineup.id}
+                className={"lrow--sel" + (checked ? " is-checked" : "") + (disabled ? " is-disabled" : "")}
+              >
+                <input
+                  type="checkbox"
+                  className="lchk"
+                  checked={checked}
+                  disabled={disabled}
+                  onChange={() => compare.toggle(lineup.id)}
+                />
+                <span className="lrow__txt">
+                  <span className="lrow__name">{lineup.name}</span>
+                  {meta}
+                  <span className="lrow__mod">Modificada {formatRelative(lineup.updatedAt, now)}</span>
+                </span>
+              </label>
+            );
+          }
           return (
             <div key={lineup.id} className={"lrow" + (active ? " is-active" : "")}>
               <div className="lrow__line">
@@ -166,21 +239,7 @@ export function LineupsSheet({ lineups, activeId, menuFor, playersById, shared, 
                   </span>
                   <span className="lrow__txt">
                     <span className="lrow__name">{lineup.name}</span>
-                    <span className="lrow__meta">
-                      {date && (
-                        <>
-                          <span>{date}</span>
-                          <span className="sep">·</span>
-                        </>
-                      )}
-                      <span>
-                        <span className="num">{formatPoints(totalPoints)}</span> pts
-                      </span>
-                      <span className="sep">·</span>
-                      <span>
-                        <span className="num">{count}</span>/10
-                      </span>
-                    </span>
+                    {meta}
                     <span className="lrow__mod">Modificada {formatRelative(lineup.updatedAt, now)}</span>
                   </span>
                 </button>
@@ -211,7 +270,7 @@ export function LineupsSheet({ lineups, activeId, menuFor, playersById, shared, 
             </div>
           );
         })}
-        {onShareSpace && !shared && lineups.length > 0 && (
+        {onShareSpace && !shared && !selecting && lineups.length > 0 && (
           <div className="lcard">
             <div className="lcard__t">Solo en este dispositivo</div>
             <p className="lcard__s">Con el espacio del equipo, todos ven y editan las alineaciones en tiempo real.</p>
@@ -221,6 +280,16 @@ export function LineupsSheet({ lineups, activeId, menuFor, playersById, shared, 
           </div>
         )}
       </div>
+      {selecting && (
+        <div className="sheet__foot">
+          <button type="button" className="btn btn--soft" onClick={compare.cancelSelect}>
+            Cancelar
+          </button>
+          <button type="button" className="btn btn--primary" onClick={compare.open} disabled={picked.length < 2}>
+            Comparar{picked.length ? ` (${picked.length})` : ""}
+          </button>
+        </div>
+      )}
     </Sheet>
   );
 }

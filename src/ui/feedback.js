@@ -88,6 +88,13 @@ export const MESSAGES = {
   }),
   lineupRenamed: (name) => ({ title: "Alineación renombrada", sub: name, kind: "ok" }),
   lineupDeleted: (name) => ({ title: "Alineación borrada", sub: `«${name}»`, kind: "ok" }),
+  using: (name, deleted) => ({
+    title: `Usando «${name}»`,
+    sub: deleted
+      ? `Se ${deleted > 1 ? `han borrado ${deleted} propuestas` : "ha borrado 1 propuesta"}`
+      : "Las demás propuestas siguen en Alineaciones",
+    kind: "ok",
+  }),
   viewing: (name) => ({ title: `Viendo «${name}»`, sub: "Cambia de alineación desde la cabecera", kind: "ok" }),
   refreshed: (count) => ({ title: "Plantilla actualizada", sub: `${count} jugadores descargados ahora`, kind: "ok" }),
 };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compactName, shortName } from "./names.js";
+import { compactName, mediumName, shortName } from "./names.js";
 
 const daniel = {
   name: "Daniel Eliot Lolani García Fernandez",
@@ -20,9 +20,18 @@ describe("shortName", () => {
   });
 });
 
+describe("mediumName", () => {
+  it("usa el primer nombre y el primer apellido", () => {
+    expect(mediumName(daniel)).toBe("Daniel García");
+    expect(mediumName({ name: "Curci", firstName: "", lastName: "Curci" })).toBe("Curci");
+  });
+});
+
 describe("compactName", () => {
-  it("usa la inicial y el primer apellido", () => {
-    expect(compactName(daniel)).toBe("D. García");
+  it("usa el primer nombre y la inicial del apellido", () => {
+    expect(compactName(daniel)).toBe("Daniel G.");
+    expect(compactName({ name: "Javier Hurtado Martin", firstName: "Javier", lastName: "Hurtado Martin" })).toBe("Javier H.");
+    expect(compactName({ name: "Javier Ruiz Lopez", firstName: "Javier", lastName: "Ruiz Lopez" })).toBe("Javier R.");
   });
 
   it("tolera nombres o apellidos vacíos", () => {

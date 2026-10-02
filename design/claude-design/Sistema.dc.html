@@ -34,7 +34,7 @@ body{margin:0}
 .rule b{font-weight:700}
 </style>
 </helmet>
-<div class="tk" style="width: 1280px; height: 2480px; padding: 56px; display: flex; flex-direction: column; gap: 32px">
+<div class="tk" style="width: 1280px; height: 2780px; padding: 56px; display: flex; flex-direction: column; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 12px">
 <h1 class="h1">Tokens de diseño</h1>
 <p class="lead">Variables CSS listas para React + Vite. Prefijos: --c color, --fs tamaño de letra, --sp espaciado, --r radio, --dur movimiento. Los colores se redefinen bajo [data-theme=dark] y prefers-color-scheme.</p>
@@ -116,6 +116,29 @@ body{margin:0}
 </div>
 </div>
 <p style="font-size: 14px; color: #363D35">Sin conexión usa su propio rojo teja para no confundirse con el ámbar del aviso de posición, y el resalte de cambios usa azul petróleo, distinto del lima de selección y del azul de Revés por luminosidad.</p>
+</div>
+
+<div class="card" style="border: 2px solid #10140F">
+<div style="display: flex; align-items: baseline; gap: 12px"><h2 class="h2">Tokens nuevos · comparar</h2><span class="h3">Un solo tono, dos tratamientos</span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px">
+<span class="h3" style="grid-column: 1 / -1">Claro</span>
+<div class="sw"><span class="sw__c" style="background: #A0216F"></span><div><div class="sw__n">--c-diff</div><div class="sw__u">Borde y subrayado · 7,1:1</div></div><span class="sw__h">#A0216F</span></div>
+<div class="sw"><span class="sw__c" style="background: #FBE1F0"></span><div><div class="sw__n">--c-diff-soft</div><div class="sw__u">Fondo pareja distinta</div></div><span class="sw__h">#FBE1F0</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFFFFF"></span><div><div class="sw__n">--c-on-diff</div><div class="sw__u">Texto sobre --c-diff</div></div><span class="sw__h">#FFFFFF</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; padding: 16px; border-radius: 12px; background: #0D100C; color: #F3F6EF">
+<span class="h3" style="grid-column: 1 / -1; color: #A3AC9E">Oscuro</span>
+<div class="sw"><span class="sw__c" style="background: #F28AC8"></span><div><div class="sw__n">--c-diff</div><div class="sw__u" style="color: #A3AC9E">Borde y subrayado</div></div><span class="sw__h">#F28AC8</span></div>
+<div class="sw"><span class="sw__c" style="background: #3D1030"></span><div><div class="sw__n">--c-diff-soft</div><div class="sw__u" style="color: #A3AC9E">Fondo pareja distinta</div></div><span class="sw__h">#3D1030</span></div>
+<div class="sw"><span class="sw__c" style="background: #2A0820"></span><div><div class="sw__n">--c-on-diff</div><div class="sw__u" style="color: #A3AC9E">Texto sobre --c-diff</div></div><span class="sw__h">#2A0820</span></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; font-size: 14px">
+<div style="display: flex; gap: 10px; align-items: center"><span style="width: 44px; height: 44px; flex: none; border-radius: 10px; background: #FBE1F0; border: 2px solid #A0216F"></span><span><b>Pareja distinta</b> · fondo + borde continuo; el jugador que entra va subrayado.</span></div>
+<div style="display: flex; gap: 10px; align-items: center"><span style="width: 44px; height: 44px; flex: none; border-radius: 10px; border: 2px dashed #A0216F"></span><span><b>Misma pareja, otra pista</b> · solo borde discontinuo y etiqueta «P5 → P4».</span></div>
+<div style="display: flex; gap: 10px; align-items: center"><span style="width: 44px; height: 44px; flex: none; border-radius: 10px; background: #E9EBE5"></span><span><b>Igual en todas</b> · fila compacta de 44 px en --c-surface-2.</span></div>
+</div>
 </div>
 
 <div style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px">
@@ -206,6 +229,8 @@ body{margin:0}
   --c-offline: #9A2C12; --c-offline-soft: #FBE3DA; --c-offline-line: #E7A48F;
   --c-changed: #08719A; --c-on-changed: #FFFFFF; --c-changed-soft: #DDF1F8;
   --dur-changed: 2400ms;
+  /* nuevo · comparar */
+  --c-diff: #A0216F; --c-diff-soft: #FBE1F0; --c-on-diff: #FFFFFF;
 }
 :root[data-theme="dark"] {
   --c-bg: #0D100C; --c-surface: #171B16; --c-surface-2: #232922; --c-surface-3: #2D342B;
@@ -223,6 +248,7 @@ body{margin:0}
   --c-sync-ok: #6FD38E;
   --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
   --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
+  --c-diff: #F28AC8; --c-diff-soft: #3D1030; --c-on-diff: #2A0820;
 }
 /* Repetir el bloque oscuro dentro de
    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { … } } */

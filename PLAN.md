@@ -215,18 +215,12 @@ Ejemplo: `"ALEXIS "` + `"MORENO LÓPEZ"` → `"Alexis Moreno López"`.
 
 ### Puntos
 
-Usar siempre los puntos de la **primera** entrada de `Ranking`. Con los datos actuales, la primera entrada corresponde siempre a la categoría del equipo.
+`Ranking` trae varias entradas (zonal y nacional, y a veces de otras categorías). **SNP las devuelve en orden aleatorio** (comprobado el 2026-10-02: Alexis alterna entre la categoría 20, con 57.343,75, y la 19, con 0). Por eso **no** se usa la primera entrada:
 
-```js
-function getPlayerPoints(raw) {
-  const first = Array.isArray(raw.Ranking) ? raw.Ranking[0] : undefined;
-  const points = Number(first?.puntos);
-  return Number.isFinite(points) ? points : 0;
-}
-```
-
-- Si `Ranking` está vacío (jugador sin partidos), los puntos son `0` y se muestran como `0 pts`.
-- No usar `orden` como puntos: `orden` es la posición en el ranking.
+- se toma el máximo de las entradas de la **categoría del equipo** (`EquipoJugador → Equipo → FaseclubcatEquipo → Faseclubcat.idcategoria`, hoy la 20);
+- si no hay entradas de esa categoría, o no se conoce, el máximo de todas;
+- sin `Ranking` (aún no ha jugado), los puntos son `0` y se muestran como `0 pts`;
+- no usar `orden` como puntos: `orden` es la posición en el ranking.
 
 ### Nombre del equipo
 
@@ -728,3 +722,17 @@ teams/{código}/lineups/{id}    { name, date, pairs[5], createdAt, updatedAt }
 - **Si otra persona borra la alineación activa:** aviso y paso a la siguiente.
 - **Espacio:** en modo local, «Compartir» abre **Unirme** (pegar el enlace); en modo compartido abre **Invitar** (enlace con Compartir/Copiar) y **Salir del espacio** con confirmación. Al entrar con un enlace nuevo aparece la bienvenida; un código inválido muestra «Este enlace no funciona» (pegar otro o seguir en local).
 - **No se implementa «Crear espacio» desde la app:** el espacio es único y se crea con `npm run team-code`.
+
+---
+
+## 25. Comparar alineaciones (serie K del diseño)
+
+- En la hoja **Alineaciones**, **Comparar** activa un modo selección: de 2 a `MAX_COMPARE` (3) alineaciones.
+- **Comparación:** una columna por propuesta y una fila por pista.
+  - La primera columna es la **referencia**; tocar otra cabecera la cambia.
+  - Cada celda puede ser **igual**, **pareja distinta** (resalte magenta, con los jugadores nuevos subrayados) o **misma pareja en otra pista** (borde discontinuo, «P5 → P4»).
+  - Si todas coinciden en una pista, la fila se compacta («Igual en las N»).
+- **Resumen por propuesta:** quién entra y quién sale, jugadores que faltan, pistas con pareja distinta o movida y diferencia de puntos.
+- **Usar esta:** la convierte en la alineación activa y, opcionalmente, borra las otras comparadas. Sin conexión solo se puede usar, no borrar.
+- **Lógica pura:** `src/domain/compare.js` (con tests); interfaz en `src/components/CompareUI.jsx`. En escritorio se muestra como modal ancho.
+- El límite de 3 viene del diseño a 360 px. Subirlo es cambiar `MAX_COMPARE`, pero las celdas necesitarían otro diseño para seguir legibles.

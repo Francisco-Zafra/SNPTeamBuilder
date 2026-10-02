@@ -170,6 +170,13 @@ const PATHS = {
       <path d="M19 12h.01" />
     </>
   ),
+  back: <path d="M15 5l-7 7 7 7" />,
+  compare: (
+    <>
+      <rect x="3" y="4" width="7" height="16" rx="1.5" />
+      <rect x="14" y="4" width="7" height="16" rx="1.5" />
+    </>
+  ),
   users: (
     <>
       <circle cx="9" cy="8" r="3.5" />

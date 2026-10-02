@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { MAX_COMPARE } from "../domain/compare.js";
 import { MESSAGES } from "../ui/feedback.js";
 import { copyToClipboard, shareText } from "../utils/clipboard.js";
 import { parseTeamLink } from "../store/teamCode.js";
@@ -15,6 +16,10 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
   const [teamSheet, setTeamSheet] = useState(null); // "join" | "invite" | "leave" | null
   const [joinText, setJoinText] = useState("");
   const [deletedNotice, setDeletedNotice] = useState(null); // { name, now }
+  const [selecting, setSelecting] = useState(false); // modo selección para comparar
+  const [picked, setPicked] = useState([]);
+  const [comparing, setComparing] = useState(null); // { ids, ref }
+  const [useDialog, setUseDialog] = useState(null); // { del }
 
   const lineups = team.lineups;
   const byId = (id) => lineups.find((l) => l.id === id);
@@ -31,7 +36,7 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
   };
 
   // La alineación que estaba viendo la ha borrado otra persona.
-  const deletingRef = useRef(null);
+  const deletingRef = useRef(new Set());
   const previous = useRef(null);
   useEffect(() => {
     const prev = previous.current;
@@ -40,7 +45,7 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
       prev.mode === "shared" &&
       team.mode === "shared" &&
       team.ready &&
-      deletingRef.current !== prev.id &&
+      !deletingRef.current.has(prev.id) &&
       !lineups.some((l) => l.id === prev.id)
     ) {
       setDeletedNotice({ name: prev.name, now: activeLineup?.name ?? null });
@@ -48,12 +53,38 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
     previous.current = activeLineup ? { id: activeLineup.id, name: activeLineup.name, mode: team.mode } : null;
   }, [lineups, activeLineup, team.mode, team.ready]);
 
+  // Si borran alguna de las comparadas, la comparación sigue con las que quedan (o se cierra).
+  useEffect(() => {
+    if (!comparing) return;
+    const ids = comparing.ids.filter((id) => lineups.some((l) => l.id === id));
+    if (ids.length === comparing.ids.length) return;
+    if (ids.length < 2) {
+      setComparing(null);
+      setUseDialog(null);
+      return;
+    }
+    setComparing({ ids, ref: ids.includes(comparing.ref) ? comparing.ref : ids[0] });
+  }, [lineups, comparing]);
+
   const closeAll = () => {
     setSheet(null);
     setMenuFor(null);
     setForm(null);
     setDeleteId(null);
     setTeamSheet(null);
+    setSelecting(false);
+    setPicked([]);
+    setComparing(null);
+    setUseDialog(null);
+  };
+
+  const deleteMany = async (ids) => {
+    ids.forEach((id) => deletingRef.current.add(id));
+    try {
+      await Promise.all(ids.map((id) => team.store.deleteLineup(id)));
+    } finally {
+      ids.forEach((id) => deletingRef.current.delete(id));
+    }
   };
 
   const lists = {
@@ -64,6 +95,8 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
     close() {
       setSheet(null);
       setMenuFor(null);
+      setSelecting(false);
+      setPicked([]);
     },
     toggleMenu(id) {
       if (blocked()) return;
@@ -132,14 +165,65 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
       const target = byId(deleteId);
       setDeleteId(null);
       if (!target || blocked()) return;
-      deletingRef.current = target.id;
       try {
-        await team.store.deleteLineup(target.id);
+        await deleteMany([target.id]);
         flash(MESSAGES.lineupDeleted(target.name));
       } catch (error) {
         failed(error);
-      } finally {
-        deletingRef.current = null;
+      }
+    },
+  };
+
+  const compare = {
+    startSelect() {
+      setMenuFor(null);
+      setPicked([]);
+      setSelecting(true);
+    },
+    cancelSelect() {
+      setSelecting(false);
+      setPicked([]);
+    },
+    toggle(id) {
+      setPicked((current) =>
+        current.includes(id) ? current.filter((x) => x !== id) : current.length < MAX_COMPARE ? [...current, id] : current
+      );
+    },
+    open() {
+      if (picked.length < 2) return;
+      setComparing({ ids: picked, ref: picked[0] });
+      setSelecting(false);
+      setPicked([]);
+      setSheet(null);
+    },
+    close() {
+      setComparing(null);
+      setUseDialog(null);
+      setSheet("lists");
+    },
+    setRef: (id) => setComparing((current) => current && { ...current, ref: id }),
+    askUse: () => setUseDialog({ del: false }),
+    cancelUse: () => setUseDialog(null),
+    toggleDelete() {
+      if (readOnly) return;
+      setUseDialog((current) => current && { del: !current.del });
+    },
+    async confirmUse() {
+      if (!comparing) return;
+      const target = byId(comparing.ref);
+      const others = comparing.ids.filter((id) => id !== comparing.ref);
+      const del = Boolean(useDialog?.del) && !readOnly;
+      setComparing(null);
+      setUseDialog(null);
+      setSheet(null);
+      if (!target) return;
+      setActiveId(target.id);
+      onLineupOpened();
+      try {
+        if (del) await deleteMany(others);
+        flash(MESSAGES.using(target.name, del ? others.length : 0));
+      } catch (error) {
+        failed(error);
       }
     },
   };
@@ -206,8 +290,13 @@ export function useSpace({ team, teamName, activeLineup, setActiveId, readOnly, 
     teamSheet,
     joinText,
     deletedNotice,
+    selecting,
+    picked,
+    comparing,
+    useDialog,
     lists,
     space,
+    compare,
     closeAll,
   };
 }

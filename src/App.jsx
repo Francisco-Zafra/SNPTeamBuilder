@@ -9,6 +9,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { CompareScreen, UseCompareSheet } from "./components/CompareUI.jsx";
 import { ActionBar, DragGhost, DragTip, PreviewPanel, SelectionBar, TabBar } from "./components/Bars.jsx";
 import { Header } from "./components/Header.jsx";
 import { LineupPanel } from "./components/LineupPanel.jsx";
@@ -206,6 +207,29 @@ export default function App() {
           locked={b.sync.readOnly}
           lists={sp.lists}
           onShareSpace={sync.available ? sp.space.open : null}
+          selecting={sp.selecting}
+          picked={sp.picked}
+          compare={sp.compare}
+        />
+      )}
+      {sp.comparing && (
+        <CompareScreen
+          lineups={b.lineups}
+          comparing={sp.comparing}
+          playersById={b.playersById}
+          isDesktop={isDesktop}
+          locked={locked}
+          compare={sp.compare}
+        />
+      )}
+      {sp.comparing && sp.useDialog && (
+        <UseCompareSheet
+          lineups={b.lineups}
+          comparing={sp.comparing}
+          useDialog={sp.useDialog}
+          shared={shared}
+          locked={b.sync.readOnly}
+          compare={sp.compare}
         />
       )}
       {sp.form && <LineupFormSheet form={sp.form} lineups={b.lineups} playersById={b.playersById} lists={sp.lists} />}

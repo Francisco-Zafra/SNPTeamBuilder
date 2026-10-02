@@ -29,6 +29,8 @@
   --c-offline: #9A2C12; --c-offline-soft: #FBE3DA; --c-offline-line: #E7A48F;
   --c-changed: #08719A; --c-on-changed: #FFFFFF; --c-changed-soft: #DDF1F8;
   --dur-changed: 2400ms;
+  /* Comparar: pareja distinta / misma pareja en otra pista */
+  --c-diff: #A0216F; --c-diff-soft: #FBE1F0; --c-on-diff: #FFFFFF;
   color-scheme: light;
 }
 
@@ -51,6 +53,7 @@
     --c-sync-ok: #6FD38E;
     --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
     --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
+    --c-diff: #F28AC8; --c-diff-soft: #3D1030; --c-on-diff: #2A0820;
     color-scheme: dark;
   }
 }
@@ -73,6 +76,7 @@
   --c-sync-ok: #6FD38E;
   --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
   --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
+  --c-diff: #F28AC8; --c-diff-soft: #3D1030; --c-on-diff: #2A0820;
   color-scheme: dark;
 }
 
