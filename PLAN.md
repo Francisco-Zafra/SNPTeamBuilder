@@ -1,0 +1,688 @@
+# PLAN.md — Gestor de alineaciones SNP Pádel
+
+## 1. Objetivo
+
+Crear una aplicación web estática para administrar la plantilla de un equipo de las Series Nacionales de Pádel y preparar alineaciones de 5 pistas.
+
+La aplicación debe:
+
+- Obtener automáticamente todos los jugadores del equipo desde el endpoint público usado por SNP Galaxy.
+- Mostrar el nombre del equipo (obtenido de la propia API).
+- Mostrar la plantilla agrupada por posición preferente.
+- Permitir asignar a cada jugador una posición preferente:
+  - `REVES`
+  - `DERECHA`
+  - `AMBOS`
+  - `SIN_ASIGNAR`
+- Ordenar los jugadores por puntos, de mayor a menor.
+- Permitir construir una alineación de 5 parejas.
+- Añadir jugadores a las parejas mediante drag & drop y también mediante toque/clic.
+- Calcular automáticamente los puntos de cada pareja.
+- Ordenar las 5 pistas por puntos de pareja, de mayor a menor (norma de la SNP).
+- Mostrar el total de puntos de toda la alineación.
+- Impedir que un mismo jugador aparezca dos veces en la misma alineación.
+- Copiar la alineación como texto para compartirla (p. ej. por WhatsApp).
+- Estar diseñada **primero para móvil** y pantallas pequeñas.
+- Publicarse como aplicación estática en GitHub Pages.
+
+---
+
+## 2. Restricciones técnicas
+
+### Hosting
+
+La aplicación debe funcionar como sitio estático en GitHub Pages.
+
+El MVP no tendrá backend propio. No introducir servidor Node, Express, PHP, Python ni base de datos.
+
+### Stack
+
+- React + Vite.
+- `@dnd-kit/core` para drag & drop (soporta ratón, táctil y teclado; el D&D nativo de HTML5 funciona mal en móvil).
+- `@fontsource/barlow-condensed` y `@fontsource/atkinson-hyperlegible`: fuentes del diseño empaquetadas en el build, sin depender de Google Fonts.
+- La reordenación de pistas se anima con una transición CSS de `translateY` (las pistas tienen altura fija), sin librería.
+- Vitest para tests de la lógica pura.
+- `localStorage` para persistencia local (ver sección 13).
+
+Evitar otras dependencias salvo necesidad clara.
+
+### Importante sobre la API
+
+La petición a SNP se realiza directamente desde el navegador.
+
+- No enviar cookies, `PHPSESSID`, tokens ni credenciales. No usar `credentials: "include"`.
+- No añadir cabeceras innecesarias como `X-Requested-With`, ya que pueden provocar un preflight CORS.
+- La petición debe usar `application/x-www-form-urlencoded`.
+
+**Verificado (2026-10-02):** el endpoint responde con `access-control-allow-origin: *` y no necesita sesión. La respuesta llega con `Content-Type: text/html`, pero el cuerpo es JSON: usar `response.json()` y **no** validar el content-type.
+
+---
+
+## 3. Endpoint de jugadores
+
+### URL
+
+```text
+POST https://seriesnacionalesdepadel.snpgalaxy.com/jugador/ajaxGetAllJugadores/s_:YDVuE1b1JFrIZbvc23gmrQobobubiVTC7YwcTA==
+```
+
+### Body
+
+```text
+filtro=
+num_pagina=1
+limite_pagina=100
+update=1
+idequipo=8201
+desde_clasificacion_final=0
+idtemporadaG=3
+```
+
+### Implementación
+
+```js
+import { CONFIG } from "../config";
+
+export async function fetchTeamPlayers({ signal } = {}) {
+  const body = new URLSearchParams({
+    filtro: "",
+    num_pagina: "1",
+    limite_pagina: "100",
+    update: "1",
+    idequipo: String(CONFIG.teamId),
+    desde_clasificacion_final: "0",
+    idtemporadaG: String(CONFIG.seasonId),
+  });
+
+  const response = await fetch(CONFIG.apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+    body,
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  const entities = data.entities ?? [];
+
+  if (Number(data.num_resultados) > entities.length) {
+    console.warn(
+      `SNP devolvió ${entities.length} de ${data.num_resultados} jugadores; revisar paginación.`
+    );
+  }
+
+  return entities;
+}
+```
+
+- Aplicar un timeout de `CONFIG.requestTimeoutMs` mediante `AbortController`.
+- La respuesta incluye `num_resultados`. Si es mayor que el número de jugadores recibidos, avisar en consola (hoy son 17, con margen de sobra frente a `limite_pagina=100`).
+
+### Fragilidad conocida
+
+- `idtemporadaG` cambiará cada temporada.
+- No se sabe si el token `s_:YDVu…` de la URL es fijo o rota.
+
+Ambos valores viven solo en `CONFIG`. Si la API deja de responder, es lo primero que hay que revisar.
+
+---
+
+## 4. Ejemplo real de jugador recibido
+
+```json
+{
+  "id": "316870",
+  "nombre": "ALEXIS ",
+  "apellidos": "MORENO LÓPEZ",
+  "etiqueta_minima": "003",
+  "imagen_jugador": "ca09b4ed82291c4da4ec1af7337818b2.jpg",
+  "idusuario": "80430",
+  "EquipoJugador": [
+    {
+      "idequipo": "8201",
+      "idjugador": "316870",
+      "capitan": "1",
+      "Equipo": {
+        "id": "8201",
+        "nombre": "IMPACTO 360 MÁLAGA PADEL TEAM"
+      }
+    }
+  ],
+  "Ranking": [
+    { "idzona": null,  "idcategoria": "20", "puntos": "57343.75", "orden": "1984", "num_part": "1" },
+    { "idzona": "127", "idcategoria": "20", "puntos": "57343.75", "orden": "172",  "num_part": "1" },
+    { "idzona": null,  "idcategoria": "19", "puntos": "0",        "orden": "14399","num_part": "0" },
+    { "idzona": "127", "idcategoria": "19", "puntos": "0",        "orden": "1826", "num_part": "0" }
+  ],
+  "InscripcionJugador": [...]
+}
+```
+
+Observaciones sobre los datos reales:
+
+- Los nombres vienen con espacios sobrantes (al final y dobles) y con mayúsculas y minúsculas mezcladas.
+- Los puntos son strings y pueden tener decimales (`"49583.33"`).
+- `Ranking` puede estar vacío si el jugador aún no ha jugado ningún partido.
+- `Ranking` puede incluir otras categorías además de la del equipo.
+
+---
+
+## 5. Normalización de jugadores
+
+No trabajar directamente con la estructura original de la API. Transformar cada jugador a un modelo interno:
+
+```ts
+type Side = "REVES" | "DERECHA" | "AMBOS" | "SIN_ASIGNAR";
+
+type Player = {
+  id: string;
+  name: string;      // nombre completo normalizado
+  firstName: string;
+  lastName: string;
+  points: number;
+  preferredSide: Side; // se combina desde localStorage, no viene de la API
+};
+```
+
+No se usan imágenes de jugador.
+
+### Nombres
+
+```js
+const cleanSpaces = (s) => (s ?? "").trim().replace(/\s+/g, " ");
+
+const toTitleCase = (s) =>
+  s
+    .toLocaleLowerCase("es-ES")
+    .replace(/(^|[\s-])(\p{L})/gu, (_, sep, ch) => sep + ch.toLocaleUpperCase("es-ES"));
+
+const firstName = toTitleCase(cleanSpaces(raw.nombre));
+const lastName = toTitleCase(cleanSpaces(raw.apellidos));
+const name = `${firstName} ${lastName}`.trim();
+```
+
+Ejemplo: `"ALEXIS "` + `"MORENO LÓPEZ"` → `"Alexis Moreno López"`.
+
+### Puntos
+
+Usar siempre los puntos de la **primera** entrada de `Ranking`. Con los datos actuales, la primera entrada corresponde siempre a la categoría del equipo.
+
+```js
+function getPlayerPoints(raw) {
+  const first = Array.isArray(raw.Ranking) ? raw.Ranking[0] : undefined;
+  const points = Number(first?.puntos);
+  return Number.isFinite(points) ? points : 0;
+}
+```
+
+- Si `Ranking` está vacío (jugador sin partidos), los puntos son `0` y se muestran como `0 pts`.
+- No usar `orden` como puntos: `orden` es la posición en el ranking.
+
+### Nombre del equipo
+
+```js
+function getTeamName(entities, teamId) {
+  for (const raw of entities) {
+    const link = raw.EquipoJugador?.find((ej) => String(ej.idequipo) === String(teamId));
+    if (link?.Equipo?.nombre) return cleanSpaces(link.Equipo.nombre);
+  }
+  return null;
+}
+```
+
+Si no se encuentra, la cabecera muestra solo el título de la app.
+
+---
+
+## 6. Diseño de la interfaz
+
+**El diseño visual y la disposición concreta se definirán con el designer.** Esta sección fija solo los requisitos funcionales que el diseño debe cubrir.
+
+Requisitos:
+
+- **Mobile-first.** La pantalla principal de referencia es un teléfono en vertical. El escritorio es una adaptación.
+- Cabecera con el nombre del equipo.
+- Dos zonas: **Plantilla** y **Alineación**. En móvil pueden ser pestañas, un drawer, secciones apiladas, etc., según decida el diseño.
+- Plantilla agrupada en: `REVÉS`, `DERECHA`, `AMBOS`, `SIN ASIGNAR`. Dentro de cada grupo, orden por puntos de mayor a menor.
+- Cada jugador muestra nombre, puntos y su posición preferente, editable.
+- Los jugadores ya alineados deben distinguirse visualmente (p. ej. atenuados, indicando su pista) sin ocultarse.
+- El jugador seleccionado (flujo por toque) debe quedar claramente resaltado.
+- Zonas táctiles de al menos 44×44 px.
+- Respetar `prefers-reduced-motion`.
+
+### Asignación de posición
+
+Cada jugador puede marcarse como Revés, Derecha, Ambos o Sin asignar. El control concreto lo define el diseño.
+
+La preferencia se persiste en `localStorage` por ID de jugador:
+
+```json
+{
+  "398538": "REVES",
+  "349876": "AMBOS"
+}
+```
+
+Los jugadores sin entrada guardada son `SIN_ASIGNAR`.
+
+---
+
+## 7. Alineación
+
+Cinco pistas. Cada pista tiene exactamente dos huecos: **Revés** y **Derecha**.
+
+Cada pista muestra:
+
+- número de pista (calculado por orden de puntos, ver sección 9);
+- los dos jugadores (o el hueco vacío);
+- los puntos de la pareja.
+
+Se debe poder:
+
+- colocar un jugador de la plantilla en un hueco;
+- mover un jugador de una pista a otra;
+- intercambiar jugadores;
+- quitar un jugador de una pareja (botón en el hueco o arrastrándolo de vuelta a la plantilla).
+
+---
+
+## 8. Reglas de alineación
+
+### Jugadores únicos
+
+Un jugador no puede estar en dos huecos a la vez. Si se coloca un jugador que ya está alineado, se **mueve** al nuevo hueco.
+
+### Semántica de colocar (`PLACE`)
+
+Todas las operaciones de colocar, mover e intercambiar son una sola acción, `PLACE(playerId, pairId, slot)`, donde `slot` es `"reves"` o `"derecha"`:
+
+| Origen del jugador | Hueco destino | Resultado |
+|---|---|---|
+| Plantilla (no alineado) | Vacío | Se coloca. |
+| Plantilla (no alineado) | Ocupado por Q | Se coloca; Q vuelve a la plantilla. |
+| Ya alineado en el hueco O | Vacío | Se mueve; O queda vacío. |
+| Ya alineado en el hueco O | Ocupado por Q | Intercambio: Q pasa a O. |
+| Ya alineado en el mismo hueco | — | No hace nada. |
+
+Da igual si el jugador se arrastra desde la plantilla o desde otro hueco: lo que cuenta es si ya está alineado.
+
+### Posición
+
+La posición preferente es una preferencia, no un bloqueo. Un jugador `REVES` puede colocarse en `DERECHA`.
+
+Si la posición no coincide, mostrar un aviso visual discreto, sin impedir la acción. Los jugadores `AMBOS` y `SIN_ASIGNAR` nunca generan aviso.
+
+### Puntos de pareja
+
+```js
+pairPoints = (reves?.points ?? 0) + (derecha?.points ?? 0);
+```
+
+---
+
+## 9. Orden automático de las pistas (norma SNP)
+
+La normativa de la SNP exige que las pistas estén ordenadas por suma de puntos de la pareja, de mayor a menor:
+
+```text
+PISTA 1 = pareja con más puntos
+...
+PISTA 5 = pareja con menos puntos
+```
+
+- No asociar una pareja a un número de pista fijo. Internamente se guardan cinco parejas y, al representarlas, se ordenan por `pairPoints DESC`. Así la norma se cumple siempre.
+- **Empates** (no se esperan): desempate estable por `pair.id`.
+- Las parejas vacías quedan al final.
+- Cuando el orden cambia, las pistas se recolocan con una **animación rápida** (180 ms, transición CSS de `translateY`; el DOM conserva el orden por pareja para que la transición funcione). Sin animación si `prefers-reduced-motion`.
+
+---
+
+## 10. Puntos totales
+
+Mostrar:
+
+```text
+TOTAL ALINEACIÓN: 37.625 PUNTOS
+```
+
+```js
+const totalPoints = pairs.reduce((sum, pair) => sum + pair.points, 0);
+```
+
+Como los puntos pueden tener decimales, redondear a 2 decimales **solo al mostrar** (ver sección 16).
+
+---
+
+## 11. Interacciones
+
+### Drag & drop (`@dnd-kit/core`)
+
+- Sensores: `MouseSensor` (se activa tras 6 px, así un clic sigue seleccionando) y `TouchSensor` con pulsación larga (200 ms, tolerancia 6 px) para no interferir con el scroll. Sin `KeyboardSensor`: Enter/Espacio iniciarían un arrastre en vez de seleccionar; con teclado se usa el flujo de toque.
+- Origen arrastrable: tarjeta de jugador en la plantilla y jugador dentro de un hueco.
+- Destino: cada hueco. En móvil, al arrastrar desde la plantilla aparece la hoja de huecos compacta como destino. En escritorio, soltar en la plantilla quita al jugador de la alineación.
+
+### Toque / clic
+
+1. Tocar un jugador (en la plantilla o en un hueco) lo selecciona y queda resaltado.
+2. Tocar un hueco ejecuta `PLACE` con el jugador seleccionado y limpia la selección.
+3. Tocar de nuevo el jugador seleccionado lo deselecciona.
+4. `Esc` o tocar fuera también deseleccionan.
+5. Tocar un hueco ocupado sin nada seleccionado selecciona a ese jugador para moverlo.
+6. Tocar un hueco vacío sin nada seleccionado (móvil) abre la hoja **Elegir jugador**, con dos grupos: los que encajan en ese hueco y los que prefieren el contrario (saldrá aviso). En escritorio muestra «Primero toca un jugador».
+7. Cada acción muestra un aviso breve (colocado, reordenado, intercambiado, vuelve a la plantilla, posición guardada…).
+
+### Layout (propuesta A del diseño)
+
+- **Móvil (< 1024 px):** pestañas **Alineación** / **Plantilla**. Con un jugador seleccionado en Plantilla aparece una hoja inferior con las 5 pistas compactas para colocarlo sin cambiar de pestaña. En Alineación, una barra inferior muestra el jugador seleccionado con «Quitar».
+- **Escritorio (≥ 1024 px):** tres columnas: plantilla, alineación y vista previa del texto de WhatsApp.
+- Diseño de referencia: [design/claude-design/](design/claude-design/).
+
+---
+
+## 12. Estado
+
+```js
+// Plantilla normalizada (sección 5) + preferencias aplicadas
+players: Player[]
+
+// Alineación: solo IDs, nunca objetos de jugador completos
+lineup = [
+  { id: "pair-1", reves: null, derecha: null },
+  { id: "pair-2", reves: null, derecha: null },
+  { id: "pair-3", reves: null, derecha: null },
+  { id: "pair-4", reves: null, derecha: null },
+  { id: "pair-5", reves: null, derecha: null },
+];
+```
+
+La alineación se gestiona con un `useReducer` puro (testeable) con estas acciones:
+
+- `PLACE { playerId, pairId, slot }`: semántica de la sección 8.
+- `REMOVE { pairId, slot }`.
+- `CLEAR`.
+- `PRUNE { validIds }`: elimina IDs que ya no están en la plantilla.
+
+La selección del flujo por toque es estado de UI aparte y no se persiste.
+
+---
+
+## 13. Persistencia local
+
+Claves de `localStorage` (solo hay un equipo; se versionan por si cambia el formato):
+
+```text
+snp:v1:player-sides   → { [playerId]: Side }
+snp:v1:lineup         → lineup (sección 12)
+snp:v1:roster-cache   → { fetchedAt, teamName, players } (última plantilla descargada)
+```
+
+Todo acceso a `localStorage` va envuelto en `try/catch`. Si falla o los datos no son válidos, se usan los valores por defecto.
+
+Al arrancar:
+
+1. Cargar jugadores desde SNP.
+2. Normalizarlos y guardar el resultado en `roster-cache`.
+3. Aplicar las posiciones guardadas.
+4. Recuperar la alineación guardada.
+5. Ejecutar `PRUNE` con los IDs de la plantilla actual.
+
+Botón **Limpiar alineación**: borra solo las parejas, no las posiciones guardadas. Pedir confirmación si hay jugadores alineados.
+
+---
+
+## 14. Estados de carga y errores
+
+Mientras se consulta la API:
+
+```text
+Cargando jugadores...
+```
+
+Si falla (error HTTP, error en el JSON, timeout o red):
+
+- **Con `roster-cache`:** usar la plantilla guardada y mostrar un aviso no bloqueante, `Datos guardados del 02/10 11:58 · [Reintentar]`.
+- **Sin caché:**
+
+  ```text
+  No se ha podido cargar la plantilla.
+  [Reintentar]
+  ```
+
+El detalle técnico va solo a consola.
+
+Si la API deja de admitir CORS, la arquitectura tendrá que cambiar e introducir un proxy. No hacerlo preventivamente mientras la petición directa funcione.
+
+---
+
+## 15. Responsive
+
+- **Mobile-first**: el diseño base es para teléfono en vertical (≥ 360 px de ancho). Lo concreta el designer (sección 6).
+- En móvil, el flujo por toque es el principal y el drag & drop por pulsación larga, un complemento.
+- En escritorio se puede usar un layout de dos columnas (plantilla a la izquierda, alineación a la derecha), con drag & drop como mecanismo principal.
+- Sin scroll horizontal en ningún ancho.
+
+---
+
+## 16. Formato de números
+
+Formato español, con un máximo de 2 decimales:
+
+```js
+const formatPoints = (n) =>
+  n.toLocaleString("es-ES", { maximumFractionDigits: 2, useGrouping: "always" });
+```
+
+`useGrouping: "always"` es obligatorio: en `es-ES`, por defecto, los números de 4 cifras no se agrupan y `3125` saldría como `3125` en vez de `3.125`.
+
+```text
+3125      -> 3.125
+57343.75  -> 57.343,75
+49583.33  -> 49.583,33
+```
+
+El valor numérico interno no se modifica. El redondeo es solo de presentación, lo que también evita mostrar ruido de coma flotante en las sumas.
+
+---
+
+## 17. Copiar alineación
+
+Botón **Copiar alineación** que genera texto plano listo para WhatsApp:
+
+```text
+IMPACTO 360 MÁLAGA PADEL TEAM — Alineación
+
+Pista 1 · 154.968,75 pts
+  R: David Gerardo Trujillo Vasquez (78.500)
+  D: Francisco Zafra Del Moral (75.468,75)
+
+Pista 2 · …
+  R: —
+  D: …
+
+Total: 600.000 pts
+```
+
+- Pistas en el mismo orden que en pantalla. Los huecos vacíos se muestran como `—`.
+- Usar `navigator.clipboard.writeText` (GitHub Pages sirve por HTTPS). Confirmar con un aviso breve, «Alineación copiada».
+- Si el portapapeles falla, mostrar el texto en un cuadro seleccionable para copiarlo a mano.
+- Opcional: si `navigator.share` está disponible (móvil), ofrecer también **Compartir**, que abre la hoja nativa.
+- La generación del texto es una función pura (`utils/share.js`) con test.
+
+---
+
+## 18. Configuración
+
+```js
+export const CONFIG = {
+  teamId: 8201,
+  seasonId: 3,
+  apiUrl:
+    "https://seriesnacionalesdepadel.snpgalaxy.com/jugador/ajaxGetAllJugadores/s_:YDVuE1b1JFrIZbvc23gmrQobobubiVTC7YwcTA==",
+  requestTimeoutMs: 10000,
+  courts: 5,
+};
+```
+
+Nada de IDs mágicos repartidos por los componentes.
+
+---
+
+## 19. GitHub Pages
+
+- Inicializar el repositorio git (la carpeta aún no lo es) y crear el repo en GitHub.
+- Vite con `base: "./"` (rutas relativas), así no depende del nombre del repositorio.
+- Workflow de GitHub Actions: `npm ci` → `npm test` → `npm run build` → `actions/upload-pages-artifact` → `actions/deploy-pages`.
+- En el repo: *Settings → Pages → Source: GitHub Actions*.
+- El resultado es completamente estático. Sin secretos ni variables privadas: todo lo que llega al frontend es público.
+
+---
+
+## 20. Estructura
+
+Estado actual.
+
+```text
+src/
+├── api/
+│   └── snpApi.js            # fetch + timeout
+├── domain/
+│   ├── sides.js             # posiciones, huecos, aviso de posición
+│   ├── normalize.js         # nombres, puntos, nombre de equipo
+│   ├── roster.js            # posiciones aplicadas, grupos, orden, caché
+│   ├── lineupReducer.js     # PLACE / REMOVE / CLEAR / PRUNE + restaurar
+│   └── lineupSelectors.js   # pistas ordenadas, total, pista de cada jugador
+├── utils/
+│   ├── format.js            # formatPoints, formatDateTime
+│   ├── names.js             # nombre corto / compacto
+│   ├── share.js             # texto de "Copiar alineación"
+│   ├── clipboard.js         # copiar y compartir
+│   └── storage.js           # localStorage seguro y versionado
+├── ui/
+│   ├── labels.js            # letras, textos y colores de posiciones y huecos
+│   └── feedback.js          # textos de los avisos
+├── hooks/
+│   ├── useRoster.js         # carga + caché + reintento
+│   ├── useLineupBuilder.js  # selección, hojas, arrastre y acciones de la pantalla
+│   ├── usePersistentState.js
+│   └── useMediaQuery.js
+├── components/
+│   ├── Header.jsx, States.jsx (carga, error, banner, aviso), Bars.jsx (barras, pestañas, vista previa)
+│   ├── RosterPanel.jsx      # plantilla agrupada + selector de posición
+│   ├── LineupPanel.jsx      # resumen, pistas y huecos
+│   ├── PlaceSheet.jsx       # hoja de huecos compacta (móvil)
+│   ├── Sheets.jsx           # elegir jugador, confirmar limpiar
+│   └── Icon.jsx, SideBadge.jsx, slotState.js
+├── styles/
+│   ├── tokens.css           # tokens del diseño, claro/oscuro
+│   └── app.css
+├── config.js
+├── App.jsx
+└── main.jsx
+```
+
+La lógica de API y de dominio va separada de los componentes visuales. `api/`, `domain/`, `utils/` y `ui/` llevan tests con Vitest (`*.test.js` junto al archivo).
+
+`npm run check:api` consulta la API real y lista la plantilla normalizada. Sirve para comprobar el cambio de temporada o diagnosticar si la app deja de cargar.
+
+---
+
+## 21. Fases de implementación
+
+### Fase 0 — Diseño (en paralelo con las fases 1 y 2)
+
+- Definir con el designer la interfaz mobile-first: plantilla, alineación, control de posición, flujo por toque y estados.
+
+### Fase 1 — API y dominio
+
+- Crear el proyecto (Vite + React + Vitest).
+- Implementar la petición a SNP con timeout.
+- Normalizar jugadores y obtener el nombre del equipo.
+- Tests de normalización (nombres sucios, `Ranking` vacío, decimales).
+- Verificar que aparecen los 17 jugadores del equipo 8201.
+
+### Fase 2 — Lógica de alineación
+
+- Reducer `PLACE` / `REMOVE` / `CLEAR` / `PRUNE` con tests de todos los casos de la tabla de la sección 8.
+- Selectores: puntos de pareja, orden de pistas (con desempate y parejas vacías al final) y total.
+- Generador de texto para copiar, con test.
+
+### Fase 3 — Plantilla
+
+- Lista agrupada (Revés / Derecha / Ambos / Sin asignar), ordenada por puntos.
+- Editar la posición preferente y persistirla.
+
+### Fase 4 — Alineación
+
+- 5 pistas, huecos Revés/Derecha, puntos por pareja y total.
+- Flujo por toque/clic.
+- Drag & drop con dnd-kit.
+- Animación de reordenación.
+- Aviso de posición no coincidente.
+
+### Fase 5 — UX y robustez
+
+- Estados de carga y error, caché de plantilla y reintento.
+- Limpiar alineación (con confirmación).
+- Copiar / compartir alineación.
+- Pruebas en un móvil real (iOS Safari y Android Chrome).
+
+### Fase 6 — Deploy
+
+- Repo git, workflow de GitHub Actions y GitHub Pages.
+- Verificar que la API funciona desde el dominio `github.io`.
+
+---
+
+## 22. Criterios de aceptación del MVP
+
+El MVP está terminado cuando:
+
+1. Al abrir la web se descargan automáticamente los jugadores del equipo 8201 y se muestra el nombre del equipo.
+2. No es necesario iniciar sesión en SNP.
+3. Cada jugador muestra nombre (normalizado) y puntos; los jugadores sin partidos muestran 0.
+4. Los jugadores aparecen agrupados por posición y ordenados por puntos.
+5. Se puede asignar Revés, Derecha, Ambos o Sin asignar.
+6. La preferencia se conserva al recargar.
+7. Existen exactamente 5 parejas, con un máximo de 10 jugadores.
+8. Ningún jugador puede estar repetido; colocar uno ya alineado lo mueve o lo intercambia según la sección 8.
+9. Cada pareja muestra la suma de sus puntos.
+10. Las pistas quedan siempre ordenadas de mayor a menor puntuación, con animación al reordenarse.
+11. Se muestra el total de puntos de la alineación.
+12. La alineación se conserva al recargar.
+13. Existe un botón para limpiar la alineación sin perder las posiciones.
+14. Se puede copiar la alineación como texto.
+15. La alineación se puede montar cómodamente en un móvil, solo con toques.
+16. Si la API falla, se usa la última plantilla guardada con un aviso, o se muestra un error con reintento.
+17. Los tests de dominio pasan.
+18. La aplicación funciona publicada en GitHub Pages.
+
+---
+
+## 23. Fuera de alcance inicialmente
+
+No implementar todavía:
+
+- login de usuarios;
+- base de datos;
+- edición de datos en SNP;
+- guardar alineaciones en la nube;
+- múltiples equipos (no está previsto);
+- múltiples jornadas o varias alineaciones guardadas;
+- rivales;
+- estadísticas históricas;
+- generación automática de la alineación óptima;
+- exportación a PDF/imagen;
+- imágenes de jugador;
+- roles de administrador.
+
+Diseñar el código de forma que estas funciones puedan añadirse más adelante sin rehacer el MVP.

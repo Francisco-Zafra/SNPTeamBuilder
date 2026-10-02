@@ -1,0 +1,215 @@
+{
+  "error": "",
+  "num_resultados": "3",
+  "entities": [
+    {
+      "id": "316870",
+      "nombre": "ALEXIS ",
+      "apellidos": "MORENO LÓPEZ",
+      "etiqueta_minima": "003",
+      "imagen_jugador": "ca09b4ed82291c4da4ec1af7337818b2.jpg",
+      "idusuario": "80430",
+      "EquipoJugador": [
+        {
+          "idequipo": "8201",
+          "idjugador": "316870",
+          "capitan": "1",
+          "capitan_jugador": "1",
+          "filial": "0",
+          "eliminado": "0",
+          "Equipo": {
+            "id": "8201",
+            "nombre": "IMPACTO 360 MÁLAGA PADEL TEAM",
+            "eliminado": "0",
+            "FaseclubcatEquipo": [
+              {
+                "idfaseclubcat": "22674",
+                "idequipo": "8201",
+                "Faseclubcat": {
+                  "id": "22674",
+                  "idfase": "268",
+                  "idclub": "1411",
+                  "idcategoria": "20",
+                  "Fase": {
+                    "id": "268",
+                    "idcompeticion": "1"
+                  },
+                  "Categoria": {
+                    "id": "20",
+                    "idpadre": "15",
+                    "alias": "FUT"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "Ranking": [
+        {
+          "id": "52317",
+          "idjugador": "316870",
+          "idzona": null,
+          "idcategoria": "20",
+          "puntos": "57343.75",
+          "orden": "1984",
+          "num_part": "1"
+        },
+        {
+          "id": "52318",
+          "idjugador": "316870",
+          "idzona": "127",
+          "idcategoria": "20",
+          "puntos": "57343.75",
+          "orden": "172",
+          "num_part": "1"
+        },
+        {
+          "id": "52315",
+          "idjugador": "316870",
+          "idzona": null,
+          "idcategoria": "19",
+          "puntos": "0",
+          "orden": "14399",
+          "num_part": "0"
+        },
+        {
+          "id": "52316",
+          "idjugador": "316870",
+          "idzona": "127",
+          "idcategoria": "19",
+          "puntos": "0",
+          "orden": "1826",
+          "num_part": "0"
+        }
+      ]
+    },
+    {
+      "id": "331277",
+      "nombre": "DANIEL ELIOT LOLANI",
+      "apellidos": "GARCÍA FERNANDEZ",
+      "etiqueta_minima": "003",
+      "imagen_jugador": null,
+      "idusuario": "94828",
+      "EquipoJugador": [
+        {
+          "idequipo": "8201",
+          "idjugador": "331277",
+          "capitan": "0",
+          "capitan_jugador": "0",
+          "filial": "0",
+          "eliminado": "0",
+          "Equipo": {
+            "id": "8201",
+            "nombre": "IMPACTO 360 MÁLAGA PADEL TEAM",
+            "eliminado": "0",
+            "FaseclubcatEquipo": [
+              {
+                "idfaseclubcat": "22674",
+                "idequipo": "8201",
+                "Faseclubcat": {
+                  "id": "22674",
+                  "idfase": "268",
+                  "idclub": "1411",
+                  "idcategoria": "20",
+                  "Fase": {
+                    "id": "268",
+                    "idcompeticion": "1"
+                  },
+                  "Categoria": {
+                    "id": "20",
+                    "idpadre": "15",
+                    "alias": "FUT"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "Ranking": [
+        {
+          "id": "244715",
+          "idjugador": "331277",
+          "idzona": null,
+          "idcategoria": "20",
+          "puntos": "3125",
+          "orden": "11858",
+          "num_part": "1"
+        },
+        {
+          "id": "158530",
+          "idjugador": "331277",
+          "idzona": null,
+          "idcategoria": "19",
+          "puntos": "3125",
+          "orden": "13442",
+          "num_part": "0"
+        },
+        {
+          "id": "244714",
+          "idjugador": "331277",
+          "idzona": "127",
+          "idcategoria": "20",
+          "puntos": "3125",
+          "orden": "1044",
+          "num_part": "1"
+        },
+        {
+          "id": "158529",
+          "idjugador": "331277",
+          "idzona": "127",
+          "idcategoria": "19",
+          "puntos": "3125",
+          "orden": "1733",
+          "num_part": "0"
+        }
+      ]
+    },
+    {
+      "id": "398480",
+      "nombre": "Sebastien ",
+      "apellidos": "Sánchez Sánchez ",
+      "etiqueta_minima": "003",
+      "imagen_jugador": null,
+      "idusuario": "194145",
+      "EquipoJugador": [
+        {
+          "idequipo": "8201",
+          "idjugador": "398480",
+          "capitan": "0",
+          "capitan_jugador": "0",
+          "filial": "0",
+          "eliminado": "0",
+          "Equipo": {
+            "id": "8201",
+            "nombre": "IMPACTO 360 MÁLAGA PADEL TEAM",
+            "eliminado": "0",
+            "FaseclubcatEquipo": [
+              {
+                "idfaseclubcat": "22674",
+                "idequipo": "8201",
+                "Faseclubcat": {
+                  "id": "22674",
+                  "idfase": "268",
+                  "idclub": "1411",
+                  "idcategoria": "20",
+                  "Fase": {
+                    "id": "268",
+                    "idcompeticion": "1"
+                  },
+                  "Categoria": {
+                    "id": "20",
+                    "idpadre": "15",
+                    "alias": "FUT"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "Ranking": []
+    }
+  ]
+}

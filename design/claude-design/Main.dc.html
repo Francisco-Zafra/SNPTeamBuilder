@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Alineación · Impacto 360</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.app{
+--font-display:'Barlow Condensed','Arial Narrow',sans-serif;
+--font-body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+--fs-xs:12px;--fs-sm:14px;--fs-md:16px;--fs-lg:18px;--fs-xl:22px;--fs-2xl:28px;--fs-3xl:34px;
+--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;--sp-8:32px;
+--r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;--r-pill:999px;
+--tap:44px;
+--dur-fast:120ms;--dur-reorder:180ms;--ease:cubic-bezier(.2,.8,.2,1);
+--c-bg:#F2F3EE;--c-surface:#FFFFFF;--c-surface-2:#E9EBE5;--c-surface-3:#DDE0D8;
+--c-ink:#10140F;--c-ink-2:#363D35;--c-ink-3:#555E53;
+--c-line:#D3D7CE;--c-line-strong:#7D867A;
+--c-primary:#10140F;--c-on-primary:#FFFFFF;
+--c-select:#D6F23A;--c-on-select:#10140F;--c-select-soft:#F1FBC4;
+--c-reves:#1E4FD6;--c-on-reves:#FFFFFF;--c-reves-ink:#1E4FD6;
+--c-derecha:#EE8636;--c-on-derecha:#10140F;--c-derecha-ink:#9A3A06;
+--c-ambos:#79D3C1;--c-on-ambos:#10140F;
+--c-none:#FFFFFF;--c-on-none:#363D35;
+--c-warn:#8A5300;--c-warn-soft:#FFF0C7;--c-warn-line:#E2BE5C;
+--c-danger:#B42318;--c-on-danger:#FFFFFF;
+--c-scrim:rgba(10,12,9,.5);
+--shadow-sheet:0 -10px 30px rgba(16,20,15,.18);
+--shadow-lift:0 14px 30px rgba(16,20,15,.30);
+}
+.app[data-theme=dark]{
+--c-bg:#0D100C;--c-surface:#171B16;--c-surface-2:#232922;--c-surface-3:#2D342B;
+--c-ink:#F3F6EF;--c-ink-2:#CCD3C7;--c-ink-3:#A3AC9E;
+--c-line:#303730;--c-line-strong:#6B7566;
+--c-primary:#F3F6EF;--c-on-primary:#10140F;
+--c-select:#D6F23A;--c-on-select:#10140F;--c-select-soft:#2C330E;
+--c-reves:#7397FF;--c-on-reves:#0A1230;--c-reves-ink:#9DB5FF;
+--c-derecha:#FF9C55;--c-on-derecha:#10140F;--c-derecha-ink:#FFB27D;
+--c-ambos:#8BE3D1;--c-on-ambos:#10140F;
+--c-none:#171B16;--c-on-none:#CCD3C7;
+--c-warn:#FFCB5C;--c-warn-soft:#382A06;--c-warn-line:#6B5414;
+--c-danger:#FF7B6E;--c-on-danger:#10140F;
+--c-scrim:rgba(0,0,0,.62);
+--shadow-sheet:0 -10px 30px rgba(0,0,0,.5);
+--shadow-lift:0 14px 30px rgba(0,0,0,.6);
+}
+@media (prefers-color-scheme: dark){.app[data-theme=auto]{
+--c-bg:#0D100C;--c-surface:#171B16;--c-surface-2:#232922;--c-surface-3:#2D342B;
+--c-ink:#F3F6EF;--c-ink-2:#CCD3C7;--c-ink-3:#A3AC9E;
+--c-line:#303730;--c-line-strong:#6B7566;
+--c-primary:#F3F6EF;--c-on-primary:#10140F;
+--c-select:#D6F23A;--c-on-select:#10140F;--c-select-soft:#2C330E;
+--c-reves:#7397FF;--c-on-reves:#0A1230;--c-reves-ink:#9DB5FF;
+--c-derecha:#FF9C55;--c-on-derecha:#10140F;--c-derecha-ink:#FFB27D;
+--c-ambos:#8BE3D1;--c-on-ambos:#10140F;
+--c-none:#171B16;--c-on-none:#CCD3C7;
+--c-warn:#FFCB5C;--c-warn-soft:#382A06;--c-warn-line:#6B5414;
+--c-danger:#FF7B6E;--c-on-danger:#10140F;
+--c-scrim:rgba(0,0,0,.62);
+}}
+.app{position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;background:var(--c-bg);color:var(--c-ink);font-family:var(--font-body);font-size:var(--fs-md);line-height:1.3;-webkit-tap-highlight-color:transparent}
+.app *,.app *::before,.app *::after{box-sizing:border-box}
+.app button{font:inherit;color:inherit;cursor:pointer;-webkit-user-select:none;user-select:none}
+.app button:disabled{cursor:not-allowed;opacity:.45}
+.app button:focus-visible{outline:3px solid var(--c-reves);outline-offset:2px}
+.app h1,.app h2,.app p{margin:0}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ic--sm{width:16px;height:16px}
+.ic--xs{width:13px;height:13px;stroke-width:2.6}
+.num{font-family:var(--font-display);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.unit{font-size:var(--fs-sm);color:var(--c-ink-3);font-weight:700}
+.eyebrow{font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-ink-3)}
+
+/* Cabecera */
+.hdr{flex:none;display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 16px;background:var(--c-surface);border-bottom:1px solid var(--c-line)}
+.hdr__mark{width:34px;height:34px;flex:none;border-radius:9px;background:var(--c-ink);color:var(--c-select);display:grid;place-items:center}
+.hdr__mark .ic{width:22px;height:22px;stroke-width:2}
+.hdr__txt{min-width:0;flex:1}
+.hdr__team{font-family:var(--font-display);font-weight:700;font-size:20px;line-height:1.05;letter-spacing:.01em;text-transform:uppercase}
+.hdr__sub{font-size:var(--fs-xs);color:var(--c-ink-3);font-weight:700;margin-top:2px}
+.hdr__actions{display:none;gap:8px;align-items:center}
+
+/* Aviso de datos guardados */
+.banner{flex:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 4px 0 14px;background:var(--c-warn-soft);color:var(--c-ink);border-bottom:1px solid var(--c-warn-line);font-size:var(--fs-sm);font-weight:700}
+.banner .ic{color:var(--c-warn)}
+.banner__txt{flex:1;min-width:0}
+.banner__btn{min-height:44px;padding:0 12px;border:0;background:none;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+/* Estructura */
+.main{flex:1;min-height:0;position:relative;display:flex}
+.p-roster,.p-lineup,.p-compact,.p-preview{display:none}
+.p-roster,.p-lineup{flex:1;min-width:0;overflow-y:auto;overscroll-behavior:contain}
+.l-tabs.t-lineup .p-lineup{display:block}
+.l-tabs.t-roster .p-roster{display:block}
+.l-tabs.has-place .p-roster{padding-bottom:380px}
+.l-stacked .main{flex-direction:column}
+.l-stacked .p-compact{display:block;flex:none;background:var(--c-surface);border-bottom:1px solid var(--c-line);padding-bottom:10px}
+.l-stacked .p-roster{display:block}
+.l-desktop .main{display:grid;grid-template-columns:380px minmax(0,1fr) 300px}
+.l-desktop .p-roster,.l-desktop .p-lineup{display:block}
+.l-desktop .p-roster{border-right:1px solid var(--c-line)}
+.l-desktop .p-preview{display:flex;flex-direction:column;gap:12px;padding:16px;border-left:1px solid var(--c-line);background:var(--c-surface);overflow-y:auto}
+.l-desktop .hdr{padding:10px 24px}
+.l-desktop .hdr__actions{display:flex}
+.desk-only{display:none}
+.l-desktop .desk-only{display:flex}
+.tabs-only{display:none}
+.l-tabs .tabs-only{display:flex}
+
+/* Resumen */
+.sum{padding:14px 16px 6px;display:flex;flex-direction:column;gap:8px}
+.sum__row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.sum__total{font-family:var(--font-display);font-weight:700;font-size:var(--fs-3xl);line-height:1;font-variant-numeric:tabular-nums;margin-top:2px}
+.sum__count{text-align:right}
+.sum__countv{font-family:var(--font-display);font-weight:700;font-size:var(--fs-2xl);line-height:1;font-variant-numeric:tabular-nums}
+.sum__of{color:var(--c-ink-3)}
+.sum__row2{display:flex;align-items:center;gap:8px}
+.dots{flex:1;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}
+.dot{height:8px;border-radius:2px;background:var(--c-surface-3)}
+.dot.is-on{background:var(--c-ink)}
+.sum__rule{font-size:var(--fs-xs);color:var(--c-ink-3);font-weight:700;display:flex;align-items:center;gap:6px}
+
+/* Botones */
+.btn{min-height:48px;border:0;border-radius:var(--r-lg);padding:0 16px;font-weight:700;font-size:var(--fs-md);display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;transition:transform var(--dur-fast) var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn--primary{background:var(--c-primary);color:var(--c-on-primary)}
+.btn--soft{background:var(--c-surface-2);color:var(--c-ink)}
+.btn--ghost{background:transparent;color:var(--c-ink-2);min-height:44px;padding:0 10px}
+.btn--danger{background:var(--c-danger);color:var(--c-on-danger)}
+.btn--icon{width:48px;padding:0}
+.btn--sm{min-height:44px;font-size:var(--fs-sm);padding:0 12px;border-radius:var(--r-md)}
+.btn--block{width:100%}
+.iconbtn{width:44px;height:44px;flex:none;border:0;border-radius:var(--r-md);background:transparent;display:grid;place-items:center;color:var(--c-ink-2)}
+.iconbtn:active{background:var(--c-surface-2)}
+
+/* Primer uso */
+.onb{margin:4px 12px 12px;padding:14px;border-radius:var(--r-lg);background:var(--c-surface);border:2px solid var(--c-ink);display:flex;flex-direction:column;gap:10px}
+.onb__title{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xl);line-height:1.1}
+.onb__steps{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.onb__steps li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);font-weight:700;color:var(--c-ink-2)}
+.onb__n{width:22px;height:22px;flex:none;border-radius:6px;background:var(--c-select);color:var(--c-on-select);display:grid;place-items:center;font-size:var(--fs-xs)}
+
+/* Pistas */
+.courts{position:relative;margin:4px 12px 16px}
+.court{position:absolute;left:0;right:0;top:0;height:146px;display:flex;flex-direction:column;gap:4px;padding:6px;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-lg);transition:transform var(--dur-reorder) var(--ease);will-change:transform}
+.court__head{height:28px;display:flex;align-items:center;gap:8px;padding:0 4px}
+.court__badge{width:26px;height:26px;border-radius:7px;background:var(--c-ink);color:var(--c-select);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1}
+.court__title{font-family:var(--font-display);font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.02em}
+.court__warn{color:var(--c-warn);display:grid;place-items:center}
+.court__pts{margin-left:auto;font-size:19px;font-family:var(--font-display);font-weight:600;font-variant-numeric:tabular-nums}
+.court__pts .unit{font-family:var(--font-body)}
+.court__slots{display:flex;flex-direction:column;gap:4px}
+.l-desktop .court{height:98px}
+.l-desktop .court__slots{flex-direction:row}
+.l-desktop .court__slots > *{flex:1;min-width:0}
+
+/* Hueco */
+.slot{position:relative;height:48px;display:flex;align-items:center;border-radius:var(--r-md);background:var(--c-surface-2);border:2px solid transparent;transition:background var(--dur-fast),border-color var(--dur-fast)}
+.l-desktop .slot{height:52px}
+.slot__tap{flex:1;min-width:0;height:100%;display:flex;align-items:center;gap:10px;padding:0 6px 0 6px;border:0;background:none;text-align:left;border-radius:inherit}
+.slot__side{width:28px;height:28px;flex:none;border-radius:7px;display:grid;place-items:center;font-weight:700;font-size:var(--fs-sm);line-height:1}
+.slot--reves .slot__side{background:var(--c-reves);color:var(--c-on-reves)}
+.slot--derecha .slot__side{background:var(--c-derecha);color:var(--c-on-derecha)}
+.slot__body{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px}
+.slot__name{font-weight:700;font-size:var(--fs-md);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot__meta{font-size:13px;line-height:1.15;color:var(--c-ink-3);display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden}
+.slot__meta .num{font-size:15px;color:var(--c-ink-2)}
+.slot__warn{display:inline-flex;align-items:center;gap:3px;color:var(--c-warn);font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.slot__empty{font-weight:700;font-size:var(--fs-sm);color:var(--c-ink-3)}
+.slot__x{width:44px;height:44px;flex:none;border:0;background:none;border-radius:var(--r-md);display:grid;place-items:center;color:var(--c-ink-2)}
+.slot__x:active{background:var(--c-surface-3)}
+.slot__plus{width:44px;height:44px;flex:none;display:grid;place-items:center;color:var(--c-ink-3)}
+.slot.is-empty{background:transparent;border:2px dashed var(--c-line-strong)}
+.slot.is-empty .slot__side{background:transparent;box-shadow:inset 0 0 0 2px currentColor}
+.slot--reves.is-empty .slot__side{color:var(--c-reves-ink)}
+.slot--derecha.is-empty .slot__side{color:var(--c-derecha-ink)}
+.slot.has-warn{background:var(--c-warn-soft);border-color:var(--c-warn-line)}
+.slot.is-target{border:2px dashed var(--c-ink);background:var(--c-select-soft)}
+.slot.is-target.is-filled{border-style:solid;border-color:var(--c-line-strong)}
+.slot.is-target .slot__empty{color:var(--c-ink)}
+.slot.is-selected{background:var(--c-select);border:2px solid var(--c-ink);color:var(--c-on-select)}
+.slot.is-selected .slot__meta,.slot.is-selected .slot__meta .num,.slot.is-selected .slot__x{color:var(--c-on-select)}
+.slot.is-over{background:var(--c-select);border:2px solid var(--c-ink)}
+
+/* Plantilla */
+.ros-intro{padding:12px 16px 4px;display:flex;flex-direction:column;gap:2px}
+.ros-intro__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xl);line-height:1.1}
+.ros-intro__s{font-size:var(--fs-xs);color:var(--c-ink-3);font-weight:700}
+.grp{padding-bottom:4px}
+.grp__head{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;padding:12px 16px 6px;background:var(--c-bg);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-ink-2)}
+.l-stacked .grp__head{background:var(--c-bg)}
+.grp__count{margin-left:auto;font-family:var(--font-display);font-size:16px;letter-spacing:0;color:var(--c-ink-3)}
+.grp__empty{margin:0 12px 6px;padding:10px 12px;border:1px dashed var(--c-line-strong);border-radius:var(--r-md);font-size:var(--fs-sm);color:var(--c-ink-3)}
+.sb{width:24px;height:24px;flex:none;border-radius:6px;display:inline-grid;place-items:center;font-weight:700;font-size:13px;line-height:1;letter-spacing:0;text-transform:none}
+.s-reves{background:var(--c-reves);color:var(--c-on-reves)}
+.s-derecha{background:var(--c-derecha);color:var(--c-on-derecha)}
+.s-ambos{background:var(--c-ambos);color:var(--c-on-ambos)}
+.s-none{background:var(--c-none);color:var(--c-on-none);box-shadow:inset 0 0 0 2px var(--c-line-strong)}
+.row{margin:0 10px 5px;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-lg);transition:background var(--dur-fast),box-shadow var(--dur-fast)}
+.row__line{display:flex;align-items:center;gap:2px;padding:0 4px 0 6px;min-height:60px}
+.row__pos{position:relative;width:44px;height:44px;flex:none;border:0;border-radius:var(--r-md);display:grid;place-items:center;font-weight:700;font-size:var(--fs-lg);line-height:1}
+.row__pos .ic{position:absolute;right:1px;bottom:1px;width:12px;height:12px;stroke-width:3}
+.row__main{flex:1;min-width:0;min-height:58px;display:flex;align-items:center;gap:8px;padding:6px 8px 6px 8px;border:0;background:none;text-align:left;border-radius:var(--r-md)}
+.row__txt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.row__name{font-weight:700;font-size:var(--fs-md);line-height:1.2}
+.row__pts{flex:none;text-align:right;white-space:nowrap}
+.row__pts .num{font-size:20px}
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--r-pill);background:var(--c-ink);color:var(--c-bg);font-size:var(--fs-xs);font-weight:700;white-space:nowrap}
+.row.is-aligned{background:var(--c-surface-2);border-color:transparent}
+.row.is-aligned .row__name,.row.is-aligned .row__pts .num{color:var(--c-ink-3)}
+.row.is-selected{background:var(--c-select);border-color:var(--c-ink);box-shadow:0 0 0 2px var(--c-ink)}
+.row.is-selected .row__name,.row.is-selected .row__pts .num,.row.is-selected .unit{color:var(--c-on-select)}
+.row.is-dragging{opacity:.5;background:transparent;border:2px dashed var(--c-line-strong);box-shadow:none}
+.row.is-editing{border-color:var(--c-ink);box-shadow:0 0 0 1px var(--c-ink)}
+.posed{padding:4px 10px 10px;display:flex;flex-direction:column;gap:8px}
+.posed__label{font-size:var(--fs-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c-ink-3)}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:var(--r-lg);background:var(--c-surface-2)}
+.seg__opt{min-height:56px;border:0;border-radius:var(--r-md);background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:700;color:var(--c-ink-2);padding:4px 2px}
+.seg__opt.is-on{background:var(--c-surface);color:var(--c-ink);box-shadow:0 0 0 2px var(--c-ink)}
+.posed__note{font-size:var(--fs-xs);color:var(--c-ink-3)}
+
+/* Panel compacto (hoja de huecos / propuesta B) */
+.pc-sheethead,.pc-sumhead{display:none}
+.l-tabs.has-place .p-compact{display:block;position:absolute;left:0;right:0;bottom:0;z-index:20;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;box-shadow:var(--shadow-sheet);border-top:1px solid var(--c-line);padding-bottom:12px;animation:sheetUp var(--dur-reorder) var(--ease)}
+.l-tabs .pc-sheethead{display:block}
+.l-stacked .pc-sumhead{display:flex}
+.grab{display:block;width:40px;height:4px;border-radius:2px;background:var(--c-line-strong);margin:8px auto 2px}
+.pc-who{display:flex;align-items:center;gap:10px;padding:4px 4px 4px 16px}
+.pc-who__txt{flex:1;min-width:0}
+.pc-who__name{font-weight:700;font-size:var(--fs-md);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-who__pts{font-size:20px}
+.pc-sumhead{align-items:center;gap:8px;padding:8px 4px 0 16px}
+.pc-sumhead .sum__total{font-size:26px}
+.pc-sumhead__count{margin-left:auto;font-family:var(--font-display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
+.pc-hint{padding:2px 16px 8px;font-size:13px;font-weight:700;color:var(--c-ink-3)}
+.ccourts{position:relative;margin:0 12px}
+.ccourt{position:absolute;left:0;right:0;top:0;height:48px;display:grid;grid-template-columns:58px minmax(0,1fr) minmax(0,1fr);gap:6px;transition:transform var(--dur-reorder) var(--ease)}
+.ccourt__lbl{display:flex;flex-direction:column;justify-content:center;line-height:1.05}
+.ccourt__no{font-family:var(--font-display);font-weight:700;font-size:18px}
+.ccourt__pts{font-size:13px;color:var(--c-ink-3)}
+.cslot{min-width:0;height:48px;display:flex;align-items:center;gap:6px;padding:0 8px 0 6px;border-radius:var(--r-md);border:2px solid transparent;background:var(--c-surface-2);text-align:left}
+.cslot__side{width:20px;height:20px;flex:none;border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:700;line-height:1}
+.cslot--reves .cslot__side{background:var(--c-reves);color:var(--c-on-reves)}
+.cslot--derecha .cslot__side{background:var(--c-derecha);color:var(--c-on-derecha)}
+.cslot__name{flex:1;min-width:0;font-weight:700;font-size:var(--fs-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cslot__warn{color:var(--c-warn);display:grid;place-items:center}
+.cslot.is-empty{background:transparent;border:2px dashed var(--c-line-strong)}
+.cslot.is-empty .cslot__name{color:var(--c-ink-3)}
+.cslot.has-warn{background:var(--c-warn-soft)}
+.cslot.is-target.is-empty{border-color:var(--c-ink);background:var(--c-select-soft)}
+.cslot.is-target.is-empty .cslot__name{color:var(--c-ink)}
+.cslot.is-pref{box-shadow:0 0 0 2px var(--c-ink)}
+.cslot.is-selected{background:var(--c-select);border:2px solid var(--c-ink);color:var(--c-on-select)}
+.cslot.is-over{background:var(--c-select);border:2px solid var(--c-ink);color:var(--c-on-select);transform:scale(1.03)}
+.cslot.is-over .cslot__name{color:var(--c-on-select)}
+
+/* Barras inferiores */
+.actbar,.selbar,.tabbar{display:none}
+.l-tabs.t-lineup .actbar,.l-stacked .actbar{display:flex}
+.has-selbar .actbar{display:none !important}
+.has-selbar .selbar{display:flex}
+.l-tabs .tabbar{display:grid}
+.actbar{flex:none;gap:8px;padding:8px 12px;background:var(--c-surface);border-top:1px solid var(--c-line)}
+.actbar .btn--primary{flex:1}
+.selbar{flex:none;align-items:center;gap:8px;min-height:64px;padding:8px 4px 8px 12px;background:var(--c-select);color:var(--c-on-select);border-top:2px solid var(--c-ink)}
+.selbar__txt{flex:1;min-width:0}
+.selbar__name{font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.selbar__hint{font-size:13px;font-weight:700;line-height:1.2}
+.selbar .iconbtn{color:var(--c-on-select)}
+.selbar .btn--soft{background:var(--c-on-select);color:var(--c-select)}
+.tabbar{flex:none;grid-template-columns:repeat(2,minmax(0,1fr));height:60px;background:var(--c-surface);border-top:1px solid var(--c-line)}
+.tab{position:relative;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:13px;font-weight:700;color:var(--c-ink-3)}
+.tab__row{display:flex;align-items:center;gap:6px}
+.tab__badge{min-width:22px;height:18px;padding:0 5px;border-radius:var(--r-pill);background:var(--c-surface-3);color:var(--c-ink-2);font-size:13px;display:grid;place-items:center;font-family:var(--font-display);font-weight:700}
+.tab.is-active{color:var(--c-ink)}
+.tab.is-active::before{content:'';position:absolute;top:0;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--c-ink)}
+.tab.is-active .tab__badge{background:var(--c-ink);color:var(--c-bg)}
+
+/* Hojas y diálogos */
+.scrim{position:absolute;inset:0;z-index:30;background:var(--c-scrim);border:0;padding:0;width:100%;cursor:default}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:31;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;box-shadow:var(--shadow-sheet);display:flex;flex-direction:column;animation:sheetUp var(--dur-reorder) var(--ease)}
+.sheet--pick{max-height:80%}
+.sheet__head{display:flex;align-items:center;gap:8px;padding:4px 4px 8px 16px;border-bottom:1px solid var(--c-line)}
+.sheet__title{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xl);line-height:1.1}
+.sheet__body{overflow-y:auto;padding-bottom:12px}
+.pgrp__t{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-ink-3)}
+.pgrp__t .ic{color:var(--c-warn)}
+.prow{width:100%;min-height:52px;display:flex;align-items:center;gap:10px;padding:6px 16px;border:0;border-bottom:1px solid var(--c-line);background:none;text-align:left}
+.prow:active{background:var(--c-select-soft)}
+.prow__name{flex:1;min-width:0;font-weight:700;line-height:1.2}
+.prow__pts{font-size:19px}
+.prow.is-aligned .prow__name,.prow.is-aligned .prow__pts{color:var(--c-ink-3)}
+.sheet--confirm{padding:0 16px 16px;gap:10px}
+.confirm__ic{width:48px;height:48px;border-radius:14px;background:var(--c-surface-2);color:var(--c-danger);display:grid;place-items:center;margin-top:8px}
+.confirm__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-2xl);line-height:1.05}
+.confirm__p{font-size:var(--fs-md);color:var(--c-ink-2);margin-bottom:6px}
+.toast{position:absolute;left:12px;right:12px;bottom:136px;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-lg);background:var(--c-ink);color:var(--c-bg);box-shadow:var(--shadow-lift);animation:toastIn var(--dur-reorder) var(--ease)}
+.l-tabs.t-roster .toast{bottom:72px}
+.has-place .toast{bottom:400px}
+.l-desktop .toast{left:auto;right:24px;bottom:24px;width:340px}
+.toast__ic{width:30px;height:30px;flex:none;border-radius:50%;background:var(--c-select);color:var(--c-on-select);display:grid;place-items:center}
+.toast--warn .toast__ic{background:var(--c-warn-soft);color:var(--c-warn)}
+.toast__t{font-weight:700;line-height:1.2}
+.toast__s{font-size:13px;opacity:.85;line-height:1.25}
+
+/* Arrastre (estado estático) */
+.ghost{position:absolute;z-index:40;pointer-events:none;width:196px;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r-lg);background:var(--c-select);color:var(--c-on-select);border:2px solid var(--c-ink);box-shadow:var(--shadow-lift);transform:rotate(-3deg)}
+.ghost__name{flex:1;min-width:0;font-weight:700;font-size:var(--fs-sm);line-height:1.15}
+.ghost__pts{font-size:17px}
+.dragtip{position:absolute;z-index:41;left:50%;transform:translateX(-50%);top:68px;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-pill);background:var(--c-ink);color:var(--c-bg);font-size:13px;font-weight:700;white-space:nowrap;box-shadow:var(--shadow-lift)}
+
+/* Estados de carga */
+.state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.state--loading{justify-content:flex-start;padding:24px 0 0;align-items:stretch}
+.loadline{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;color:var(--c-ink-2);padding:8px 0 16px}
+.spinner{width:22px;height:22px;border-radius:50%;border:3px solid var(--c-surface-3);border-top-color:var(--c-ink);animation:spin .8s linear infinite}
+.skel{height:60px;margin:0 10px 6px;border-radius:var(--r-lg);background:var(--c-surface-2);animation:pulse 1.4s ease-in-out infinite}
+.skel--h{height:20px;width:120px;margin:12px 16px 8px;border-radius:6px}
+.state__ic{width:64px;height:64px;border-radius:18px;background:var(--c-surface-2);display:grid;place-items:center;color:var(--c-ink-2)}
+.state__ic .ic{width:32px;height:32px;stroke-width:2}
+.state__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-2xl);line-height:1.05;max-width:280px}
+.state__p{color:var(--c-ink-2);max-width:280px}
+.state .btn{min-width:200px;margin-top:8px}
+
+/* Escritorio */
+.prev__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xl)}
+.wa{margin:0;padding:12px;border-radius:var(--r-md);background:var(--c-surface-2);font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12px;line-height:1.45;white-space:pre-wrap;color:var(--c-ink)}
+.desk-hint{align-items:center;gap:8px;margin:0 12px 6px;padding:10px 12px;border-radius:var(--r-md);background:var(--c-surface);border:1px solid var(--c-line);font-size:var(--fs-sm);font-weight:700;color:var(--c-ink-2)}
+
+/* Pliegue (solo en artboards de scroll completo) */
+.fold{position:absolute;left:0;right:0;z-index:60;border-top:2px dashed #E0218A;pointer-events:none}
+.fold span{position:absolute;right:6px;top:-22px;padding:2px 6px;border-radius:4px;background:#E0218A;color:#FFFFFF;font-size:11px;font-weight:700}
+
+@keyframes sheetUp{from{transform:translateY(28px);opacity:0}to{transform:none;opacity:1}}
+@keyframes toastIn{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.55}}
+@media (prefers-reduced-motion: reduce){
+.app *,.app *::before,.app *::after{animation:none !important;transition:none !important}
+}
+</style>
+</helmet>
+<div class="{{rootCls}}" data-theme="{{theme}}" style="width: {{W}}px; height: {{H}}px" onClick="{{onBackdrop}}" onKeyDown="{{onKey}}">
+
+<header class="hdr">
+<span class="hdr__mark" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6c3.2 2.4 3.2 10.4 0 12.8"></path><path d="M18.4 5.6c-3.2 2.4-3.2 10.4 0 12.8"></path></svg></span>
+<div class="hdr__txt">
+<h1 class="hdr__team">IMPACTO 360 MÁLAGA PADEL TEAM</h1>
+<p class="hdr__sub">Alineación · Series Nacionales de Pádel</p>
+</div>
+<div class="hdr__actions">
+<button type="button" class="btn btn--ghost" onClick="{{onAskClear}}" disabled="{{clearDisabled}}"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg>Limpiar</button>
+<button type="button" class="btn btn--soft" onClick="{{onShare}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Compartir</button>
+<button type="button" class="btn btn--primary" onClick="{{onCopy}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar alineación</button>
+</div>
+</header>
+
+<sc-if value="{{showCached}}" hint-placeholder-val="{{false}}">
+<div class="banner" role="status">
+<svg class="ic ic--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span class="banner__txt">Datos guardados del 02/10 11:58</span>
+<button type="button" class="banner__btn" onClick="{{onRetryCached}}">Reintentar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isLoading}}" hint-placeholder-val="{{false}}">
+<div class="state state--loading" role="status" aria-live="polite">
+<div class="loadline"><span class="spinner" aria-hidden="true"></span>Cargando jugadores...</div>
+<div class="skel skel--h"></div>
+<div class="skel"></div>
+<div class="skel"></div>
+<div class="skel"></div>
+<div class="skel skel--h"></div>
+<div class="skel"></div>
+<div class="skel"></div>
+<div class="skel"></div>
+<div class="skel"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{isError}}" hint-placeholder-val="{{false}}">
+<div class="state" role="alert">
+<div class="state__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3l18 18"></path><path d="M8.5 16.4a5 5 0 0 1 7 0"></path><path d="M5 12.6a10 10 0 0 1 4.6-2.6"></path><path d="M19 12.6a10 10 0 0 0-2.8-1.9"></path><path d="M2 8.8a15 15 0 0 1 4.2-2.6"></path><path d="M22 8.8A15 15 0 0 0 11 5"></path><path d="M12 20h.01"></path></svg></div>
+<h2 class="state__t">No se ha podido cargar la plantilla.</h2>
+<p class="state__p">Comprueba la conexión y vuelve a intentarlo.</p>
+<button type="button" class="btn btn--primary" onClick="{{onRetry}}"><svg class="ic" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"></path><path d="M20 4v7h-7"></path></svg>Reintentar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isReady}}" hint-placeholder-val="{{true}}">
+<div class="main">
+
+<section class="p-roster" aria-label="Plantilla" onDragOver="{{onRosterDragOver}}" onDrop="{{onRosterDrop}}">
+<div class="ros-intro">
+<h2 class="ros-intro__t">Plantilla · 17 jugadores</h2>
+<p class="ros-intro__s">Toca un jugador para alinearlo · Toca su letra para cambiar la posición</p>
+</div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+<div class="grp">
+<div class="grp__head"><span class="{{g.badgeCls}}">{{g.letter}}</span><span>{{g.title}}</span><span class="grp__count">{{g.count}}</span></div>
+<sc-if value="{{g.empty}}" hint-placeholder-val="{{false}}"><p class="grp__empty">Nadie con esta posición</p></sc-if>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="4">
+<div class="{{r.cls}}">
+<div class="row__line">
+<button type="button" class="{{r.posCls}}" onClick="{{r.onPos}}" aria-label="{{r.posAria}}" aria-expanded="{{r.posOpen}}"><span>{{r.posLetter}}</span><svg class="ic" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"></path></svg></button>
+<button type="button" class="row__main" onClick="{{r.onTap}}" draggable="{{true}}" onDragStart="{{r.onDragStart}}" onDragEnd="{{r.onDragEnd}}" aria-pressed="{{r.pressed}}" aria-label="{{r.aria}}">
+<span class="row__txt">
+<span class="row__name">{{r.name}}</span>
+<sc-if value="{{r.aligned}}" hint-placeholder-val="{{false}}"><span class="chip"><svg class="ic ic--xs" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{r.chip}}</span></sc-if>
+</span>
+<span class="row__pts"><span class="num">{{r.pts}}</span><span class="unit"> pts</span></span>
+</button>
+</div>
+<sc-if value="{{r.posOpen}}" hint-placeholder-val="{{false}}">
+<div class="posed" onClick="{{stop}}">
+<div class="posed__label">Posición preferente</div>
+<div class="seg" role="group" aria-label="{{r.posAria}}">
+<sc-for list="{{r.posOpts}}" as="o" hint-placeholder-count="4">
+<button type="button" class="{{o.cls}}" aria-pressed="{{o.pressed}}" onClick="{{o.onTap}}"><span class="{{o.badgeCls}}">{{o.letter}}</span><span>{{o.label}}</span></button>
+</sc-for>
+</div>
+<p class="posed__note">Se guarda en este dispositivo. Ambos y Sin asignar nunca generan aviso.</p>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</section>
+
+<section class="p-lineup" aria-label="Alineación">
+<div class="sum">
+<div class="sum__row">
+<div>
+<div class="eyebrow">Total alineación</div>
+<div class="sum__total">{{totalLabel}} <span class="unit">pts</span></div>
+</div>
+<div class="sum__count">
+<div class="sum__countv">{{count}}<span class="sum__of">/10</span></div>
+<div class="eyebrow">jugadores</div>
+</div>
+</div>
+<div class="sum__row2">
+<div class="dots" aria-hidden="true">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="10"><span class="{{d.cls}}"></span></sc-for>
+</div>
+<button type="button" class="btn btn--ghost btn--sm tabs-only" onClick="{{onAskClear}}" disabled="{{clearDisabled}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg>Limpiar</button>
+</div>
+<p class="sum__rule"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M7 4v16"></path><path d="M3 16l4 4 4-4"></path><path d="M14 6h7"></path><path d="M14 11h5"></path><path d="M14 16h3"></path></svg>Pista 1 = pareja con más puntos (normativa SNP)</p>
+</div>
+
+<div class="desk-only desk-hint"><svg class="ic ic--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>{{deskHint}}</div>
+
+<sc-if value="{{isEmptyLineup}}" hint-placeholder-val="{{false}}">
+<div class="onb">
+<h2 class="onb__title">Monta la alineación</h2>
+<ol class="onb__steps">
+<li><span class="onb__n">1</span>Toca un jugador de la plantilla.</li>
+<li><span class="onb__n">2</span>Toca un hueco de Revés o Derecha.</li>
+<li><span class="onb__n">3</span>Las pistas se ordenan solas por puntos.</li>
+</ol>
+<button type="button" class="btn btn--primary btn--block tabs-only" onClick="{{goRoster}}">Ir a la plantilla</button>
+</div>
+</sc-if>
+
+<div class="courts" style="height: {{courtsH}}px">
+<sc-for list="{{courts}}" as="c" hint-placeholder-count="5">
+<article class="court" style="transform: translateY({{c.y}}px)" aria-label="{{c.aria}}">
+<div class="court__head">
+<span class="court__badge">{{c.no}}</span>
+<span class="court__title">Pista {{c.no}}</span>
+<sc-if value="{{c.warn}}" hint-placeholder-val="{{false}}"><span class="court__warn" title="Hay un jugador fuera de su posición preferente"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg></span></sc-if>
+<span class="court__pts">{{c.sumLabel}} <span class="unit">pts</span></span>
+</div>
+<div class="court__slots">
+<sc-for list="{{c.slots}}" as="sl" hint-placeholder-count="2">
+<div class="{{sl.cls}}" onDragOver="{{sl.onDragOver}}" onDrop="{{sl.onDrop}}">
+<button type="button" class="slot__tap" onClick="{{sl.onTap}}" draggable="{{sl.filled}}" onDragStart="{{sl.onDragStart}}" onDragEnd="{{sl.onDragEnd}}" aria-label="{{sl.aria}}">
+<span class="slot__side">{{sl.letter}}</span>
+<span class="slot__body">
+<sc-if value="{{sl.filled}}" hint-placeholder-val="{{true}}">
+<span class="slot__name" title="{{sl.fullName}}">{{sl.name}}</span>
+<span class="slot__meta"><span class="num">{{sl.pts}}</span>
+<sc-if value="{{sl.mismatch}}" hint-placeholder-val="{{false}}"><span class="slot__warn"><svg class="ic ic--xs" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg>{{sl.warnText}}</span></sc-if>
+</span>
+</sc-if>
+<sc-if value="{{sl.empty}}" hint-placeholder-val="{{false}}"><span class="slot__empty">{{sl.emptyText}}</span></sc-if>
+</span>
+</button>
+<sc-if value="{{sl.filled}}" hint-placeholder-val="{{true}}"><button type="button" class="slot__x" onClick="{{sl.onRemove}}" aria-label="{{sl.removeAria}}"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button></sc-if>
+<sc-if value="{{sl.empty}}" hint-placeholder-val="{{false}}"><span class="slot__plus" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></sc-if>
+</div>
+</sc-for>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section class="p-compact" aria-label="Elegir hueco" onClick="{{stop}}">
+<div class="pc-sheethead">
+<span class="grab" aria-hidden="true"></span>
+<div class="pc-who">
+<span class="{{selBadgeCls}}">{{selLetter}}</span>
+<div class="pc-who__txt"><div class="eyebrow">Colocar a</div><div class="pc-who__name">{{selName}}</div></div>
+<span class="num pc-who__pts">{{selPts}}</span>
+<button type="button" class="iconbtn" onClick="{{onCancel}}" aria-label="Cancelar selección"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+</div>
+<div class="pc-sumhead">
+<div><div class="eyebrow">Total alineación</div><div class="sum__total">{{totalLabel}} <span class="unit">pts</span></div></div>
+<span class="pc-sumhead__count">{{count}}/10</span>
+<button type="button" class="iconbtn" onClick="{{onAskClear}}" disabled="{{clearDisabled}}" aria-label="Limpiar alineación"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+<p class="pc-hint">{{compactHint}}</p>
+<div class="ccourts" style="height: {{ccourtsH}}px">
+<sc-for list="{{courts}}" as="c" hint-placeholder-count="5">
+<div class="ccourt" style="transform: translateY({{c.cy}}px)">
+<div class="ccourt__lbl"><span class="ccourt__no">Pista {{c.no}}</span><span class="num ccourt__pts">{{c.sumLabel}}</span></div>
+<sc-for list="{{c.slots}}" as="sl" hint-placeholder-count="2">
+<button type="button" class="{{sl.ccls}}" onClick="{{sl.onTap}}" onDragOver="{{sl.onDragOver}}" onDrop="{{sl.onDrop}}" aria-label="{{sl.aria}}">
+<span class="cslot__side">{{sl.letter}}</span>
+<span class="cslot__name">{{sl.cname}}</span>
+<sc-if value="{{sl.mismatch}}" hint-placeholder-val="{{false}}"><span class="cslot__warn"><svg class="ic ic--xs" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg></span></sc-if>
+</button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</section>
+
+<aside class="p-preview" aria-label="Vista previa del texto">
+<h2 class="prev__t">Texto para WhatsApp</h2>
+<pre class="wa">{{copyText}}</pre>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onCopy}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar alineación</button>
+</aside>
+</div>
+
+<div class="actbar">
+<button type="button" class="btn btn--primary" onClick="{{onCopy}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar alineación</button>
+<button type="button" class="btn btn--soft btn--icon" onClick="{{onShare}}" disabled="{{copyDisabled}}" aria-label="Compartir alineación"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></button>
+</div>
+
+<div class="selbar" onClick="{{stop}}" role="status" aria-live="polite">
+<span class="{{selBadgeCls}}">{{selLetter}}</span>
+<div class="selbar__txt"><div class="selbar__name">{{selName}}</div><div class="selbar__hint">{{selHint}}</div></div>
+<sc-if value="{{selCanRemove}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn--soft btn--sm" onClick="{{onRemoveSel}}">Quitar</button></sc-if>
+<button type="button" class="iconbtn" onClick="{{onCancel}}" aria-label="Cancelar selección"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+
+<nav class="tabbar" aria-label="Secciones">
+<button type="button" class="{{tabLineupCls}}" onClick="{{goLineup}}" aria-current="{{lineupCurrent}}">
+<span class="tab__row"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M4 12h16"></path><path d="M12 7v10"></path></svg><span class="tab__badge">{{count}}/10</span></span>
+<span>Alineación</span>
+</button>
+<button type="button" class="{{tabRosterCls}}" onClick="{{goRoster}}" aria-current="{{rosterCurrent}}">
+<span class="tab__row"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"></path><path d="M18 14.6a6.5 6.5 0 0 1 3.5 5.4"></path></svg><span class="tab__badge">17</span></span>
+<span>Plantilla</span>
+</button>
+</nav>
+</sc-if>
+
+<sc-if value="{{showPick}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCancel}}" aria-label="Cerrar"></button>
+<section class="sheet sheet--pick" role="dialog" aria-label="Elegir jugador" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="sheet__head">
+<div style="flex: 1; min-width: 0"><div class="eyebrow">Elegir jugador para</div><div class="sheet__title">{{pickTitle}}</div></div>
+<button type="button" class="iconbtn" onClick="{{onCancel}}" aria-label="Cerrar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+<div class="sheet__body">
+<sc-for list="{{pickGroups}}" as="pg" hint-placeholder-count="2">
+<div class="pgrp__t"><sc-if value="{{pg.warn}}" hint-placeholder-val="{{false}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg></sc-if>{{pg.title}}</div>
+<sc-for list="{{pg.rows}}" as="pr" hint-placeholder-count="5">
+<button type="button" class="{{pr.cls}}" onClick="{{pr.onTap}}" aria-label="{{pr.aria}}">
+<span class="{{pr.badgeCls}}">{{pr.letter}}</span>
+<span class="prow__name">{{pr.name}}</span>
+<sc-if value="{{pr.aligned}}" hint-placeholder-val="{{false}}"><span class="chip">{{pr.chip}}</span></sc-if>
+<span class="num prow__pts">{{pr.pts}}</span>
+</button>
+</sc-for>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showConfirm}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCancelClear}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--confirm" role="alertdialog" aria-label="Limpiar alineación" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg></div>
+<h2 class="confirm__t">¿Limpiar alineación?</h2>
+<p class="confirm__p">Se vaciarán las 5 pistas ({{count}} jugadores colocados). Las posiciones preferentes no cambian.</p>
+<button type="button" class="btn btn--danger btn--block" onClick="{{onConfirmClear}}">Sí, limpiar alineación</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onCancelClear}}">Cancelar</button>
+</section>
+</sc-if>
+
+<sc-if value="{{showGhost}}" hint-placeholder-val="{{false}}">
+<div class="dragtip"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3v18"></path><path d="M3 12h18"></path><path d="M9 6l3-3 3 3"></path><path d="M9 18l3 3 3-3"></path></svg>Suelta en un hueco · fuera para cancelar</div>
+<div class="ghost" style="left: 178px; bottom: 104px">
+<span class="{{selBadgeCls}}">{{selLetter}}</span>
+<span class="ghost__name">{{selName}}</span>
+<span class="num ghost__pts">{{selPts}}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{showToast}}" hint-placeholder-val="{{false}}">
+<div class="{{toastCls}}" role="status" aria-live="polite">
+<span class="toast__ic"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<div><div class="toast__t">{{toast.title}}</div><div class="toast__s">{{toast.sub}}</div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{showFold}}" hint-placeholder-val="{{false}}">
+<div class="fold" style="top: 800px"><span>Pliegue 360×800 · lo de abajo se ve con scroll</span></div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scenario":{"editor":"enum","options":["partial","roster","selected","selectedSlot","pick","position","dragging","loading","error","cached","empty","full","confirm","copied"],"default":"partial"},"layout":{"editor":"enum","options":["tabs","stacked","desktop"],"default":"tabs"},"theme":{"editor":"enum","options":["light","dark","auto"],"default":"light"},"height":{"editor":"int","default":1120,"min":600,"max":1400},"$preview":{"width":360,"height":1120}}'>
+const TEAM = 'IMPACTO 360 MÁLAGA PADEL TEAM';
+const PLAYERS = [
+  { id: '349959', name: 'David Gerardo Trujillo Vasquez', first: 'David Gerardo', last: 'Trujillo Vasquez', points: 78500, side: 'REVES' },
+  { id: '349876', name: 'Francisco Zafra Del Moral', first: 'Francisco', last: 'Zafra Del Moral', points: 75468.75, side: 'DERECHA' },
+  { id: '312196', name: 'Rafa Bonillo Saavedra', first: 'Rafa', last: 'Bonillo Saavedra', points: 73883.93, side: 'REVES' },
+  { id: '371440', name: 'Mauro Stopiello', first: 'Mauro', last: 'Stopiello', points: 64375, side: 'DERECHA' },
+  { id: '316870', name: 'Alexis Moreno López', first: 'Alexis', last: 'Moreno López', points: 57343.75, side: 'AMBOS' },
+  { id: '371443', name: 'Luis Rodriguez Cortes', first: 'Luis', last: 'Rodriguez Cortes', points: 55500, side: 'REVES' },
+  { id: '371442', name: 'Rodrigo Curci', first: 'Rodrigo', last: 'Curci', points: 53750, side: 'DERECHA' },
+  { id: '371444', name: 'Pep Garau Vico', first: 'Pep', last: 'Garau Vico', points: 49583.33, side: 'REVES' },
+  { id: '349878', name: 'Raul Garcia Raga', first: 'Raul', last: 'Garcia Raga', points: 49166.67, side: 'DERECHA' },
+  { id: '376655', name: 'Javier Hurtado Martin', first: 'Javier', last: 'Hurtado Martin', points: 46406.25, side: 'AMBOS' },
+  { id: '369134', name: 'Ezequiel Campins Biaus', first: 'Ezequiel', last: 'Campins Biaus', points: 39375, side: 'DERECHA' },
+  { id: '390344', name: 'Félix Vidarte Vidarte', first: 'Félix', last: 'Vidarte Vidarte', points: 32875, side: 'REVES' },
+  { id: '409381', name: 'Javier Ruiz Lopez', first: 'Javier', last: 'Ruiz Lopez', points: 15625, side: 'SIN_ASIGNAR' },
+  { id: '398470', name: 'Pablo Parras Huerta', first: 'Pablo', last: 'Parras Huerta', points: 9375, side: 'SIN_ASIGNAR' },
+  { id: '331277', name: 'Daniel Eliot Lolani García Fernandez', first: 'Daniel Eliot Lolani', last: 'García Fernandez', points: 3125, side: 'SIN_ASIGNAR' },
+  { id: '398538', name: 'Paco Muro Correros', first: 'Paco', last: 'Muro Correros', points: 3125, side: 'SIN_ASIGNAR' },
+  { id: '398480', name: 'Sebastien Sánchez Sánchez', first: 'Sebastien', last: 'Sánchez Sánchez', points: 0, side: 'SIN_ASIGNAR' }
+];
+const BY = {};
+PLAYERS.forEach(function (p) { BY[p.id] = p; });
+const SIDES = {
+  REVES: { letter: 'R', label: 'Revés', cls: 's-reves' },
+  DERECHA: { letter: 'D', label: 'Derecha', cls: 's-derecha' },
+  AMBOS: { letter: 'A', label: 'Ambos', cls: 's-ambos' },
+  SIN_ASIGNAR: { letter: '–', label: 'Sin asignar', cls: 's-none' }
+};
+const GROUPS = ['REVES', 'DERECHA', 'AMBOS', 'SIN_ASIGNAR'];
+const SLOT = {
+  reves: { letter: 'R', label: 'Revés', want: 'REVES' },
+  derecha: { letter: 'D', label: 'Derecha', want: 'DERECHA' }
+};
+const EX_PAIRS = [
+  { id: 'pair-1', reves: '371443', derecha: '371442' },
+  { id: 'pair-2', reves: '349878', derecha: null },
+  { id: 'pair-3', reves: '349959', derecha: '349876' },
+  { id: 'pair-4', reves: '371444', derecha: '316870' },
+  { id: 'pair-5', reves: '312196', derecha: '371440' }
+];
+
+function fmt(n) {
+  const r = Math.round(n * 100) / 100;
+  const parts = Math.abs(r).toFixed(2).split('.');
+  const i = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const d = parts[1].replace(/0+$/, '');
+  return (r < 0 ? '-' : '') + i + (d ? ',' + d : '');
+}
+function shortName(p) { return p.first.split(' ')[0] + ' ' + p.last; }
+function compactName(p) { return p.first.charAt(0) + '. ' + p.last.split(' ')[0]; }
+function pairSum(pr) { return (pr.reves ? BY[pr.reves].points : 0) + (pr.derecha ? BY[pr.derecha].points : 0); }
+function rankIds(pairs) {
+  return pairs.map(function (pr, i) { return { id: pr.id, i: i, s: pairSum(pr) }; })
+    .sort(function (a, b) { return (b.s - a.s) || (a.i - b.i); })
+    .map(function (x) { return x.id; });
+}
+function isMismatch(pref, side) {
+  return (pref === 'REVES' && side === 'derecha') || (pref === 'DERECHA' && side === 'reves');
+}
+function locate(pairs, id) {
+  for (let k = 0; k < pairs.length; k++) {
+    if (pairs[k].reves === id) return { pair: pairs[k].id, side: 'reves' };
+    if (pairs[k].derecha === id) return { pair: pairs[k].id, side: 'derecha' };
+  }
+  return null;
+}
+function byPoints(a, b) { return (b.points - a.points) || a.name.localeCompare(b.name, 'es'); }
+
+function initState(p) {
+  const scn = p.scenario || 'partial';
+  const sides = {};
+  PLAYERS.forEach(function (x) { sides[x.id] = x.side; });
+  const ex = EX_PAIRS.map(function (x) { return Object.assign({}, x); });
+  const empty = EX_PAIRS.map(function (x) { return { id: x.id, reves: null, derecha: null }; });
+  const s = { load: 'ok', cached: false, sides: sides, pairs: ex, tab: 'lineup', sel: null, pickFor: null, posFor: null, confirm: false, toast: null, drag: null, over: null, staticGhost: false };
+  if (scn === 'loading') { s.load = 'loading'; s.pairs = empty; }
+  if (scn === 'error') { s.load = 'error'; s.pairs = empty; }
+  if (scn === 'cached') { s.cached = true; }
+  if (scn === 'empty') { s.pairs = empty; }
+  if (scn === 'full') { s.pairs = ex.map(function (x) { return x.id === 'pair-2' ? Object.assign({}, x, { derecha: '376655' }) : x; }); }
+  if (scn === 'roster') { s.tab = 'roster'; }
+  if (scn === 'selected') { s.tab = 'roster'; s.sel = { id: '376655' }; }
+  if (scn === 'selectedSlot') { s.sel = { id: '371443' }; }
+  if (scn === 'pick') { s.pickFor = { pair: 'pair-2', side: 'derecha' }; }
+  if (scn === 'position') { s.tab = 'roster'; s.posFor = '409381'; }
+  if (scn === 'dragging') { s.tab = 'roster'; s.drag = { id: '376655' }; s.over = 'pair-2:derecha'; s.staticGhost = true; }
+  if (scn === 'confirm') { s.confirm = true; }
+  if (scn === 'copied') { s.toast = { title: 'Alineación copiada', sub: 'Pégala en el grupo de WhatsApp', kind: 'ok' }; }
+  return s;
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = initState(props || {});
+    this.timers = [];
+  }
+  componentDidUpdate(prev) {
+    if (prev.scenario !== this.props.scenario || prev.layout !== this.props.layout) {
+      this.setState(initState(this.props));
+    }
+  }
+  componentWillUnmount() { this.timers.forEach(function (t) { clearTimeout(t); }); }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  flash(t) {
+    const self = this;
+    if (this.toastTimer) clearTimeout(this.toastTimer);
+    this.setState({ toast: t });
+    this.toastTimer = setTimeout(function () { self.setState({ toast: null }); }, 2600);
+  }
+  layout() { return this.props.layout || 'tabs'; }
+
+  place(id, pairId, side) {
+    const s = this.state;
+    const pairs = s.pairs.map(function (x) { return Object.assign({}, x); });
+    const src = locate(pairs, id);
+    const dst = pairs.find(function (x) { return x.id === pairId; });
+    const occ = dst[side];
+    const reset = { sel: null, pickFor: null, drag: null, over: null, staticGhost: false, posFor: null };
+    if (src && src.pair === pairId && src.side === side) { this.setState(reset); return; }
+    const before = rankIds(pairs).join();
+    if (src) pairs.find(function (x) { return x.id === src.pair; })[src.side] = occ;
+    dst[side] = id;
+    const ranked = rankIds(pairs);
+    const no = ranked.indexOf(pairId) + 1;
+    const p = BY[id];
+    let sub = ranked.join() !== before ? 'Las pistas se han reordenado por puntos' : 'Pista ' + no + ' · ' + fmt(pairSum(dst)) + ' pts';
+    if (occ && src) sub = 'Intercambiado con ' + shortName(BY[occ]);
+    else if (occ) sub = shortName(BY[occ]) + ' vuelve a la plantilla';
+    if (isMismatch(s.sides[id], side)) sub = 'Aviso: prefiere ' + SIDES[s.sides[id]].label;
+    this.setState(Object.assign({ pairs: pairs }, reset));
+    this.flash({ title: shortName(p) + ' → Pista ' + no + ' · ' + SLOT[side].label, sub: sub, kind: isMismatch(s.sides[id], side) ? 'warn' : 'ok' });
+  }
+  remove(pairId, side) {
+    const pairs = this.state.pairs.map(function (x) { return Object.assign({}, x); });
+    const pr = pairs.find(function (x) { return x.id === pairId; });
+    const id = pr[side];
+    if (!id) return;
+    pr[side] = null;
+    this.setState({ pairs: pairs, sel: null, drag: null, over: null });
+    this.flash({ title: shortName(BY[id]) + ' vuelve a la plantilla', sub: 'Hueco de ' + SLOT[side].label + ' libre', kind: 'ok' });
+  }
+  tapSlot(pairId, side) {
+    const s = this.state;
+    const pr = s.pairs.find(function (x) { return x.id === pairId; });
+    const occ = pr[side];
+    if (s.sel) {
+      if (s.sel.id === occ) { this.setState({ sel: null }); return; }
+      this.place(s.sel.id, pairId, side);
+      return;
+    }
+    if (occ) { this.setState({ sel: { id: occ }, pickFor: null, posFor: null }); return; }
+    if (this.layout() === 'tabs') { this.setState({ pickFor: { pair: pairId, side: side }, posFor: null }); return; }
+    this.flash({ title: 'Primero toca un jugador', sub: 'Después toca este hueco para colocarlo', kind: 'warn' });
+  }
+  tapRow(id) {
+    const s = this.state;
+    if (s.pickFor) { this.place(id, s.pickFor.pair, s.pickFor.side); return; }
+    if (s.sel && s.sel.id === id) { this.setState({ sel: null }); return; }
+    this.setState({ sel: { id: id }, posFor: null, staticGhost: false, drag: null, over: null });
+  }
+  setSide(id, side) {
+    const sides = Object.assign({}, this.state.sides);
+    sides[id] = side;
+    this.setState({ sides: sides, posFor: null });
+    this.flash({ title: shortName(BY[id]) + ' · ' + SIDES[side].label, sub: 'Posición preferente guardada en este dispositivo', kind: 'ok' });
+  }
+  copy() {
+    const self = this;
+    const text = this.copyText || '';
+    const ok = function () { self.flash({ title: 'Alineación copiada', sub: 'Pégala en el grupo de WhatsApp', kind: 'ok' }); };
+    const ko = function () { self.flash({ title: 'No se ha podido copiar', sub: 'Este navegador no permite copiar aquí', kind: 'warn' }); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ko);
+      else ko();
+    } catch (e) { ko(); }
+  }
+  share() {
+    const text = this.copyText || '';
+    if (navigator.share) { navigator.share({ title: TEAM, text: text }).catch(function () {}); return; }
+    this.copy();
+  }
+
+  renderVals() {
+    const self = this;
+    const p = this.props;
+    const s = this.state;
+    const layout = this.layout();
+    const isDesk = layout === 'desktop';
+    const theme = p.theme || 'light';
+    const W = isDesk ? 1280 : 360;
+    const H = Number(p.height) || (isDesk ? 820 : 1120);
+    const H_ = function (fn) { return function (e) { if (e && e.stopPropagation) e.stopPropagation(); fn(e); }; };
+    const sides = s.sides;
+    const loc = {};
+    s.pairs.forEach(function (pr) { ['reves', 'derecha'].forEach(function (sd) { if (pr[sd]) loc[pr[sd]] = { pair: pr.id, side: sd }; }); });
+    const order = rankIds(s.pairs);
+    const courtNo = {};
+    order.forEach(function (id, i) { courtNo[id] = i + 1; });
+    const stride = isDesk ? 108 : 154;
+    const cstride = 54;
+    const selId = s.sel ? s.sel.id : (s.drag ? s.drag.id : null);
+    const selSide = selId ? sides[selId] : null;
+    let count = 0;
+    let total = 0;
+
+    const mkSlot = function (pr, sd) {
+      const id = pr[sd];
+      const pl = id ? BY[id] : null;
+      const key = pr.id + ':' + sd;
+      const no = courtNo[pr.id];
+      const mismatch = !!pl && isMismatch(sides[id], sd);
+      const isSel = !!id && id === selId;
+      const target = !!selId && !isSel;
+      const pref = target && selSide === SLOT[sd].want;
+      const over = s.over === key;
+      const base = (id ? ' is-filled' : ' is-empty') + (target ? ' is-target' : '') + (isSel ? ' is-selected' : '') + (over ? ' is-over' : '') + (mismatch ? ' has-warn' : '');
+      return {
+        letter: SLOT[sd].letter,
+        filled: !!id,
+        empty: !id,
+        name: pl ? shortName(pl) : '',
+        fullName: pl ? pl.name : '',
+        cname: pl ? compactName(pl) : (over ? 'Soltar aquí' : (target ? 'Colocar' : 'Libre')),
+        emptyText: over ? 'Soltar aquí' : (target ? 'Colocar aquí' : 'Añadir ' + SLOT[sd].label.toLowerCase()),
+        pts: pl ? fmt(pl.points) : '',
+        mismatch: mismatch,
+        warnText: mismatch ? 'prefiere ' + SIDES[sides[id]].label : '',
+        cls: 'slot slot--' + sd + base,
+        ccls: 'cslot cslot--' + sd + base + (pref ? ' is-pref' : ''),
+        aria: 'Pista ' + no + ', ' + SLOT[sd].label + ': ' + (pl ? pl.name + ', ' + fmt(pl.points) + ' puntos' + (mismatch ? ', fuera de su posición preferente' : '') : 'vacío'),
+        removeAria: pl ? 'Quitar a ' + pl.name + ' de la pista ' + no : '',
+        onTap: H_(function () { self.tapSlot(pr.id, sd); }),
+        onRemove: H_(function () { self.remove(pr.id, sd); }),
+        onDragStart: function (e) { if (!id) return; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: id, from: key }, sel: null, staticGhost: false }); },
+        onDragEnd: function () { self.setState({ drag: null, over: null }); },
+        onDragOver: function (e) { if (!self.state.drag) return; e.preventDefault(); if (self.state.over !== key) self.setState({ over: key }); },
+        onDrop: function (e) { e.preventDefault(); e.stopPropagation(); const d = self.state.drag; if (d) self.place(d.id, pr.id, sd); }
+      };
+    };
+
+    const courts = s.pairs.map(function (pr) {
+      const no = courtNo[pr.id];
+      const sum = pairSum(pr);
+      const slots = [mkSlot(pr, 'reves'), mkSlot(pr, 'derecha')];
+      if (pr.reves) count++;
+      if (pr.derecha) count++;
+      total += sum;
+      return {
+        no: no,
+        y: (no - 1) * stride,
+        cy: (no - 1) * cstride,
+        sumLabel: fmt(sum),
+        warn: slots[0].mismatch || slots[1].mismatch,
+        aria: 'Pista ' + no + ', ' + fmt(sum) + ' puntos',
+        slots: slots
+      };
+    });
+
+    const groups = GROUPS.map(function (g) {
+      const list = PLAYERS.filter(function (x) { return sides[x.id] === g; }).sort(byPoints);
+      return {
+        title: SIDES[g].label,
+        letter: SIDES[g].letter,
+        badgeCls: 'sb ' + SIDES[g].cls,
+        count: list.length,
+        empty: list.length === 0,
+        rows: list.map(function (x) {
+          const l = loc[x.id];
+          const side = sides[x.id];
+          const open = s.posFor === x.id;
+          return {
+            name: x.name,
+            pts: fmt(x.points),
+            aligned: !!l,
+            chip: l ? 'Pista ' + courtNo[l.pair] + ' · ' + SLOT[l.side].label : '',
+            cls: 'row' + (l ? ' is-aligned' : '') + (selId === x.id && !(s.drag && s.drag.id === x.id) ? ' is-selected' : '') + (s.drag && s.drag.id === x.id ? ' is-dragging' : '') + (open ? ' is-editing' : ''),
+            pressed: selId === x.id ? 'true' : 'false',
+            aria: x.name + ', ' + fmt(x.points) + ' puntos, ' + (l ? 'en pista ' + courtNo[l.pair] + ' ' + SLOT[l.side].label : 'sin alinear'),
+            posLetter: SIDES[side].letter,
+            posCls: 'row__pos ' + SIDES[side].cls,
+            posAria: 'Posición preferente de ' + x.name + ': ' + SIDES[side].label + '. Cambiar',
+            posOpen: open,
+            posOpts: GROUPS.map(function (o) {
+              return {
+                letter: SIDES[o].letter,
+                label: SIDES[o].label,
+                badgeCls: 'sb ' + SIDES[o].cls,
+                cls: 'seg__opt' + (side === o ? ' is-on' : ''),
+                pressed: side === o ? 'true' : 'false',
+                onTap: H_(function () { self.setSide(x.id, o); })
+              };
+            }),
+            onTap: H_(function () { self.tapRow(x.id); }),
+            onPos: H_(function () { self.setState({ posFor: open ? null : x.id, sel: null, pickFor: null }); }),
+            onDragStart: function (e) { try { e.dataTransfer.setData('text/plain', x.id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: x.id, from: null }, sel: null, staticGhost: false }); },
+            onDragEnd: function () { self.setState({ drag: null, over: null }); }
+          };
+        })
+      };
+    });
+
+    let pickGroups = [];
+    let pickTitle = '';
+    if (s.pickFor) {
+      const want = SLOT[s.pickFor.side].want;
+      const other = want === 'REVES' ? 'DERECHA' : 'REVES';
+      const sortPick = function (a, b) { return ((loc[a.id] ? 1 : 0) - (loc[b.id] ? 1 : 0)) || byPoints(a, b); };
+      const mkP = function (x) {
+        const l = loc[x.id];
+        return {
+          name: x.name, pts: fmt(x.points), letter: SIDES[sides[x.id]].letter, badgeCls: 'sb ' + SIDES[sides[x.id]].cls,
+          aligned: !!l, chip: l ? 'P' + courtNo[l.pair] + ' · ' + SLOT[l.side].letter : '',
+          cls: 'prow' + (l ? ' is-aligned' : ''),
+          aria: x.name + ', ' + fmt(x.points) + ' puntos' + (l ? ', ya en pista ' + courtNo[l.pair] : ''),
+          onTap: H_(function () { self.tapRow(x.id); })
+        };
+      };
+      pickTitle = 'Pista ' + courtNo[s.pickFor.pair] + ' · ' + SLOT[s.pickFor.side].label;
+      pickGroups = [
+        { title: 'Encajan en ' + SLOT[s.pickFor.side].label, warn: false, rows: PLAYERS.filter(function (x) { return sides[x.id] !== other; }).sort(sortPick).map(mkP) },
+        { title: 'Prefieren ' + SIDES[other].label + ' · saldrá aviso', warn: true, rows: PLAYERS.filter(function (x) { return sides[x.id] === other; }).sort(sortPick).map(mkP) }
+      ];
+    }
+
+    const lines = [TEAM + ' — Alineación', ''];
+    order.forEach(function (pid, i) {
+      const pr = s.pairs.find(function (x) { return x.id === pid; });
+      lines.push('Pista ' + (i + 1) + ' · ' + fmt(pairSum(pr)) + ' pts');
+      ['reves', 'derecha'].forEach(function (sd) {
+        const id = pr[sd];
+        lines.push('  ' + SLOT[sd].letter + ': ' + (id ? BY[id].name + ' (' + fmt(BY[id].points) + ')' : '—'));
+      });
+      lines.push('');
+    });
+    lines.push('Total: ' + fmt(total) + ' pts');
+    this.copyText = lines.join('\n');
+
+    const sp = selId ? BY[selId] : null;
+    const sl = selId ? loc[selId] : null;
+    const tabs = layout === 'tabs';
+    const hasPlace = tabs && s.tab === 'roster' && !!selId;
+    const hasSelBar = !!s.sel && ((tabs && s.tab === 'lineup') || layout === 'stacked');
+    let compactHint = 'Toca un jugador de la plantilla y luego un hueco';
+    if (sp) compactHint = (selSide === 'REVES' || selSide === 'DERECHA') ? 'Toca un hueco · los de ' + SIDES[selSide].label + ' van marcados' : 'Toca un hueco para colocarlo';
+    if (s.drag) compactHint = 'Suelta sobre un hueco para colocarlo';
+    const ready = s.load === 'ok';
+
+    return {
+      W: W, H: H, theme: theme,
+      rootCls: 'app l-' + layout + ' t-' + s.tab + (hasPlace ? ' has-place' : '') + (hasSelBar ? ' has-selbar' : ''),
+      isLoading: s.load === 'loading',
+      isError: s.load === 'error',
+      isReady: ready,
+      showCached: ready && s.cached,
+      groups: groups,
+      courts: courts,
+      courtsH: 5 * stride - (stride - (isDesk ? 98 : 146)),
+      ccourtsH: 5 * cstride - 6,
+      totalLabel: fmt(total),
+      count: count,
+      dots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (i) { return { cls: 'dot' + (i < count ? ' is-on' : '') }; }),
+      isEmptyLineup: ready && count === 0,
+      copyDisabled: count === 0,
+      clearDisabled: count === 0,
+      copyText: this.copyText,
+      deskHint: sp ? 'Toca un hueco para colocar a ' + sp.name + ' · o arrástralo' : 'Toca un jugador y después un hueco, o arrástralo. Suelta en la plantilla para quitarlo.',
+      selName: sp ? sp.name : '',
+      selPts: sp ? fmt(sp.points) : '',
+      selLetter: sp ? SIDES[selSide].letter : '',
+      selBadgeCls: 'sb ' + (sp ? SIDES[selSide].cls : 's-none'),
+      selHint: sl ? 'Pista ' + courtNo[sl.pair] + ' · ' + SLOT[sl.side].label + ' — toca otro hueco para mover o intercambiar' : 'Toca un hueco para colocarlo',
+      selCanRemove: !!sl,
+      compactHint: compactHint,
+      showPick: tabs && !!s.pickFor && s.tab === 'lineup',
+      pickTitle: pickTitle,
+      pickGroups: pickGroups,
+      showConfirm: s.confirm,
+      showGhost: s.staticGhost && !!sp,
+      showToast: !!s.toast,
+      toast: s.toast || { title: '', sub: '' },
+      toastCls: 'toast' + (s.toast && s.toast.kind === 'warn' ? ' toast--warn' : ''),
+      showFold: !isDesk && H > 800,
+      tabLineupCls: 'tab' + (s.tab === 'lineup' ? ' is-active' : ''),
+      tabRosterCls: 'tab' + (s.tab === 'roster' ? ' is-active' : ''),
+      lineupCurrent: s.tab === 'lineup' ? 'page' : 'false',
+      rosterCurrent: s.tab === 'roster' ? 'page' : 'false',
+      stop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
+      onBackdrop: function () { const st = self.state; if (st.sel || st.pickFor || st.posFor) self.setState({ sel: null, pickFor: null, posFor: null }); },
+      onKey: function (e) { if (e.key === 'Escape') self.setState({ sel: null, pickFor: null, posFor: null, confirm: false, drag: null, over: null, staticGhost: false }); },
+      onCancel: H_(function () { self.setState({ sel: null, pickFor: null, drag: null, over: null, staticGhost: false }); }),
+      onRemoveSel: H_(function () { const l2 = self.state.sel && locate(self.state.pairs, self.state.sel.id); if (l2) self.remove(l2.pair, l2.side); }),
+      goLineup: H_(function () { self.setState({ tab: 'lineup', posFor: null, pickFor: null }); }),
+      goRoster: H_(function () { self.setState({ tab: 'roster', pickFor: null }); }),
+      onAskClear: H_(function () { self.setState({ confirm: true, sel: null, pickFor: null }); }),
+      onCancelClear: H_(function () { self.setState({ confirm: false }); }),
+      onConfirmClear: H_(function () {
+        self.setState({ confirm: false, pairs: self.state.pairs.map(function (x) { return { id: x.id, reves: null, derecha: null }; }) });
+        self.flash({ title: 'Alineación vacía', sub: 'Las posiciones preferentes se mantienen', kind: 'ok' });
+      }),
+      onCopy: H_(function () { self.copy(); }),
+      onShare: H_(function () { self.share(); }),
+      onRetry: H_(function () { self.setState({ load: 'loading' }); self.later(function () { self.setState({ load: 'ok' }); }, 900); }),
+      onRetryCached: H_(function () { self.setState({ cached: false }); self.flash({ title: 'Plantilla actualizada', sub: '17 jugadores descargados ahora', kind: 'ok' }); }),
+      onRosterDragOver: function (e) { const d = self.state.drag; if (d && d.from) e.preventDefault(); },
+      onRosterDrop: function (e) { const d = self.state.drag; if (d && d.from) { e.preventDefault(); const l3 = locate(self.state.pairs, d.id); if (l3) self.remove(l3.pair, l3.side); } }
+    };
+  }
+}
+</script>
+</body>
+</html>

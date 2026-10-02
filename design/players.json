@@ -1,0 +1,299 @@
+{
+  "_nota": "Datos reales del equipo (descargados de SNP el 2026-10-02 y normalizados). Las posiciones preferentes y la alineación son un EJEMPLO inventado para poder diseñar todos los estados.",
+  "teamName": "IMPACTO 360 MÁLAGA PADEL TEAM",
+  "players": [
+    {
+      "id": "349959",
+      "name": "David Gerardo Trujillo Vasquez",
+      "firstName": "David Gerardo",
+      "lastName": "Trujillo Vasquez",
+      "points": 78500,
+      "pointsLabel": "78.500",
+      "preferredSide": "REVES",
+      "inLineup": true
+    },
+    {
+      "id": "349876",
+      "name": "Francisco Zafra Del Moral",
+      "firstName": "Francisco",
+      "lastName": "Zafra Del Moral",
+      "points": 75468.75,
+      "pointsLabel": "75.468,75",
+      "preferredSide": "DERECHA",
+      "inLineup": true
+    },
+    {
+      "id": "312196",
+      "name": "Rafa Bonillo Saavedra",
+      "firstName": "Rafa",
+      "lastName": "Bonillo Saavedra",
+      "points": 73883.93,
+      "pointsLabel": "73.883,93",
+      "preferredSide": "REVES",
+      "inLineup": true
+    },
+    {
+      "id": "371440",
+      "name": "Mauro Stopiello",
+      "firstName": "Mauro",
+      "lastName": "Stopiello",
+      "points": 64375,
+      "pointsLabel": "64.375",
+      "preferredSide": "DERECHA",
+      "inLineup": true
+    },
+    {
+      "id": "316870",
+      "name": "Alexis Moreno López",
+      "firstName": "Alexis",
+      "lastName": "Moreno López",
+      "points": 57343.75,
+      "pointsLabel": "57.343,75",
+      "preferredSide": "AMBOS",
+      "inLineup": true
+    },
+    {
+      "id": "371443",
+      "name": "Luis Rodriguez Cortes",
+      "firstName": "Luis",
+      "lastName": "Rodriguez Cortes",
+      "points": 55500,
+      "pointsLabel": "55.500",
+      "preferredSide": "REVES",
+      "inLineup": true
+    },
+    {
+      "id": "371442",
+      "name": "Rodrigo Curci",
+      "firstName": "Rodrigo",
+      "lastName": "Curci",
+      "points": 53750,
+      "pointsLabel": "53.750",
+      "preferredSide": "DERECHA",
+      "inLineup": true
+    },
+    {
+      "id": "371444",
+      "name": "Pep Garau Vico",
+      "firstName": "Pep",
+      "lastName": "Garau Vico",
+      "points": 49583.33,
+      "pointsLabel": "49.583,33",
+      "preferredSide": "REVES",
+      "inLineup": true
+    },
+    {
+      "id": "349878",
+      "name": "Raul Garcia Raga",
+      "firstName": "Raul",
+      "lastName": "Garcia Raga",
+      "points": 49166.67,
+      "pointsLabel": "49.166,67",
+      "preferredSide": "DERECHA",
+      "inLineup": true
+    },
+    {
+      "id": "376655",
+      "name": "Javier Hurtado Martin",
+      "firstName": "Javier",
+      "lastName": "Hurtado Martin",
+      "points": 46406.25,
+      "pointsLabel": "46.406,25",
+      "preferredSide": "AMBOS",
+      "inLineup": false
+    },
+    {
+      "id": "369134",
+      "name": "Ezequiel Campins Biaus",
+      "firstName": "Ezequiel",
+      "lastName": "Campins Biaus",
+      "points": 39375,
+      "pointsLabel": "39.375",
+      "preferredSide": "DERECHA",
+      "inLineup": false
+    },
+    {
+      "id": "390344",
+      "name": "Félix Vidarte Vidarte",
+      "firstName": "Félix",
+      "lastName": "Vidarte Vidarte",
+      "points": 32875,
+      "pointsLabel": "32.875",
+      "preferredSide": "REVES",
+      "inLineup": false
+    },
+    {
+      "id": "409381",
+      "name": "Javier Ruiz Lopez",
+      "firstName": "Javier",
+      "lastName": "Ruiz Lopez",
+      "points": 15625,
+      "pointsLabel": "15.625",
+      "preferredSide": "SIN_ASIGNAR",
+      "inLineup": false
+    },
+    {
+      "id": "398470",
+      "name": "Pablo Parras Huerta",
+      "firstName": "Pablo",
+      "lastName": "Parras Huerta",
+      "points": 9375,
+      "pointsLabel": "9.375",
+      "preferredSide": "SIN_ASIGNAR",
+      "inLineup": false
+    },
+    {
+      "id": "331277",
+      "name": "Daniel Eliot Lolani García Fernandez",
+      "firstName": "Daniel Eliot Lolani",
+      "lastName": "García Fernandez",
+      "points": 3125,
+      "pointsLabel": "3.125",
+      "preferredSide": "SIN_ASIGNAR",
+      "inLineup": false
+    },
+    {
+      "id": "398538",
+      "name": "Paco Muro Correros",
+      "firstName": "Paco",
+      "lastName": "Muro Correros",
+      "points": 3125,
+      "pointsLabel": "3.125",
+      "preferredSide": "SIN_ASIGNAR",
+      "inLineup": false
+    },
+    {
+      "id": "398480",
+      "name": "Sebastien Sánchez Sánchez",
+      "firstName": "Sebastien",
+      "lastName": "Sánchez Sánchez",
+      "points": 0,
+      "pointsLabel": "0",
+      "preferredSide": "SIN_ASIGNAR",
+      "inLineup": false
+    }
+  ],
+  "exampleLineup": {
+    "_nota": "Estado guardado (orden interno arbitrario). La pareja 2 tiene un hueco vacío; Raul Garcia Raga es DERECHA pero está colocado en REVÉS (aviso de posición).",
+    "pairs": [
+      {
+        "id": "pair-1",
+        "reves": "371443",
+        "derecha": "371442"
+      },
+      {
+        "id": "pair-2",
+        "reves": "349878",
+        "derecha": null
+      },
+      {
+        "id": "pair-3",
+        "reves": "349959",
+        "derecha": "349876"
+      },
+      {
+        "id": "pair-4",
+        "reves": "371444",
+        "derecha": "316870"
+      },
+      {
+        "id": "pair-5",
+        "reves": "312196",
+        "derecha": "371440"
+      }
+    ],
+    "courtsAsDisplayed": [
+      {
+        "court": 1,
+        "pairId": "pair-3",
+        "pointsLabel": "153.968,75",
+        "reves": {
+          "id": "349959",
+          "name": "David Gerardo Trujillo Vasquez",
+          "pointsLabel": "78.500",
+          "positionMismatch": false
+        },
+        "derecha": {
+          "id": "349876",
+          "name": "Francisco Zafra Del Moral",
+          "pointsLabel": "75.468,75",
+          "positionMismatch": false
+        }
+      },
+      {
+        "court": 2,
+        "pairId": "pair-5",
+        "pointsLabel": "138.258,93",
+        "reves": {
+          "id": "312196",
+          "name": "Rafa Bonillo Saavedra",
+          "pointsLabel": "73.883,93",
+          "positionMismatch": false
+        },
+        "derecha": {
+          "id": "371440",
+          "name": "Mauro Stopiello",
+          "pointsLabel": "64.375",
+          "positionMismatch": false
+        }
+      },
+      {
+        "court": 3,
+        "pairId": "pair-1",
+        "pointsLabel": "109.250",
+        "reves": {
+          "id": "371443",
+          "name": "Luis Rodriguez Cortes",
+          "pointsLabel": "55.500",
+          "positionMismatch": false
+        },
+        "derecha": {
+          "id": "371442",
+          "name": "Rodrigo Curci",
+          "pointsLabel": "53.750",
+          "positionMismatch": false
+        }
+      },
+      {
+        "court": 4,
+        "pairId": "pair-4",
+        "pointsLabel": "106.927,08",
+        "reves": {
+          "id": "371444",
+          "name": "Pep Garau Vico",
+          "pointsLabel": "49.583,33",
+          "positionMismatch": false
+        },
+        "derecha": {
+          "id": "316870",
+          "name": "Alexis Moreno López",
+          "pointsLabel": "57.343,75",
+          "positionMismatch": false
+        }
+      },
+      {
+        "court": 5,
+        "pairId": "pair-2",
+        "pointsLabel": "49.166,67",
+        "reves": {
+          "id": "349878",
+          "name": "Raul Garcia Raga",
+          "pointsLabel": "49.166,67",
+          "positionMismatch": true
+        },
+        "derecha": null
+      }
+    ],
+    "totalPoints": 557571.43,
+    "totalPointsLabel": "557.571,43",
+    "playersInLineup": 9
+  },
+  "edgeCases": {
+    "longestName": "Daniel Eliot Lolani García Fernandez",
+    "zeroPoints": "Sebastien Sánchez Sánchez (aún no ha jugado partidos)",
+    "tiedPoints": "Daniel Eliot Lolani García Fernandez y Paco Muro Correros (3.125)",
+    "pointsRange": "0 a 78.500, con hasta 2 decimales",
+    "maxPairPoints": "~154.000",
+    "maxTotalPoints": "~600.000"
+  }
+}

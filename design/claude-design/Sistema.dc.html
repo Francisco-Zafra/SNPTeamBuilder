@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tokens de diseño</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.tk{font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#10140F;background:#F2F3EE;box-sizing:border-box}
+.tk *{box-sizing:border-box}
+.tk h1,.tk h2,.tk h3,.tk p{margin:0}
+.h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:56px;line-height:1;text-transform:uppercase}
+.h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;line-height:1.05;text-transform:uppercase;letter-spacing:.01em}
+.h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555E53}
+.lead{font-size:17px;color:#363D35;max-width:760px}
+.card{background:#FFFFFF;border:1px solid #D3D7CE;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.card--dark{background:#0D100C;border-color:#303730;color:#F3F6EF}
+.card--dark .h3{color:#A3AC9E}
+.sw{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;min-height:44px}
+.sw__c{width:44px;height:44px;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.card--dark .sw__c{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.sw__n{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;font-weight:700}
+.sw__u{font-size:13px;color:#555E53}
+.card--dark .sw__u{color:#A3AC9E}
+.sw__h{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.code{margin:0;padding:16px;border-radius:10px;background:#10140F;color:#E9EBE5;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;white-space:pre-wrap}
+.rule{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:10px 0;border-top:1px solid #D3D7CE;font-size:15px}
+.rule b{font-weight:700}
+</style>
+</helmet>
+<div class="tk" style="width: 1280px; height: 2000px; padding: 56px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h1 class="h1">Tokens de diseño</h1>
+<p class="lead">Variables CSS listas para React + Vite. Prefijos: --c color, --fs tamaño de letra, --sp espaciado, --r radio, --dur movimiento. Los colores se redefinen bajo [data-theme=dark] y prefers-color-scheme.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div class="card">
+<h2 class="h2">Color · claro</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px">
+<div class="sw"><span class="sw__c" style="background: #F2F3EE"></span><div><div class="sw__n">--c-bg</div><div class="sw__u">Fondo</div></div><span class="sw__h">#F2F3EE</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFFFFF"></span><div><div class="sw__n">--c-surface</div><div class="sw__u">Tarjetas, barras</div></div><span class="sw__h">#FFFFFF</span></div>
+<div class="sw"><span class="sw__c" style="background: #E9EBE5"></span><div><div class="sw__n">--c-surface-2</div><div class="sw__u">Hueco, alineado</div></div><span class="sw__h">#E9EBE5</span></div>
+<div class="sw"><span class="sw__c" style="background: #DDE0D8"></span><div><div class="sw__n">--c-surface-3</div><div class="sw__u">Progreso vacío</div></div><span class="sw__h">#DDE0D8</span></div>
+<div class="sw"><span class="sw__c" style="background: #10140F"></span><div><div class="sw__n">--c-ink</div><div class="sw__u">Texto, primario</div></div><span class="sw__h">#10140F</span></div>
+<div class="sw"><span class="sw__c" style="background: #363D35"></span><div><div class="sw__n">--c-ink-2</div><div class="sw__u">Texto secundario</div></div><span class="sw__h">#363D35</span></div>
+<div class="sw"><span class="sw__c" style="background: #555E53"></span><div><div class="sw__n">--c-ink-3</div><div class="sw__u">Etiquetas · 6,8:1</div></div><span class="sw__h">#555E53</span></div>
+<div class="sw"><span class="sw__c" style="background: #D3D7CE"></span><div><div class="sw__n">--c-line</div><div class="sw__u">Bordes</div></div><span class="sw__h">#D3D7CE</span></div>
+<div class="sw"><span class="sw__c" style="background: #7D867A"></span><div><div class="sw__n">--c-line-strong</div><div class="sw__u">Hueco vacío (discontinuo)</div></div><span class="sw__h">#7D867A</span></div>
+<div class="sw"><span class="sw__c" style="background: #D6F23A"></span><div><div class="sw__n">--c-select</div><div class="sw__u">Selección (bola)</div></div><span class="sw__h">#D6F23A</span></div>
+<div class="sw"><span class="sw__c" style="background: #F1FBC4"></span><div><div class="sw__n">--c-select-soft</div><div class="sw__u">Destino disponible</div></div><span class="sw__h">#F1FBC4</span></div>
+<div class="sw"><span class="sw__c" style="background: #1E4FD6"></span><div><div class="sw__n">--c-reves</div><div class="sw__u">Revés · texto blanco</div></div><span class="sw__h">#1E4FD6</span></div>
+<div class="sw"><span class="sw__c" style="background: #EE8636"></span><div><div class="sw__n">--c-derecha</div><div class="sw__u">Derecha · texto tinta</div></div><span class="sw__h">#EE8636</span></div>
+<div class="sw"><span class="sw__c" style="background: #79D3C1"></span><div><div class="sw__n">--c-ambos</div><div class="sw__u">Ambos · texto tinta</div></div><span class="sw__h">#79D3C1</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFFFFF; box-shadow: inset 0 0 0 2px #7D867A"></span><div><div class="sw__n">--c-none</div><div class="sw__u">Sin asignar (contorno)</div></div><span class="sw__h">#FFFFFF</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFF0C7"></span><div><div class="sw__n">--c-warn-soft</div><div class="sw__u">Aviso posición / caché</div></div><span class="sw__h">#FFF0C7</span></div>
+<div class="sw"><span class="sw__c" style="background: #8A5300"></span><div><div class="sw__n">--c-warn</div><div class="sw__u">Texto de aviso</div></div><span class="sw__h">#8A5300</span></div>
+<div class="sw"><span class="sw__c" style="background: #B42318"></span><div><div class="sw__n">--c-danger</div><div class="sw__u">Limpiar alineación</div></div><span class="sw__h">#B42318</span></div>
+</div>
+</div>
+
+<div class="card card--dark">
+<h2 class="h2">Color · oscuro</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px">
+<div class="sw"><span class="sw__c" style="background: #0D100C"></span><div><div class="sw__n">--c-bg</div><div class="sw__u">Fondo</div></div><span class="sw__h">#0D100C</span></div>
+<div class="sw"><span class="sw__c" style="background: #171B16"></span><div><div class="sw__n">--c-surface</div><div class="sw__u">Tarjetas, barras</div></div><span class="sw__h">#171B16</span></div>
+<div class="sw"><span class="sw__c" style="background: #232922"></span><div><div class="sw__n">--c-surface-2</div><div class="sw__u">Hueco, alineado</div></div><span class="sw__h">#232922</span></div>
+<div class="sw"><span class="sw__c" style="background: #2D342B"></span><div><div class="sw__n">--c-surface-3</div><div class="sw__u">Progreso vacío</div></div><span class="sw__h">#2D342B</span></div>
+<div class="sw"><span class="sw__c" style="background: #F3F6EF"></span><div><div class="sw__n">--c-ink</div><div class="sw__u">Texto, primario</div></div><span class="sw__h">#F3F6EF</span></div>
+<div class="sw"><span class="sw__c" style="background: #CCD3C7"></span><div><div class="sw__n">--c-ink-2</div><div class="sw__u">Texto secundario</div></div><span class="sw__h">#CCD3C7</span></div>
+<div class="sw"><span class="sw__c" style="background: #A3AC9E"></span><div><div class="sw__n">--c-ink-3</div><div class="sw__u">Etiquetas</div></div><span class="sw__h">#A3AC9E</span></div>
+<div class="sw"><span class="sw__c" style="background: #303730"></span><div><div class="sw__n">--c-line</div><div class="sw__u">Bordes</div></div><span class="sw__h">#303730</span></div>
+<div class="sw"><span class="sw__c" style="background: #6B7566"></span><div><div class="sw__n">--c-line-strong</div><div class="sw__u">Hueco vacío</div></div><span class="sw__h">#6B7566</span></div>
+<div class="sw"><span class="sw__c" style="background: #D6F23A"></span><div><div class="sw__n">--c-select</div><div class="sw__u">Selección (igual)</div></div><span class="sw__h">#D6F23A</span></div>
+<div class="sw"><span class="sw__c" style="background: #2C330E"></span><div><div class="sw__n">--c-select-soft</div><div class="sw__u">Destino disponible</div></div><span class="sw__h">#2C330E</span></div>
+<div class="sw"><span class="sw__c" style="background: #7397FF"></span><div><div class="sw__n">--c-reves</div><div class="sw__u">Revés · texto #0A1230</div></div><span class="sw__h">#7397FF</span></div>
+<div class="sw"><span class="sw__c" style="background: #FF9C55"></span><div><div class="sw__n">--c-derecha</div><div class="sw__u">Derecha · texto tinta</div></div><span class="sw__h">#FF9C55</span></div>
+<div class="sw"><span class="sw__c" style="background: #8BE3D1"></span><div><div class="sw__n">--c-ambos</div><div class="sw__u">Ambos · texto tinta</div></div><span class="sw__h">#8BE3D1</span></div>
+<div class="sw"><span class="sw__c" style="background: #171B16; box-shadow: inset 0 0 0 2px #6B7566"></span><div><div class="sw__n">--c-none</div><div class="sw__u">Sin asignar (contorno)</div></div><span class="sw__h">#171B16</span></div>
+<div class="sw"><span class="sw__c" style="background: #382A06"></span><div><div class="sw__n">--c-warn-soft</div><div class="sw__u">Aviso posición / caché</div></div><span class="sw__h">#382A06</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFCB5C"></span><div><div class="sw__n">--c-warn</div><div class="sw__u">Texto de aviso</div></div><span class="sw__h">#FFCB5C</span></div>
+<div class="sw"><span class="sw__c" style="background: #FF7B6E"></span><div><div class="sw__n">--c-danger</div><div class="sw__u">Limpiar · texto tinta</div></div><span class="sw__h">#FF7B6E</span></div>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px">
+<div class="card">
+<h2 class="h2">Tipografía</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="h3">--font-display · Barlow Condensed 600/700</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 44px; line-height: 1">557.571,43</span>
+<span style="font-size: 14px; color: #363D35">Cabecera, número de pista y todos los puntos (tabular-nums). Condensada: cabe el nombre del equipo en una línea a 360 px.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="h3">--font-body · Atkinson Hyperlegible 400/700</span>
+<span style="font-weight: 700; font-size: 26px; line-height: 1.1">Daniel Eliot Lolani García Fernandez</span>
+<span style="font-size: 14px; color: #363D35">Nombres y texto. Diseñada para baja visión: letras como I/l/1 y 0/O inconfundibles a pleno sol.</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 0">
+<div class="rule"><span class="mono">--fs-3xl 34</span><span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 34px; line-height: 1">Total 557.571,43 pts</span></div>
+<div class="rule"><span class="mono">--fs-2xl 28</span><span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 28px; line-height: 1">¿Limpiar alineación?</span></div>
+<div class="rule"><span class="mono">--fs-xl 22</span><span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px">Plantilla · 17 jugadores</span></div>
+<div class="rule"><span class="mono">--fs-lg 18</span><span style="font-size: 18px; font-weight: 700">Letra de posición R · D · A · –</span></div>
+<div class="rule"><span class="mono">--fs-md 16</span><span style="font-size: 16px; font-weight: 700">Francisco Zafra Del Moral</span></div>
+<div class="rule"><span class="mono">--fs-sm 14</span><span style="font-size: 14px">Toca un hueco para colocarlo</span></div>
+<div class="rule"><span class="mono">--fs-xs 12</span><span style="font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase">Total alineación</span></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px">
+<div class="card">
+<h2 class="h2">Espaciado y radios</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-1</span><span style="width: 4px; height: 16px; background: #10140F"></span><span class="mono">4</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-2</span><span style="width: 8px; height: 16px; background: #10140F"></span><span class="mono">8</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-3</span><span style="width: 12px; height: 16px; background: #10140F"></span><span class="mono">12 · margen lateral</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-4</span><span style="width: 16px; height: 16px; background: #10140F"></span><span class="mono">16</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-6</span><span style="width: 24px; height: 16px; background: #10140F"></span><span class="mono">24</span></div>
+<div style="display: flex; align-items: center; gap: 12px"><span class="mono" style="width: 90px">--sp-8</span><span style="width: 32px; height: 16px; background: #10140F"></span><span class="mono">32</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><span style="width: 52px; height: 52px; border: 2px solid #10140F; border-radius: 6px"></span><span class="mono">--r-sm 6</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><span style="width: 52px; height: 52px; border: 2px solid #10140F; border-radius: 10px"></span><span class="mono">--r-md 10</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><span style="width: 52px; height: 52px; border: 2px solid #10140F; border-radius: 14px"></span><span class="mono">--r-lg 14</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><span style="width: 52px; height: 52px; border: 2px solid #10140F; border-radius: 20px"></span><span class="mono">--r-xl 20</span></div>
+</div>
+</div>
+<div class="card">
+<h2 class="h2">Toque y movimiento</h2>
+<div class="rule" style="border-top: 0"><span class="mono">--tap 44</span><span>Mínimo de cualquier zona táctil. Huecos 48, filas 60, botones 48.</span></div>
+<div class="rule"><span class="mono">--dur-reorder 180ms</span><span>Recolocación de pistas y entrada de hojas.</span></div>
+<div class="rule"><span class="mono">--dur-fast 120ms</span><span>Pulsado y cambios de color.</span></div>
+<div class="rule"><span class="mono">--ease</span><span class="mono">cubic-bezier(.2,.8,.2,1)</span></div>
+<div class="rule"><span class="mono">reduced-motion</span><span>Sin animaciones ni transiciones.</span></div>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px">
+<div class="card">
+<h2 class="h2">tokens.css</h2>
+<pre class="code">:root {
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --fs-xs: 12px; --fs-sm: 14px; --fs-md: 16px; --fs-lg: 18px;
+  --fs-xl: 22px; --fs-2xl: 28px; --fs-3xl: 34px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-pill: 999px;
+  --tap: 44px;
+  --dur-fast: 120ms; --dur-reorder: 180ms; --ease: cubic-bezier(.2,.8,.2,1);
+
+  --c-bg: #F2F3EE; --c-surface: #FFFFFF; --c-surface-2: #E9EBE5; --c-surface-3: #DDE0D8;
+  --c-ink: #10140F; --c-ink-2: #363D35; --c-ink-3: #555E53;
+  --c-line: #D3D7CE; --c-line-strong: #7D867A;
+  --c-primary: #10140F; --c-on-primary: #FFFFFF;
+  --c-select: #D6F23A; --c-on-select: #10140F; --c-select-soft: #F1FBC4;
+  --c-reves: #1E4FD6; --c-on-reves: #FFFFFF; --c-reves-ink: #1E4FD6;
+  --c-derecha: #EE8636; --c-on-derecha: #10140F; --c-derecha-ink: #9A3A06;
+  --c-ambos: #79D3C1; --c-on-ambos: #10140F;
+  --c-none: #FFFFFF; --c-on-none: #363D35;
+  --c-warn: #8A5300; --c-warn-soft: #FFF0C7; --c-warn-line: #E2BE5C;
+  --c-danger: #B42318; --c-on-danger: #FFFFFF;
+  --c-scrim: rgba(10,12,9,.5);
+  --shadow-sheet: 0 -10px 30px rgba(16,20,15,.18);
+  --shadow-lift: 0 14px 30px rgba(16,20,15,.30);
+}
+:root[data-theme="dark"] {
+  --c-bg: #0D100C; --c-surface: #171B16; --c-surface-2: #232922; --c-surface-3: #2D342B;
+  --c-ink: #F3F6EF; --c-ink-2: #CCD3C7; --c-ink-3: #A3AC9E;
+  --c-line: #303730; --c-line-strong: #6B7566;
+  --c-primary: #F3F6EF; --c-on-primary: #10140F;
+  --c-select-soft: #2C330E;
+  --c-reves: #7397FF; --c-on-reves: #0A1230; --c-reves-ink: #9DB5FF;
+  --c-derecha: #FF9C55; --c-derecha-ink: #FFB27D;
+  --c-ambos: #8BE3D1;
+  --c-none: #171B16; --c-on-none: #CCD3C7;
+  --c-warn: #FFCB5C; --c-warn-soft: #382A06; --c-warn-line: #6B5414;
+  --c-danger: #FF7B6E; --c-on-danger: #10140F;
+  --c-scrim: rgba(0,0,0,.62);
+}
+/* Repetir el bloque oscuro dentro de
+   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { … } } */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}</pre>
+</div>
+
+<div class="card">
+<h2 class="h2">Reglas de contenido</h2>
+<div class="rule" style="border-top: 0"><b>Nombre en hueco</b><span>Primer nombre + apellidos, una línea, elipsis si no cabe: «Daniel García Fernandez». Nombre completo en aria-label y title.</span></div>
+<div class="rule"><b>Nombre compacto</b><span>Inicial + primer apellido en la hoja de huecos: «D. García».</span></div>
+<div class="rule"><b>Nombre en plantilla</b><span>Completo, hasta dos líneas. Nunca se trunca.</span></div>
+<div class="rule"><b>Puntos</b><span>Formato es-ES con punto de miles siempre (también 3.125, que Intl es-ES no agrupa por defecto), hasta 2 decimales sin ceros finales: 78.500 · 75.468,75 · 0 pts.</span></div>
+<div class="rule"><b>Orden de pistas</b><span>Suma de la pareja descendente. Empate: orden de creación de la pareja. Pistas vacías al final.</span></div>
+<div class="rule"><b>Orden en plantilla</b><span>Puntos descendentes; empate alfabético (Daniel antes que Paco a 3.125).</span></div>
+<div class="rule"><b>Aviso</b><span>Solo Revés en Derecha o Derecha en Revés. Ambos y Sin asignar nunca avisan.</span></div>
+<div class="rule"><b>Color</b><span>Revés oscuro, Derecha medio, Ambos claro: se distinguen por luminosidad y siempre van con su letra.</span></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

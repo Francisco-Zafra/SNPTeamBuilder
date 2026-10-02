@@ -1,0 +1,70 @@
+/* Tokens del diseño (design/claude-design/Sistema.dc.html). */
+:root {
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs: 12px; --fs-sm: 14px; --fs-md: 16px; --fs-lg: 18px;
+  --fs-xl: 22px; --fs-2xl: 28px; --fs-3xl: 34px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-pill: 999px;
+  --tap: 44px;
+  --dur-fast: 120ms; --dur-reorder: 180ms; --ease: cubic-bezier(.2, .8, .2, 1);
+
+  --c-bg: #F2F3EE; --c-surface: #FFFFFF; --c-surface-2: #E9EBE5; --c-surface-3: #DDE0D8;
+  --c-ink: #10140F; --c-ink-2: #363D35; --c-ink-3: #555E53;
+  --c-line: #D3D7CE; --c-line-strong: #7D867A;
+  --c-primary: #10140F; --c-on-primary: #FFFFFF;
+  --c-select: #D6F23A; --c-on-select: #10140F; --c-select-soft: #F1FBC4;
+  --c-reves: #1E4FD6; --c-on-reves: #FFFFFF; --c-reves-ink: #1E4FD6;
+  --c-derecha: #EE8636; --c-on-derecha: #10140F; --c-derecha-ink: #9A3A06;
+  --c-ambos: #79D3C1; --c-on-ambos: #10140F;
+  --c-none: #FFFFFF; --c-on-none: #363D35;
+  --c-warn: #8A5300; --c-warn-soft: #FFF0C7; --c-warn-line: #E2BE5C;
+  --c-danger: #B42318; --c-on-danger: #FFFFFF;
+  --c-scrim: rgba(10, 12, 9, .5);
+  --shadow-sheet: 0 -10px 30px rgba(16, 20, 15, .18);
+  --shadow-lift: 0 14px 30px rgba(16, 20, 15, .30);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-bg: #0D100C; --c-surface: #171B16; --c-surface-2: #232922; --c-surface-3: #2D342B;
+    --c-ink: #F3F6EF; --c-ink-2: #CCD3C7; --c-ink-3: #A3AC9E;
+    --c-line: #303730; --c-line-strong: #6B7566;
+    --c-primary: #F3F6EF; --c-on-primary: #10140F;
+    --c-select-soft: #2C330E;
+    --c-reves: #7397FF; --c-on-reves: #0A1230; --c-reves-ink: #9DB5FF;
+    --c-derecha: #FF9C55; --c-derecha-ink: #FFB27D;
+    --c-ambos: #8BE3D1;
+    --c-none: #171B16; --c-on-none: #CCD3C7;
+    --c-warn: #FFCB5C; --c-warn-soft: #382A06; --c-warn-line: #6B5414;
+    --c-danger: #FF7B6E; --c-on-danger: #10140F;
+    --c-scrim: rgba(0, 0, 0, .62);
+    --shadow-sheet: 0 -10px 30px rgba(0, 0, 0, .5);
+    --shadow-lift: 0 14px 30px rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --c-bg: #0D100C; --c-surface: #171B16; --c-surface-2: #232922; --c-surface-3: #2D342B;
+  --c-ink: #F3F6EF; --c-ink-2: #CCD3C7; --c-ink-3: #A3AC9E;
+  --c-line: #303730; --c-line-strong: #6B7566;
+  --c-primary: #F3F6EF; --c-on-primary: #10140F;
+  --c-select-soft: #2C330E;
+  --c-reves: #7397FF; --c-on-reves: #0A1230; --c-reves-ink: #9DB5FF;
+  --c-derecha: #FF9C55; --c-derecha-ink: #FFB27D;
+  --c-ambos: #8BE3D1;
+  --c-none: #171B16; --c-on-none: #CCD3C7;
+  --c-warn: #FFCB5C; --c-warn-soft: #382A06; --c-warn-line: #6B5414;
+  --c-danger: #FF7B6E; --c-on-danger: #10140F;
+  --c-scrim: rgba(0, 0, 0, .62);
+  --shadow-sheet: 0 -10px 30px rgba(0, 0, 0, .5);
+  --shadow-lift: 0 14px 30px rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
