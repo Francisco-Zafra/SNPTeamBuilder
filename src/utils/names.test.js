@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compactName, mediumName, shortName } from "./names.js";
+import { compactName, mediumName, shortName, uniqueShortNames } from "./names.js";
 
 const daniel = {
   name: "Daniel Eliot Lolani García Fernandez",
@@ -26,6 +26,18 @@ describe("alias", () => {
     expect(shortName(fran)).toBe("Fran");
     expect(mediumName(fran)).toBe("Fran");
     expect(compactName(fran)).toBe("Fran");
+  });
+});
+
+describe("uniqueShortNames", () => {
+  it("alias o nombre de pila; inicial solo si dos coinciden", () => {
+    const names = uniqueShortNames([
+      { id: "1", name: "Fran", alias: "Fran", firstName: "Francisco", lastName: "Zafra Del Moral" },
+      { id: "2", name: "David Gerardo Trujillo Vasquez", firstName: "David Gerardo", lastName: "Trujillo Vasquez" },
+      { id: "3", name: "Javier Hurtado Martin", firstName: "Javier", lastName: "Hurtado Martin" },
+      { id: "4", name: "Javier Ruiz Lopez", firstName: "Javier", lastName: "Ruiz Lopez" },
+    ]);
+    expect([...names.values()]).toEqual(["Fran", "David", "Javier H.", "Javier R."]);
   });
 });
 

@@ -105,8 +105,8 @@ export function useLineupBuilder({ roster, isDesktop }) {
   const totalPoints = getTotalPoints(courts);
   const count = countPlacedPlayers(courts);
   const copyText = useMemo(
-    () => buildLineupText({ lineupName: activeLineup?.name, courts }),
-    [activeLineup?.name, courts]
+    () => buildLineupText({ lineupName: activeLineup?.name, lineupDate: activeLineup?.date, courts }),
+    [activeLineup?.name, activeLineup?.date, courts]
   );
 
   // Cambios llegados de otro dispositivo en la alineación activa: aviso y resalte de pistas.

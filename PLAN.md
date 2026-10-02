@@ -490,22 +490,22 @@ El valor numérico interno no se modifica. El redondeo es solo de presentación,
 
 ## 17. Copiar alineación
 
-Botón **Copiar alineación** que genera texto listo para WhatsApp. El título es el nombre de la alineación, con negritas de WhatsApp (`*…*`) y **sin puntos**:
+Botón **Copiar alineación** que genera texto compacto para WhatsApp: una línea por pista, **sin puntos**, con negritas de WhatsApp (`*…*`) y algún emoji. El título es el nombre de la alineación y, si tiene fecha, «nombre - fecha»:
 
 ```text
-*Jornada 4 · vs Pádel Indoor Sur*
+🎾 *Jornada 4 · vs Pádel Indoor Sur - Sáb 10/10*
 
-*Pista 1*
-R: David Gerardo Trujillo Vasquez
-D: Francisco Zafra Del Moral
+*Pista 1:* David - Fran
+*Pista 2:* Rafa - Mauro
+*Pista 3:* Luis - Rodrigo
+*Pista 4:* Pep - Alexis
+*Pista 5:* Raul - Javier
 
-*Pista 2*
-R: Raul Garcia Raga
-D: —
-…
+💪 ¡Vamos equipo!
 ```
 
-- Pistas en el mismo orden que en pantalla. Los huecos vacíos se muestran como `—`.
+- Nombres: el alias si lo tiene; si no, el nombre de pila. Si en la alineación coinciden dos nombres, se añade la inicial del apellido («Javier H.» / «Javier R.»). Primero va el de revés y después el de derecha.
+- Pistas en el mismo orden que en pantalla. Un hueco vacío se muestra como `—`, y una pista vacía entera como `—`.
 - Usar `navigator.clipboard.writeText` (GitHub Pages sirve por HTTPS). Confirmar con un aviso breve, «Alineación copiada».
 - Si el portapapeles falla, mostrar el texto en un cuadro seleccionable para copiarlo a mano.
 - Opcional: si `navigator.share` está disponible (móvil), ofrecer también **Compartir**, que abre la hoja nativa.
