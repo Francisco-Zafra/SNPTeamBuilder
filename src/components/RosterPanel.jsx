@@ -5,7 +5,7 @@ import { formatPoints } from "../utils/format.js";
 import { Icon } from "./Icon.jsx";
 import { SideBadge } from "./SideBadge.jsx";
 
-export function RosterPanel({ groups, total, locations, selectedId, dragId, posFor, dropEnabled, shared, actions }) {
+export function RosterPanel({ groups, total, locations, selectedId, dragId, posFor, dropEnabled, shared, locked, actions }) {
   const { setNodeRef } = useDroppable({ id: "roster", data: { type: "roster" }, disabled: !dropEnabled });
 
   return (
@@ -33,6 +33,7 @@ export function RosterPanel({ groups, total, locations, selectedId, dragId, posF
                 dragging={dragId === player.id}
                 editing={posFor === player.id}
                 shared={shared}
+                locked={locked}
                 actions={actions}
               />
             ))}
@@ -43,11 +44,12 @@ export function RosterPanel({ groups, total, locations, selectedId, dragId, posF
   );
 }
 
-function PlayerRow({ player, location, selected, dragging, editing, shared, actions }) {
+function PlayerRow({ player, location, selected, dragging, editing, shared, locked, actions }) {
   const { setNodeRef, listeners, attributes } = useDraggable({
     id: `player:${player.id}`,
     data: { playerId: player.id, from: null },
     attributes: { roleDescription: "arrastrable" },
+    disabled: locked,
   });
 
   const side = sideMeta(player.preferredSide);
@@ -76,8 +78,7 @@ function PlayerRow({ player, location, selected, dragging, editing, shared, acti
           type="button"
           className="row__main"
           ref={setNodeRef}
-          {...attributes}
-          {...listeners}
+          {...(locked ? {} : { ...attributes, ...listeners })}
           onClick={() => actions.tapPlayer(player.id)}
           aria-pressed={selected}
           aria-label={`${player.name}, ${points} puntos, ${

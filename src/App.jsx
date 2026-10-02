@@ -15,6 +15,19 @@ import { LineupPanel } from "./components/LineupPanel.jsx";
 import { PlaceSheet } from "./components/PlaceSheet.jsx";
 import { RosterPanel } from "./components/RosterPanel.jsx";
 import { ConfirmClearSheet, PickSheet } from "./components/Sheets.jsx";
+import {
+  DeleteLineupSheet,
+  DeletedSheet,
+  InvalidLinkScreen,
+  InviteSheet,
+  JoinSheet,
+  LeaveSheet,
+  LineupFormSheet,
+  LineupsSheet,
+  OfflineBar,
+  SpaceHeader,
+  WelcomeScreen,
+} from "./components/SpaceUI.jsx";
 import { CachedBanner, ErrorState, LoadingState, Toast } from "./components/States.jsx";
 import { useLineupBuilder } from "./hooks/useLineupBuilder.js";
 import { useMediaQuery } from "./hooks/useMediaQuery.js";
@@ -43,7 +56,7 @@ const DND_ACCESSIBILITY = {
 };
 
 // Toques fuera de botones y hojas cancelan la selección.
-const KEEP_SELECTION = "button, [role=dialog], [role=alertdialog], .p-compact, .posed";
+const KEEP_SELECTION = "button, input, label, [role=dialog], [role=alertdialog], .p-compact, .posed";
 
 export default function App() {
   const roster = useRoster();
@@ -65,12 +78,17 @@ export default function App() {
     );
   }
 
-  const { actions } = b;
+  const { actions, space: sp, sync } = b;
+  const shared = sync.mode === "shared";
+  const locked = sync.state === "offline";
   const canAct = b.count > 0;
   const hasPlace = !isDesktop && b.tab === "roster" && b.selectedPlayer != null;
   const hasSelBar = !isDesktop && b.tab === "lineup" && b.selectedId != null;
   const rootCls =
-    `app ${layoutCls} t-${b.tab}` + (hasPlace ? " has-place" : "") + (hasSelBar ? " has-selbar" : "");
+    `app ${layoutCls} t-${b.tab} v2` +
+    (hasPlace ? " has-place" : "") +
+    (hasSelBar ? " has-selbar" : "") +
+    (locked ? " is-locked" : "");
 
   const onBackdropClick = (e) => {
     if (!e.target.closest(KEEP_SELECTION)) actions.cancel();
@@ -78,13 +96,20 @@ export default function App() {
 
   return (
     <div className={rootCls} onClick={onBackdropClick}>
-      <Header
+      <SpaceHeader
         teamName={roster.teamName}
+        shared={shared}
+        syncAvailable={sync.available}
+        activeLineup={b.activeLineup}
+        syncState={sync.state}
         canAct={canAct}
+        onOpenLists={sp.lists.open}
+        onOpenSpace={sp.space.open}
         onClear={actions.askClear}
         onShare={actions.share}
         onCopy={actions.copy}
       />
+      {locked && <OfflineBar />}
       {roster.status === "stale" && (
         <CachedBanner fetchedAt={roster.fetchedAt} refreshing={roster.refreshing} onRetry={actions.retry} />
       )}
@@ -107,8 +132,9 @@ export default function App() {
             dragId={b.drag?.playerId ?? null}
             posFor={b.posFor}
             // Soltar en la plantilla quita al jugador (solo tiene efecto si viene de un hueco).
-            dropEnabled={isDesktop}
-            shared={b.sync.mode === "shared"}
+            dropEnabled={isDesktop && !locked}
+            shared={shared}
+            locked={locked}
             actions={actions}
           />
           <LineupPanel
@@ -119,6 +145,13 @@ export default function App() {
             isDesktop={isDesktop}
             selectedPlayer={b.selectedPlayer}
             dropEnabled={isDesktop || b.tab === "lineup"}
+            locked={locked}
+            changed={b.changed}
+            hasLineup={b.activeLineup != null || !sync.ready}
+            emptyText={
+              shared ? "Crea la primera; el equipo la verá al momento." : "Crea la primera para empezar a montar parejas."
+            }
+            onNewLineup={sp.lists.openNew}
             actions={actions}
           />
           {hasPlace && (
@@ -163,6 +196,34 @@ export default function App() {
       {b.confirmOpen && (
         <ConfirmClearSheet count={b.count} onConfirm={actions.confirmClear} onCancel={actions.cancelClear} />
       )}
+      {sp.sheet === "lists" && (
+        <LineupsSheet
+          lineups={b.lineups}
+          activeId={b.activeLineup?.id}
+          menuFor={sp.menuFor}
+          playersById={b.playersById}
+          shared={shared}
+          locked={b.sync.readOnly}
+          lists={sp.lists}
+          onShareSpace={sync.available ? sp.space.open : null}
+        />
+      )}
+      {sp.form && <LineupFormSheet form={sp.form} lineups={b.lineups} playersById={b.playersById} lists={sp.lists} />}
+      {sp.deleteTarget && (
+        <DeleteLineupSheet
+          target={sp.deleteTarget}
+          lineups={b.lineups}
+          activeId={b.activeLineup?.id}
+          shared={shared}
+          lists={sp.lists}
+        />
+      )}
+      {sp.teamSheet === "join" && <JoinSheet joinText={sp.joinText} space={sp.space} />}
+      {sp.teamSheet === "invite" && <InviteSheet link={sync.inviteLink} syncState={sync.state} space={sp.space} />}
+      {sp.teamSheet === "leave" && <LeaveSheet space={sp.space} />}
+      {sp.deletedNotice && <DeletedSheet notice={sp.deletedNotice} space={sp.space} />}
+      {sync.welcome && <WelcomeScreen teamName={roster.teamName} space={sp.space} />}
+      {sync.invalid && <InvalidLinkScreen code={sync.teamCode} space={sp.space} />}
       {b.drag && <DragTip />}
       {b.toast && <Toast key={b.toast.key} toast={b.toast} />}
     </div>

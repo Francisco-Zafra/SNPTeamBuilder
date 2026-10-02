@@ -8,8 +8,9 @@ const slotLine = (label, slot) =>
     : `  ${label}: ${EMPTY_SLOT}`;
 
 /** Texto plano de la alineación para pegar en WhatsApp. `courts` viene de `getCourts`. */
-export function buildLineupText({ teamName, courts, totalPoints }) {
-  const title = teamName ? `${teamName} — Alineación` : "Alineación";
+export function buildLineupText({ teamName, lineupName, courts, totalPoints }) {
+  const name = lineupName || "Alineación";
+  const title = teamName ? `${teamName} — ${name}` : name;
 
   const blocks = courts.map((c) =>
     [

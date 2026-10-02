@@ -35,6 +35,10 @@ body{margin:0}
 --c-scrim:rgba(10,12,9,.5);
 --shadow-sheet:0 -10px 30px rgba(16,20,15,.18);
 --shadow-lift:0 14px 30px rgba(16,20,15,.30);
+--c-sync-ok:#17733A;
+--c-offline:#9A2C12;--c-offline-soft:#FBE3DA;--c-offline-line:#E7A48F;
+--c-changed:#08719A;--c-on-changed:#FFFFFF;--c-changed-soft:#DDF1F8;
+--dur-changed:2400ms;
 }
 .app[data-theme=dark]{
 --c-bg:#0D100C;--c-surface:#171B16;--c-surface-2:#232922;--c-surface-3:#2D342B;
@@ -51,6 +55,9 @@ body{margin:0}
 --c-scrim:rgba(0,0,0,.62);
 --shadow-sheet:0 -10px 30px rgba(0,0,0,.5);
 --shadow-lift:0 14px 30px rgba(0,0,0,.6);
+--c-sync-ok:#6FD38E;
+--c-offline:#FF9C80;--c-offline-soft:#3A160C;--c-offline-line:#7A3420;
+--c-changed:#5CC8F0;--c-on-changed:#06202A;--c-changed-soft:#0C2C38;
 }
 @media (prefers-color-scheme: dark){.app[data-theme=auto]{
 --c-bg:#0D100C;--c-surface:#171B16;--c-surface-2:#232922;--c-surface-3:#2D342B;
@@ -65,6 +72,9 @@ body{margin:0}
 --c-warn:#FFCB5C;--c-warn-soft:#382A06;--c-warn-line:#6B5414;
 --c-danger:#FF7B6E;--c-on-danger:#10140F;
 --c-scrim:rgba(0,0,0,.62);
+--c-sync-ok:#6FD38E;
+--c-offline:#FF9C80;--c-offline-soft:#3A160C;--c-offline-line:#7A3420;
+--c-changed:#5CC8F0;--c-on-changed:#06202A;--c-changed-soft:#0C2C38;
 }}
 .app{position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box;background:var(--c-bg);color:var(--c-ink);font-family:var(--font-body);font-size:var(--fs-md);line-height:1.3;-webkit-tap-highlight-color:transparent}
 .app *,.app *::before,.app *::after{box-sizing:border-box}
@@ -339,6 +349,119 @@ body{margin:0}
 .fold{position:absolute;left:0;right:0;z-index:60;border-top:2px dashed #E0218A;pointer-events:none}
 .fold span{position:absolute;right:6px;top:-22px;padding:2px 6px;border-radius:4px;background:#E0218A;color:#FFFFFF;font-size:11px;font-weight:700}
 
+/* ===== v2 · espacio compartido y varias alineaciones ===== */
+.hdr--v2{flex-direction:column;align-items:stretch;gap:4px;height:112px;padding:6px 8px 8px 16px}
+.hdr__r1{display:flex;align-items:center;gap:8px;height:44px}
+.hdr__r2{display:flex;align-items:center;gap:6px}
+.hdr--v2 .hdr__mark{width:30px;height:30px;border-radius:8px}
+.hdr--v2 .hdr__mark .ic{width:20px;height:20px}
+.hdr--v2 .hdr__team{flex:1;min-width:0;font-size:18px}
+.teambtn{height:44px;min-width:44px;flex:none;border:0;border-radius:var(--r-md);background:transparent;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;font-weight:700;font-size:var(--fs-sm);color:var(--c-ink)}
+.teambtn--cta{background:var(--c-ink);color:var(--c-bg)}
+.teambtn--icon{width:44px;padding:0;background:var(--c-surface-2)}
+.lsel{flex:1;min-width:0;height:48px;display:flex;align-items:center;gap:8px;padding:0 6px 0 12px;border:2px solid var(--c-line);border-radius:var(--r-md);background:var(--c-bg);text-align:left}
+.lsel:active{border-color:var(--c-ink)}
+.lsel__txt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.15}
+.lsel__eye{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lsel__name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sync{position:relative;height:48px;min-width:44px;flex:none;border:0;border-radius:var(--r-md);display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;font-size:13px;font-weight:700;background:transparent;color:var(--c-ink-3);white-space:nowrap}
+.sync--ok{color:var(--c-sync-ok);padding:0;width:44px}
+.sync--ok .sync__lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.sync--saving{color:var(--c-ink-2)}
+.sync--offline{background:var(--c-offline-soft);color:var(--c-offline);box-shadow:inset 0 0 0 1px var(--c-offline-line)}
+.sync--local{background:var(--c-surface-2);color:var(--c-ink-2)}
+.sync .spinner{width:16px;height:16px;border-width:2px}
+.l-desktop .hdr--v2{flex-direction:row;align-items:center;height:72px;padding:10px 24px;gap:12px}
+.l-desktop .hdr__r1{flex:none;gap:10px}
+.l-desktop .hdr__r2{flex:1;min-width:0;max-width:500px}
+.offbar{flex:none;display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--c-offline-soft);border-bottom:1px solid var(--c-offline-line)}
+.offbar .ic{color:var(--c-offline)}
+.offbar__t{font-weight:700;font-size:var(--fs-sm);color:var(--c-offline)}
+.offbar__s{font-size:13px;color:var(--c-ink-2);line-height:1.25}
+.is-locked .slot__x,.is-locked .slot__plus,.is-locked .row__pos .ic{display:none}
+.is-locked .slot.is-empty{border:2px solid var(--c-line);background:var(--c-surface-2)}
+.is-locked .slot.is-empty .slot__side{box-shadow:none;background:var(--c-surface-3);color:var(--c-ink-3)}
+.is-locked .slot__tap,.is-locked .row__main,.is-locked .row__pos,.is-locked .cslot{cursor:not-allowed}
+.is-locked .row__pos{opacity:.7}
+.slot__lock{width:44px;height:44px;flex:none;display:grid;place-items:center;color:var(--c-ink-3)}
+.court.is-changed{border:2px solid var(--c-changed);background:var(--c-changed-soft);animation:changedIn var(--dur-changed) var(--ease)}
+.court__chg{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:var(--r-pill);background:var(--c-changed);color:var(--c-on-changed);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.toast--info .toast__ic{background:var(--c-changed);color:var(--c-on-changed)}
+.sheet--list{max-height:88%}
+.lnew{padding:12px 16px 6px}
+.lrow{border-bottom:1px solid var(--c-line)}
+.lrow.is-active{background:var(--c-select-soft)}
+.lrow__line{display:flex;align-items:center;padding-right:6px}
+.lrow__main{flex:1;min-width:0;min-height:76px;display:flex;align-items:flex-start;gap:12px;padding:12px 6px 12px 16px;border:0;background:none;text-align:left}
+.lrow__radio{width:24px;height:24px;flex:none;margin-top:1px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--c-line-strong);display:grid;place-items:center}
+.lrow.is-active .lrow__radio{background:var(--c-select);color:var(--c-on-select);box-shadow:inset 0 0 0 2px var(--c-ink)}
+.lrow__txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.lrow__name{font-weight:700;font-size:var(--fs-md);line-height:1.2}
+.lrow__meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;font-size:13px;font-weight:700;color:var(--c-ink-2)}
+.lrow__meta .num{font-size:16px}
+.lrow__mod{font-size:12px;color:var(--c-ink-3)}
+.lrow__acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:0 12px 12px 52px}
+.sep{color:var(--c-ink-3)}
+.btn--dangersoft{background:var(--c-surface);color:var(--c-danger);box-shadow:inset 0 0 0 2px var(--c-line)}
+.btn--dangerghost{background:transparent;color:var(--c-danger);box-shadow:inset 0 0 0 2px var(--c-danger)}
+.lempty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:28px 24px 12px}
+.lempty .state__ic{margin-bottom:4px}
+.lempty__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xl);line-height:1.1}
+.lempty__p{font-size:var(--fs-sm);color:var(--c-ink-2);max-width:260px}
+.lcard{margin:16px;padding:14px;border-radius:var(--r-lg);border:1px dashed var(--c-line-strong);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.lcard__t{font-weight:700}
+.lcard__s{font-size:var(--fs-sm);color:var(--c-ink-2);margin-bottom:4px}
+.sheet--form{max-height:94%}
+.form{display:flex;flex-direction:column;gap:16px;padding:16px;overflow-y:auto}
+.fld{display:flex;flex-direction:column;gap:6px;border:0;margin:0;padding:0;min-width:0}
+.fld__l{font-weight:700;font-size:var(--fs-sm);padding:0;margin-bottom:6px}
+.fld__opt{font-weight:400;color:var(--c-ink-3)}
+.inp{height:48px;width:100%;border-radius:var(--r-md);border:2px solid var(--c-line-strong);background:var(--c-surface);color:var(--c-ink);font:inherit;font-size:var(--fs-md);padding:0 12px}
+.inp:focus{outline:none;border-color:var(--c-ink);box-shadow:0 0 0 3px var(--c-select)}
+.inp.is-invalid{border-color:var(--c-danger)}
+.fld__err{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--c-danger)}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 12px;border-radius:var(--r-md);border:2px solid var(--c-line);background:var(--c-surface);cursor:pointer}
+.opt.is-on{border-color:var(--c-ink);background:var(--c-select-soft)}
+.opt input{width:20px;height:20px;margin:0;flex:none;accent-color:#10140F}
+.opt__txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.opt__t{font-weight:700;font-size:var(--fs-sm);line-height:1.25}
+.opt__s{font-size:12px;color:var(--c-ink-3)}
+.sheet__foot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px 16px 16px;border-top:1px solid var(--c-line)}
+.confirm__ic--ok{background:var(--c-select);color:var(--c-on-select)}
+.confirm__ic--ink{color:var(--c-ink)}
+.checks{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:8px}
+.checks li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);font-weight:700;color:var(--c-ink-2)}
+.checks .ic{color:var(--c-sync-ok)}
+.linkbox{padding:12px;border-radius:var(--r-md);background:var(--c-surface-2);border:2px dashed var(--c-line-strong);font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;font-weight:700;word-break:break-all;color:var(--c-ink)}
+.note{font-size:13px;color:var(--c-ink-3)}
+.syncline{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);font-weight:700;color:var(--c-sync-ok)}
+.syncline--off{color:var(--c-offline)}
+.syncline--saving{color:var(--c-ink-2)}
+.divider{height:1px;background:var(--c-line);margin:6px 0}
+.btnrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.joinrow{display:flex;gap:8px}
+.joinrow .inp{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+.screen{position:absolute;inset:0;z-index:70;background:var(--c-bg);display:flex;flex-direction:column;gap:16px;padding:32px 20px 20px;overflow-y:auto}
+.screen__mark{width:56px;height:56px;border-radius:16px;background:var(--c-ink);color:var(--c-select);display:grid;place-items:center}
+.screen__mark .ic{width:34px;height:34px;stroke-width:1.8}
+.screen__mark--err{background:var(--c-surface-2);color:var(--c-ink-2)}
+.screen__t{font-family:var(--font-display);font-weight:700;font-size:var(--fs-3xl);line-height:1;text-transform:uppercase}
+.screen__t--plain{text-transform:none}
+.screen__p{color:var(--c-ink-2)}
+.screen__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.screen__list li{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:var(--r-lg);background:var(--c-surface);border:1px solid var(--c-line);font-weight:700;font-size:var(--fs-sm);line-height:1.3}
+.screen__list .ic{color:var(--c-ink)}
+.screen__foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-weight:700;background:var(--c-surface-2);padding:1px 6px;border-radius:5px}
+.alt-tab3 .tabbar{grid-template-columns:repeat(3,minmax(0,1fr))}
+.alt-tab3.t-lists .sheet--list{top:112px;bottom:60px;max-height:none;border-radius:0;box-shadow:none;animation:none;z-index:5}
+.alt-tab3.t-lists .sheet--list .grab{display:none}
+.l-desktop .scrim{background:rgba(10,12,9,.28)}
+.l-desktop .sheet{left:50%;right:auto;top:50%;bottom:auto;width:440px;max-height:720px;transform:translate(-50%,-50%);border-radius:var(--r-xl);animation:none}
+.l-desktop .sheet--list{left:360px;top:66px;transform:none;width:480px;box-shadow:var(--shadow-lift)}
+.l-desktop .sheet .grab{display:none}
+@keyframes changedIn{0%{box-shadow:0 0 0 10px var(--c-changed-soft)}100%{box-shadow:0 0 0 0 var(--c-changed-soft)}}
 @keyframes sheetUp{from{transform:translateY(28px);opacity:0}to{transform:none;opacity:1}}
 @keyframes toastIn{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -350,6 +473,7 @@ body{margin:0}
 </helmet>
 <div class="{{rootCls}}" data-theme="{{theme}}" style="width: {{W}}px; height: {{H}}px" onClick="{{onBackdrop}}" onKeyDown="{{onKey}}">
 
+<sc-if value="{{notV2}}" hint-placeholder-val="{{true}}">
 <header class="hdr">
 <span class="hdr__mark" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6c3.2 2.4 3.2 10.4 0 12.8"></path><path d="M18.4 5.6c-3.2 2.4-3.2 10.4 0 12.8"></path></svg></span>
 <div class="hdr__txt">
@@ -362,6 +486,42 @@ body{margin:0}
 <button type="button" class="btn btn--primary" onClick="{{onCopy}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar alineación</button>
 </div>
 </header>
+</sc-if>
+
+<sc-if value="{{v2}}" hint-placeholder-val="{{false}}">
+<header class="hdr hdr--v2">
+<div class="hdr__r1">
+<span class="hdr__mark" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6c3.2 2.4 3.2 10.4 0 12.8"></path><path d="M18.4 5.6c-3.2 2.4-3.2 10.4 0 12.8"></path></svg></span>
+<h1 class="hdr__team">IMPACTO 360 MÁLAGA PADEL TEAM</h1>
+<button type="button" class="{{teamBtnCls}}" onClick="{{openTeam}}" aria-label="{{teamBtnAria}}"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg><sc-if value="{{teamBtnHasLabel}}" hint-placeholder-val="{{false}}"><span>Compartir</span></sc-if></button>
+</div>
+<div class="hdr__r2">
+<button type="button" class="lsel" onClick="{{openLists}}" aria-label="{{lselAria}}">
+<span class="lsel__txt"><span class="lsel__eye">{{activeEyebrow}}</span><span class="lsel__name">{{activeName}}</span></span>
+<svg class="ic" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"></path></svg>
+</button>
+<button type="button" class="{{syncCls}}" onClick="{{openTeam}}" aria-label="{{syncAria}}">
+<sc-if value="{{syncIsOk}}" hint-placeholder-val="{{true}}"><svg class="ic" viewBox="0 0 24 24"><path d="M7 18.5h10.5a4 4 0 0 0 .6-8 6 6 0 0 0-11.6 1.6A3.3 3.3 0 0 0 7 18.5z"></path><path d="M9.5 13.8l2 2 3.5-3.6"></path></svg></sc-if>
+<sc-if value="{{syncIsSaving}}" hint-placeholder-val="{{false}}"><span class="spinner" aria-hidden="true"></span></sc-if>
+<sc-if value="{{syncIsOffline}}" hint-placeholder-val="{{false}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M3 3l18 18"></path><path d="M8 18.5h9.5"></path><path d="M20.5 15.5a4 4 0 0 0-2.4-5 6 6 0 0 0-7.4-4.6"></path><path d="M6.8 8.2a6 6 0 0 0-.3 3.9A3.3 3.3 0 0 0 7 18.5"></path></svg></sc-if>
+<sc-if value="{{syncIsLocal}}" hint-placeholder-val="{{false}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><path d="M11 18h2"></path></svg></sc-if>
+<span class="sync__lbl">{{syncLabel}}</span>
+</button>
+</div>
+<div class="hdr__actions">
+<button type="button" class="btn btn--ghost" onClick="{{onAskClear}}" disabled="{{clearDisabled}}"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg>Limpiar</button>
+<button type="button" class="btn btn--soft" onClick="{{onShare}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Compartir</button>
+<button type="button" class="btn btn--primary" onClick="{{onCopy}}" disabled="{{copyDisabled}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar alineación</button>
+</div>
+</header>
+</sc-if>
+
+<sc-if value="{{showOffline}}" hint-placeholder-val="{{false}}">
+<div class="offbar" role="status">
+<svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7.5a4 4 0 0 1 8 0V11"></path></svg>
+<div><div class="offbar__t">Sin conexión · solo lectura</div><div class="offbar__s">Puedes ver y copiar. Podrás editar al volver la conexión.</div></div>
+</div>
+</sc-if>
 
 <sc-if value="{{showCached}}" hint-placeholder-val="{{false}}">
 <div class="banner" role="status">
@@ -427,7 +587,7 @@ body{margin:0}
 <button type="button" class="{{o.cls}}" aria-pressed="{{o.pressed}}" onClick="{{o.onTap}}"><span class="{{o.badgeCls}}">{{o.letter}}</span><span>{{o.label}}</span></button>
 </sc-for>
 </div>
-<p class="posed__note">Se guarda en este dispositivo. Ambos y Sin asignar nunca generan aviso.</p>
+<p class="posed__note">{{posNote}}</p>
 </div>
 </sc-if>
 </div>
@@ -437,6 +597,15 @@ body{margin:0}
 </section>
 
 <section class="p-lineup" aria-label="Alineación">
+<sc-if value="{{noActive}}" hint-placeholder-val="{{false}}">
+<div class="lempty" style="padding-top: 56px">
+<div class="state__ic"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M4 12h16"></path><path d="M12 7v10"></path></svg></div>
+<h2 class="lempty__t">Aún no hay alineaciones</h2>
+<p class="lempty__p">{{noActiveText}}</p>
+<button type="button" class="btn btn--primary" style="min-width: 220px; margin-top: 8px" onClick="{{onNew}}" disabled="{{locked}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Crear alineación</button>
+</div>
+</sc-if>
+<sc-if value="{{hasActive}}" hint-placeholder-val="{{true}}">
 <div class="sum">
 <div class="sum__row">
 <div>
@@ -473,10 +642,11 @@ body{margin:0}
 
 <div class="courts" style="height: {{courtsH}}px">
 <sc-for list="{{courts}}" as="c" hint-placeholder-count="5">
-<article class="court" style="transform: translateY({{c.y}}px)" aria-label="{{c.aria}}">
+<article class="{{c.cls}}" style="transform: translateY({{c.y}}px)" aria-label="{{c.aria}}">
 <div class="court__head">
 <span class="court__badge">{{c.no}}</span>
 <span class="court__title">Pista {{c.no}}</span>
+<sc-if value="{{c.changed}}" hint-placeholder-val="{{false}}"><span class="court__chg">Actualizada</span></sc-if>
 <sc-if value="{{c.warn}}" hint-placeholder-val="{{false}}"><span class="court__warn" title="Hay un jugador fuera de su posición preferente"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg></span></sc-if>
 <span class="court__pts">{{c.sumLabel}} <span class="unit">pts</span></span>
 </div>
@@ -497,12 +667,14 @@ body{margin:0}
 </button>
 <sc-if value="{{sl.filled}}" hint-placeholder-val="{{true}}"><button type="button" class="slot__x" onClick="{{sl.onRemove}}" aria-label="{{sl.removeAria}}"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button></sc-if>
 <sc-if value="{{sl.empty}}" hint-placeholder-val="{{false}}"><span class="slot__plus" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></sc-if>
+<sc-if value="{{sl.lockShow}}" hint-placeholder-val="{{false}}"><span class="slot__lock" aria-hidden="true"><svg class="ic ic--sm" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7.5a4 4 0 0 1 8 0V11"></path></svg></span></sc-if>
 </div>
 </sc-for>
 </div>
 </article>
 </sc-for>
 </div>
+</sc-if>
 </section>
 
 <section class="p-compact" aria-label="Elegir hueco" onClick="{{stop}}">
@@ -565,6 +737,12 @@ body{margin:0}
 <span class="tab__row"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"></path><path d="M18 14.6a6.5 6.5 0 0 1 3.5 5.4"></path></svg><span class="tab__badge">17</span></span>
 <span>Plantilla</span>
 </button>
+<sc-if value="{{alt}}" hint-placeholder-val="{{false}}">
+<button type="button" class="{{tabListsCls}}" onClick="{{goLists}}" aria-current="{{listsCurrent}}">
+<span class="tab__row"><svg class="ic" viewBox="0 0 24 24"><path d="M8 6h12"></path><path d="M8 12h12"></path><path d="M8 18h12"></path><path d="M4 6h.01"></path><path d="M4 12h.01"></path><path d="M4 18h.01"></path></svg><span class="tab__badge">{{listCount}}</span></span>
+<span>Alineaciones</span>
+</button>
+</sc-if>
 </nav>
 </sc-if>
 
@@ -604,6 +782,240 @@ body{margin:0}
 </section>
 </sc-if>
 
+<sc-if value="{{showLists}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{showListsScrim}}" hint-placeholder-val="{{true}}"><button type="button" class="scrim" onClick="{{onCloseSheets}}" aria-label="Cerrar"></button></sc-if>
+<section class="sheet sheet--list" role="dialog" aria-label="Alineaciones" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="sheet__head">
+<div style="flex: 1; min-width: 0"><div class="eyebrow">{{listsEyebrow}}</div><div class="sheet__title">Alineaciones</div></div>
+<sc-if value="{{showListsScrim}}" hint-placeholder-val="{{true}}"><button type="button" class="iconbtn" onClick="{{onCloseSheets}}" aria-label="Cerrar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button></sc-if>
+</div>
+<div class="sheet__body">
+<div class="lnew"><button type="button" class="btn btn--primary btn--block" onClick="{{onNew}}" disabled="{{locked}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Nueva alineación</button></div>
+<sc-if value="{{listEmpty}}" hint-placeholder-val="{{false}}">
+<div class="lempty">
+<div class="state__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M8 6h12"></path><path d="M8 12h12"></path><path d="M8 18h12"></path><path d="M4 6h.01"></path><path d="M4 12h.01"></path><path d="M4 18h.01"></path></svg></div>
+<h3 class="lempty__t">Aún no hay alineaciones</h3>
+<p class="lempty__p">{{noActiveText}}</p>
+</div>
+</sc-if>
+<sc-for list="{{listItems}}" as="li" hint-placeholder-count="3">
+<div class="{{li.cls}}">
+<div class="lrow__line">
+<button type="button" class="lrow__main" onClick="{{li.onPick}}" aria-current="{{li.current}}">
+<span class="lrow__radio" aria-hidden="true"><sc-if value="{{li.isActive}}" hint-placeholder-val="{{false}}"><svg class="ic ic--xs" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span>
+<span class="lrow__txt">
+<span class="lrow__name">{{li.name}}</span>
+<span class="lrow__meta"><sc-if value="{{li.hasDate}}" hint-placeholder-val="{{true}}"><span>{{li.date}}</span><span class="sep">·</span></sc-if><span><span class="num">{{li.total}}</span> pts</span><span class="sep">·</span><span><span class="num">{{li.count}}</span>/10</span></span>
+<span class="lrow__mod">Modificada {{li.modified}}</span>
+</span>
+</button>
+<button type="button" class="iconbtn" onClick="{{li.onMenu}}" aria-label="{{li.menuAria}}" aria-expanded="{{li.menuOpen}}" disabled="{{locked}}"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h.01"></path><path d="M12 12h.01"></path><path d="M19 12h.01"></path></svg></button>
+</div>
+<sc-if value="{{li.menuOpen}}" hint-placeholder-val="{{false}}">
+<div class="lrow__acts">
+<button type="button" class="btn btn--soft btn--sm" onClick="{{li.onRename}}">Renombrar</button>
+<button type="button" class="btn btn--soft btn--sm" onClick="{{li.onDuplicate}}">Duplicar</button>
+<button type="button" class="btn btn--dangersoft btn--sm" onClick="{{li.onDelete}}">Borrar</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<sc-if value="{{showLocalCard}}" hint-placeholder-val="{{false}}">
+<div class="lcard">
+<div class="lcard__t">Solo en este dispositivo</div>
+<p class="lcard__s">Con un espacio compartido, el equipo ve y edita estas alineaciones en tiempo real.</p>
+<button type="button" class="btn btn--soft btn--sm" onClick="{{openTeam}}">Compartir con el equipo</button>
+</div>
+</sc-if>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showForm}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCancelForm}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--form" role="dialog" aria-label="{{formTitle}}" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="sheet__head">
+<div style="flex: 1; min-width: 0"><div class="sheet__title">{{formTitle}}</div></div>
+<button type="button" class="iconbtn" onClick="{{onCancelForm}}" aria-label="Cerrar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+<div class="form">
+<div class="fld">
+<label class="fld__l" for="ln-name" style="margin-bottom: 0">Nombre</label>
+<input id="ln-name" class="{{nameCls}}" type="text" value="{{form.name}}" onChange="{{onFormName}}" placeholder="Ej.: Jornada 5 · vs Club Y" aria-invalid="{{nameInvalid}}" aria-describedby="ln-err">
+<sc-if value="{{formError}}" hint-placeholder-val="{{false}}"><p id="ln-err" class="fld__err"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"></path><path d="M12 10v4.5"></path><path d="M12 17.5h.01"></path></svg>Escribe un nombre para la alineación.</p></sc-if>
+</div>
+<div class="fld">
+<label class="fld__l" for="ln-date" style="margin-bottom: 0">Fecha <span class="fld__opt">(opcional)</span></label>
+<input id="ln-date" class="inp" type="date" value="{{form.date}}" onChange="{{onFormDate}}">
+</div>
+<sc-if value="{{formIsNew}}" hint-placeholder-val="{{false}}">
+<fieldset class="fld">
+<legend class="fld__l">Empezar desde</legend>
+<div class="opts">
+<sc-for list="{{fromOpts}}" as="o" hint-placeholder-count="4">
+<label class="{{o.cls}}"><input type="radio" name="ln-from" checked="{{o.checked}}" onChange="{{o.onPick}}"><span class="opt__txt"><span class="opt__t">{{o.title}}</span><span class="opt__s">{{o.sub}}</span></span></label>
+</sc-for>
+</div>
+</fieldset>
+</sc-if>
+</div>
+<div class="sheet__foot">
+<button type="button" class="btn btn--soft" onClick="{{onCancelForm}}">Cancelar</button>
+<button type="button" class="btn btn--primary" onClick="{{onSubmitForm}}">{{formSubmit}}</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showDel}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCancelDel}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--confirm" role="alertdialog" aria-label="Borrar alineación" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg></div>
+<h2 class="confirm__t">¿Borrar «{{delName}}»?</h2>
+<p class="confirm__p">{{delText}}</p>
+<button type="button" class="btn btn--danger btn--block" onClick="{{onConfirmDel}}">Sí, borrar alineación</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onCancelDel}}">Cancelar</button>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamLocal}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cerrar"></button>
+<section class="sheet sheet--confirm" role="dialog" aria-label="Compartir con el equipo" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic confirm__ic--ink"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M19 8v6"></path><path d="M16 11h6"></path></svg></div>
+<h2 class="confirm__t">Comparte con el equipo</h2>
+<p class="confirm__p">Ahora todo está solo en este dispositivo. Con un espacio compartido, capitán y jugadores ven y editan lo mismo en tiempo real.</p>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onAskCreate}}">Crear espacio compartido</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onOpenJoin}}">Unirme con un enlace</button>
+<p class="note">Sin cuentas ni contraseñas: el enlace es la llave del espacio.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamCreate}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--confirm" role="alertdialog" aria-label="Crear espacio" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<h2 class="confirm__t" style="margin-top: 8px">¿Crear el espacio del equipo?</h2>
+<ul class="checks">
+<li><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Se suben tus {{listCount}} alineaciones y las posiciones preferentes.</li>
+<li><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Se genera un enlace secreto para mandar al grupo de WhatsApp.</li>
+<li><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Quien tenga el enlace podrá ver y editar.</li>
+</ul>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onConfirmCreate}}">Crear espacio</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onCloseTeam}}">Cancelar</button>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamCreated}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cerrar"></button>
+<section class="sheet sheet--confirm" role="dialog" aria-label="Espacio creado" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic confirm__ic--ok"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+<h2 class="confirm__t">Espacio creado</h2>
+<p class="confirm__p">Comparte este enlace con el equipo. Quien lo abra entrará directamente.</p>
+<div class="linkbox">{{link}}</div>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onShareLink}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Compartir enlace</button>
+<div class="btnrow">
+<button type="button" class="btn btn--soft" onClick="{{onCopyLink}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar</button>
+<button type="button" class="btn btn--soft" onClick="{{onCloseTeam}}">Hecho</button>
+</div>
+<p class="note">No lo publiques fuera del equipo: cualquiera con el enlace puede editar.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamJoin}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--confirm" role="dialog" aria-label="Unirme a un espacio" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<h2 class="confirm__t" style="margin-top: 8px">Unirme a un espacio</h2>
+<div class="fld">
+<label class="fld__l" for="join-link" style="margin-bottom: 0">Enlace del equipo</label>
+<div class="joinrow">
+<input id="join-link" class="inp" type="url" value="{{joinText}}" onChange="{{onJoinText}}" placeholder="Pega aquí el enlace">
+<button type="button" class="btn btn--soft" onClick="{{onPasteJoin}}">Pegar</button>
+</div>
+<p class="note">El que te ha mandado el capitán por WhatsApp.</p>
+</div>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onSubmitJoin}}" disabled="{{joinDisabled}}">Unirme</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onCloseTeam}}">Cancelar</button>
+<p class="note">Lo que tienes en este dispositivo se queda aquí: lo recuperas si sales del espacio.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamInvite}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cerrar"></button>
+<section class="sheet sheet--confirm" role="dialog" aria-label="Espacio del equipo" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="eyebrow" style="margin-top: 8px">Espacio del equipo</div>
+<h2 class="confirm__t">Invitar al equipo</h2>
+<p class="{{syncLineCls}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M7 18.5h10.5a4 4 0 0 0 .6-8 6 6 0 0 0-11.6 1.6A3.3 3.3 0 0 0 7 18.5z"></path></svg>{{syncLineText}}</p>
+<div class="linkbox">{{link}}</div>
+<div class="btnrow">
+<button type="button" class="btn btn--primary" onClick="{{onShareLink}}"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Compartir</button>
+<button type="button" class="btn btn--soft" onClick="{{onCopyLink}}"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h8"></path></svg>Copiar</button>
+</div>
+<div class="divider"></div>
+<button type="button" class="btn btn--dangerghost btn--block" onClick="{{onAskLeave}}"><svg class="ic" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path><path d="M10 16l-4-4 4-4"></path><path d="M6 12h10"></path></svg>Salir del espacio en este dispositivo</button>
+<p class="note">El espacio sigue existiendo para el resto del equipo.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{showTeamLeave}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onCloseTeam}}" aria-label="Cancelar"></button>
+<section class="sheet sheet--confirm" role="alertdialog" aria-label="Salir del espacio" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path><path d="M10 16l-4-4 4-4"></path><path d="M6 12h10"></path></svg></div>
+<h2 class="confirm__t">¿Salir del espacio?</h2>
+<p class="confirm__p">Este dispositivo olvidará el enlace y volverá al modo local, con lo que tenías antes de unirte. Las alineaciones siguen en el espacio para el equipo. Para volver necesitarás el enlace.</p>
+<button type="button" class="btn btn--danger btn--block" onClick="{{onConfirmLeave}}">Salir del espacio</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onCloseTeam}}">Cancelar</button>
+</section>
+</sc-if>
+
+<sc-if value="{{showDeleted}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" onClick="{{onAckDeleted}}" aria-label="Cerrar"></button>
+<section class="sheet sheet--confirm" role="alertdialog" aria-label="Alineación borrada" onClick="{{stop}}">
+<span class="grab" aria-hidden="true"></span>
+<div class="confirm__ic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg></div>
+<h2 class="confirm__t">Esta alineación ya no existe</h2>
+<p class="confirm__p">«{{deletedName}}» se ha borrado desde otro dispositivo. Ahora ves «{{deletedNow}}».</p>
+<button type="button" class="btn btn--primary btn--block" onClick="{{onAckDeleted}}">Entendido</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onDeletedLists}}">Ver alineaciones</button>
+</section>
+</sc-if>
+
+<sc-if value="{{showWelcome}}" hint-placeholder-val="{{false}}">
+<section class="screen" role="dialog" aria-label="Bienvenida al espacio del equipo">
+<span class="screen__mark" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6c3.2 2.4 3.2 10.4 0 12.8"></path><path d="M18.4 5.6c-3.2 2.4-3.2 10.4 0 12.8"></path></svg></span>
+<div class="eyebrow">Te has unido al espacio de</div>
+<h1 class="screen__t">IMPACTO 360 MÁLAGA PADEL TEAM</h1>
+<ul class="screen__list">
+<li><svg class="ic" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"></path><path d="M20 4v7h-7"></path></svg>Ves y editas las mismas alineaciones que el resto del equipo, en tiempo real.</li>
+<li><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"></path><path d="M18 14.6a6.5 6.5 0 0 1 3.5 5.4"></path></svg>Las posiciones preferentes de los jugadores son comunes para todos.</li>
+<li><svg class="ic" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><path d="M11 18h2"></path></svg>Este dispositivo recordará el espacio: la próxima vez entras directamente.</li>
+</ul>
+<div class="screen__foot">
+<button type="button" class="btn btn--primary btn--block" onClick="{{onEnterSpace}}">Entrar</button>
+<p class="note" style="text-align: center">Sin cuenta: el enlace es la llave. No lo compartas fuera del equipo.</p>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showInvalid}}" hint-placeholder-val="{{false}}">
+<section class="screen" role="alertdialog" aria-label="Enlace no válido">
+<span class="screen__mark screen__mark--err" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M9.5 14.5l5-5"></path><path d="M11 6.5l1.2-1.2a4.2 4.2 0 0 1 6 6L17 12.5"></path><path d="M13 17.5l-1.2 1.2a4.2 4.2 0 0 1-6-6L7 11.5"></path><path d="M3 3l3 3"></path><path d="M21 21l-3-3"></path></svg></span>
+<h1 class="screen__t screen__t--plain">Este enlace no funciona</h1>
+<p class="screen__p">El código <span class="code">{{badCode}}</span> no corresponde a ningún espacio. Puede que esté mal copiado o que el espacio ya no exista.</p>
+<p class="screen__p">Pide al capitán que te lo vuelva a enviar.</p>
+<div class="screen__foot">
+<button type="button" class="btn btn--primary btn--block" onClick="{{onInvalidPaste}}">Pegar otro enlace</button>
+<button type="button" class="btn btn--soft btn--block" onClick="{{onInvalidLocal}}">Seguir en modo local</button>
+</div>
+</section>
+</sc-if>
+
 <sc-if value="{{showGhost}}" hint-placeholder-val="{{false}}">
 <div class="dragtip"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M12 3v18"></path><path d="M3 12h18"></path><path d="M9 6l3-3 3 3"></path><path d="M9 18l3 3 3-3"></path></svg>Suelta en un hueco · fuera para cancelar</div>
 <div class="ghost" style="left: 178px; bottom: 104px">
@@ -615,7 +1027,7 @@ body{margin:0}
 
 <sc-if value="{{showToast}}" hint-placeholder-val="{{false}}">
 <div class="{{toastCls}}" role="status" aria-live="polite">
-<span class="toast__ic"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<span class="toast__ic"><sc-if value="{{toastNotInfo}}" hint-placeholder-val="{{true}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if><sc-if value="{{toastIsInfo}}" hint-placeholder-val="{{false}}"><svg class="ic ic--sm" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"></path><path d="M20 4v7h-7"></path></svg></sc-if></span>
 <div><div class="toast__t">{{toast.title}}</div><div class="toast__s">{{toast.sub}}</div></div>
 </div>
 </sc-if>
@@ -625,7 +1037,7 @@ body{margin:0}
 </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"scenario":{"editor":"enum","options":["partial","roster","selected","selectedSlot","pick","position","dragging","loading","error","cached","empty","full","confirm","copied"],"default":"partial"},"layout":{"editor":"enum","options":["tabs","stacked","desktop"],"default":"tabs"},"theme":{"editor":"enum","options":["light","dark","auto"],"default":"light"},"height":{"editor":"int","default":1120,"min":600,"max":1400},"$preview":{"width":360,"height":1120}}'>
+<script type="text/x-dc" data-dc-script data-props='{"scenario":{"editor":"enum","options":["partial","roster","selected","selectedSlot","pick","position","dragging","loading","error","cached","empty","full","confirm","copied","c_shared","c_local","c_localTeam","c_createConfirm","c_created","c_join","c_welcome","c_invalid","c_lists","c_listsOne","c_listsEmpty","c_new","c_rename","c_delete","c_saving","c_offline","c_offlineRoster","c_remote","c_deleted","c_invite","c_leave","c_alt","c_desk"],"default":"partial"},"v2":{"editor":"boolean","default":false},"alt":{"editor":"enum","options":["none","tab3"],"default":"none"},"layout":{"editor":"enum","options":["tabs","stacked","desktop"],"default":"tabs"},"theme":{"editor":"enum","options":["light","dark","auto"],"default":"light"},"height":{"editor":"int","default":1120,"min":600,"max":1400},"$preview":{"width":360,"height":1120}}'>
 const TEAM = 'IMPACTO 360 MÁLAGA PADEL TEAM';
 const PLAYERS = [
   { id: '349959', name: 'David Gerardo Trujillo Vasquez', first: 'David Gerardo', last: 'Trujillo Vasquez', points: 78500, side: 'REVES' },
@@ -666,6 +1078,42 @@ const EX_PAIRS = [
   { id: 'pair-4', reves: '371444', derecha: '316870' },
   { id: 'pair-5', reves: '312196', derecha: '371440' }
 ];
+const LINK = 'https://[tu-dominio]/SNPTeamBuilder/#k=x7Fq92Lm';
+const CODE = 'x7Fq92Lm';
+const L_PAIRS = {
+  l4: EX_PAIRS,
+  l3: [
+    { id: 'pair-1', reves: '349959', derecha: '349876' },
+    { id: 'pair-2', reves: '312196', derecha: '371440' },
+    { id: 'pair-3', reves: '371443', derecha: '316870' },
+    { id: 'pair-4', reves: '390344', derecha: '371442' },
+    { id: 'pair-5', reves: '371444', derecha: '369134' }
+  ],
+  lp: [
+    { id: 'pair-1', reves: '349959', derecha: '349876' },
+    { id: 'pair-2', reves: '312196', derecha: '371440' },
+    { id: 'pair-3', reves: '371443', derecha: '371442' },
+    { id: 'pair-4', reves: null, derecha: null },
+    { id: 'pair-5', reves: null, derecha: null }
+  ]
+};
+const LINEUPS = [
+  { id: 'l4', name: 'Jornada 4 · vs Pádel Indoor Sur', dateRaw: '2026-10-10', modified: 'hace 5 min' },
+  { id: 'l3', name: 'Jornada 3 · vs Club X', dateRaw: '2026-09-26', modified: 'hace 6 días' },
+  { id: 'lp', name: 'Previa liga', dateRaw: '', modified: 'hace 3 semanas' }
+];
+const DAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+function fmtDate(raw) {
+  if (!raw) return '';
+  const d = new Date(raw + 'T12:00:00');
+  if (isNaN(d.getTime())) return '';
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  return DAYS[d.getDay()] + ' ' + dd + '/' + mm;
+}
+function clonePairs(ps) { return ps.map(function (x) { return Object.assign({}, x); }); }
+function emptyPairs() { return EX_PAIRS.map(function (x) { return { id: x.id, reves: null, derecha: null }; }); }
+function isV2(p) { return p.v2 === true || p.v2 === '1' || p.v2 === 'true'; }
 
 function fmt(n) {
   const r = Math.round(n * 100) / 100;
@@ -714,6 +1162,43 @@ function initState(p) {
   if (scn === 'dragging') { s.tab = 'roster'; s.drag = { id: '376655' }; s.over = 'pair-2:derecha'; s.staticGhost = true; }
   if (scn === 'confirm') { s.confirm = true; }
   if (scn === 'copied') { s.toast = { title: 'Alineación copiada', sub: 'Pégala en el grupo de WhatsApp', kind: 'ok' }; }
+  // v2 · espacio compartido y varias alineaciones
+  s.mode = 'shared'; s.sync = 'ok';
+  s.lineups = LINEUPS.map(function (l) { return Object.assign({}, l, { date: fmtDate(l.dateRaw), pairs: clonePairs(L_PAIRS[l.id]) }); });
+  s.activeId = 'l4'; s.sheet = null; s.menuFor = null; s.form = null; s.del = null; s.team = null; s.screen = null;
+  s.joinText = ''; s.badCode = ''; s.changed = []; s.deletedNotice = null;
+  const local = function () { s.mode = 'local'; s.sync = 'local'; };
+  if (scn === 'c_local') local();
+  if (scn === 'c_localTeam') { local(); s.team = 'local'; }
+  if (scn === 'c_createConfirm') { local(); s.team = 'createConfirm'; }
+  if (scn === 'c_created') { s.team = 'created'; }
+  if (scn === 'c_join') { local(); s.team = 'join'; s.joinText = LINK; }
+  if (scn === 'c_welcome') { s.screen = 'welcome'; }
+  if (scn === 'c_invalid') { local(); s.screen = 'invalid'; s.badCode = 'x7Fq92Lx'; }
+  if (scn === 'c_lists') { s.sheet = 'lists'; s.menuFor = 'lp'; }
+  if (scn === 'c_listsOne') { s.lineups = s.lineups.slice(0, 1); s.sheet = 'lists'; }
+  if (scn === 'c_listsEmpty') { s.lineups = []; s.activeId = null; s.pairs = emptyPairs(); s.sheet = 'lists'; }
+  if (scn === 'c_new') { s.form = { mode: 'new', name: 'Jornada 5', date: '2026-10-17', from: 'l4', error: false }; }
+  if (scn === 'c_rename') { s.form = { mode: 'rename', id: 'lp', name: '', date: '', error: true }; }
+  if (scn === 'c_delete') { s.del = 'lp'; }
+  if (scn === 'c_saving') { s.sync = 'saving'; s.lineups[0].modified = 'ahora mismo'; }
+  if (scn === 'c_offline') { s.sync = 'offline'; s.toast = { title: 'Sin conexión: no se puede editar', sub: 'Puedes ver y copiar la alineación. Podrás editar al volver la conexión.', kind: 'warn' }; }
+  if (scn === 'c_offlineRoster') { s.sync = 'offline'; s.tab = 'roster'; }
+  if (scn === 'c_remote') {
+    s.pairs = ex.map(function (x) { return x.id === 'pair-2' ? Object.assign({}, x, { derecha: '376655' }) : x; });
+    s.changed = ['pair-2'];
+    s.lineups[0].modified = 'ahora mismo';
+    s.toast = { title: 'Alineación actualizada desde otro dispositivo', sub: 'Ha cambiado la Pista 5', kind: 'info' };
+  }
+  if (scn === 'c_deleted') {
+    s.lineups = s.lineups.filter(function (l) { return l.id !== 'l4'; });
+    s.activeId = 'l3'; s.pairs = clonePairs(L_PAIRS.l3);
+    s.deletedNotice = { name: 'Jornada 4 · vs Pádel Indoor Sur', now: 'Jornada 3 · vs Club X' };
+  }
+  if (scn === 'c_invite') { s.team = 'invite'; }
+  if (scn === 'c_leave') { s.team = 'leave'; }
+  if (scn === 'c_alt') { s.tab = 'lists'; }
+  if (scn === 'c_desk') { s.sheet = 'lists'; }
   return s;
 }
 
@@ -737,8 +1222,100 @@ class Component extends DCLogic {
     this.toastTimer = setTimeout(function () { self.setState({ toast: null }); }, 2600);
   }
   layout() { return this.props.layout || 'tabs'; }
+  v2() { return isV2(this.props); }
+  locked() { return this.v2() && this.state.sync === 'offline'; }
+  blocked() {
+    if (!this.locked()) return false;
+    this.flash({ title: 'Sin conexión: no se puede editar', sub: 'Puedes ver y copiar la alineación. Podrás editar al volver la conexión.', kind: 'warn' });
+    return true;
+  }
+  touched(lineupChanged) {
+    const self = this;
+    if (!this.v2()) return;
+    const s = this.state;
+    if (lineupChanged && s.activeId) {
+      const cur = s.lineups.find(function (l) { return l.id === s.activeId; });
+      if (cur) {
+        const rest = s.lineups.filter(function (l) { return l.id !== s.activeId; });
+        this.setState({ lineups: [Object.assign({}, cur, { modified: 'ahora mismo' })].concat(rest), changed: [] });
+      }
+    }
+    if (s.mode === 'shared') {
+      this.setState({ sync: 'saving' });
+      if (this.syncTimer) clearTimeout(this.syncTimer);
+      this.syncTimer = setTimeout(function () { if (self.state.sync === 'saving') self.setState({ sync: 'ok' }); }, 900);
+    }
+  }
+  savedLineups() {
+    const s = this.state;
+    return s.lineups.map(function (l) { return l.id === s.activeId ? Object.assign({}, l, { pairs: clonePairs(s.pairs) }) : l; });
+  }
+  pickLineup(id) {
+    const s = this.state;
+    const close = { sheet: null, menuFor: null, sel: null, pickFor: null, changed: [] };
+    if (this.props.alt === 'tab3') close.tab = 'lineup';
+    if (id === s.activeId) { this.setState(close); return; }
+    const lineups = this.savedLineups();
+    const target = lineups.find(function (l) { return l.id === id; });
+    this.setState(Object.assign({ lineups: lineups, activeId: id, pairs: clonePairs(target.pairs) }, close));
+    this.flash({ title: 'Viendo «' + target.name + '»', sub: 'Cambia de alineación desde la cabecera', kind: 'ok' });
+  }
+  submitForm() {
+    const s = this.state;
+    const f = s.form;
+    if (!f) return;
+    const name = (f.name || '').trim();
+    if (!name) { this.setState({ form: Object.assign({}, f, { error: true }) }); return; }
+    let lineups = this.savedLineups();
+    if (f.mode === 'rename') {
+      const cur = lineups.find(function (l) { return l.id === f.id; });
+      const upd = Object.assign({}, cur, { name: name, dateRaw: f.date, date: fmtDate(f.date), modified: 'ahora mismo' });
+      lineups = [upd].concat(lineups.filter(function (l) { return l.id !== f.id; }));
+      this.setState({ lineups: lineups, form: null });
+      this.flash({ title: 'Alineación renombrada', sub: name, kind: 'ok' });
+    } else {
+      const src = lineups.find(function (l) { return l.id === f.from; });
+      const nl = { id: 'n' + Date.now(), name: name, dateRaw: f.date, date: fmtDate(f.date), modified: 'ahora mismo', pairs: src ? clonePairs(src.pairs) : emptyPairs() };
+      lineups = [nl].concat(lineups);
+      this.setState({ lineups: lineups, activeId: nl.id, pairs: clonePairs(nl.pairs), form: null, sheet: null, tab: 'lineup', sel: null, changed: [] });
+      this.flash({ title: 'Alineación creada', sub: src ? 'Copiada de «' + src.name + '»' : 'Empieza con las 5 pistas vacías', kind: 'ok' });
+    }
+    this.touched(false);
+  }
+  confirmDelete() {
+    const s = this.state;
+    let lineups = this.savedLineups();
+    const gone = lineups.find(function (l) { return l.id === s.del; });
+    lineups = lineups.filter(function (l) { return l.id !== s.del; });
+    const patch = { lineups: lineups, del: null, menuFor: null };
+    if (s.del === s.activeId) {
+      const next = lineups[0];
+      patch.activeId = next ? next.id : null;
+      patch.pairs = next ? clonePairs(next.pairs) : emptyPairs();
+      patch.sel = null;
+    }
+    this.setState(patch);
+    this.flash({ title: 'Alineación borrada', sub: gone ? '«' + gone.name + '»' : '', kind: 'ok' });
+    this.touched(false);
+  }
+  submitJoin() {
+    const m = /k=([A-Za-z0-9]+)/.exec(this.state.joinText || '');
+    const code = m ? m[1] : (this.state.joinText || '').trim();
+    if (code === CODE) { this.setState({ mode: 'shared', sync: 'ok', team: null, screen: 'welcome' }); return; }
+    this.setState({ team: null, screen: 'invalid', badCode: code || '—' });
+  }
+  copyStr(text, okT, okS) {
+    const self = this;
+    const ok = function () { self.flash({ title: okT, sub: okS, kind: 'ok' }); };
+    const ko = function () { self.flash({ title: 'No se ha podido copiar', sub: 'Este navegador no permite copiar aquí', kind: 'warn' }); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ko);
+      else ko();
+    } catch (e) { ko(); }
+  }
 
   place(id, pairId, side) {
+    if (this.blocked()) return;
     const s = this.state;
     const pairs = s.pairs.map(function (x) { return Object.assign({}, x); });
     const src = locate(pairs, id);
@@ -758,8 +1335,10 @@ class Component extends DCLogic {
     if (isMismatch(s.sides[id], side)) sub = 'Aviso: prefiere ' + SIDES[s.sides[id]].label;
     this.setState(Object.assign({ pairs: pairs }, reset));
     this.flash({ title: shortName(p) + ' → Pista ' + no + ' · ' + SLOT[side].label, sub: sub, kind: isMismatch(s.sides[id], side) ? 'warn' : 'ok' });
+    this.touched(true);
   }
   remove(pairId, side) {
+    if (this.blocked()) return;
     const pairs = this.state.pairs.map(function (x) { return Object.assign({}, x); });
     const pr = pairs.find(function (x) { return x.id === pairId; });
     const id = pr[side];
@@ -767,8 +1346,10 @@ class Component extends DCLogic {
     pr[side] = null;
     this.setState({ pairs: pairs, sel: null, drag: null, over: null });
     this.flash({ title: shortName(BY[id]) + ' vuelve a la plantilla', sub: 'Hueco de ' + SLOT[side].label + ' libre', kind: 'ok' });
+    this.touched(true);
   }
   tapSlot(pairId, side) {
+    if (this.blocked()) return;
     const s = this.state;
     const pr = s.pairs.find(function (x) { return x.id === pairId; });
     const occ = pr[side];
@@ -782,16 +1363,20 @@ class Component extends DCLogic {
     this.flash({ title: 'Primero toca un jugador', sub: 'Después toca este hueco para colocarlo', kind: 'warn' });
   }
   tapRow(id) {
+    if (this.blocked()) return;
     const s = this.state;
     if (s.pickFor) { this.place(id, s.pickFor.pair, s.pickFor.side); return; }
     if (s.sel && s.sel.id === id) { this.setState({ sel: null }); return; }
     this.setState({ sel: { id: id }, posFor: null, staticGhost: false, drag: null, over: null });
   }
   setSide(id, side) {
+    if (this.blocked()) return;
     const sides = Object.assign({}, this.state.sides);
     sides[id] = side;
     this.setState({ sides: sides, posFor: null });
-    this.flash({ title: shortName(BY[id]) + ' · ' + SIDES[side].label, sub: 'Posición preferente guardada en este dispositivo', kind: 'ok' });
+    const sub = this.v2() && this.state.mode === 'shared' ? 'Posición compartida con todo el equipo' : 'Posición preferente guardada en este dispositivo';
+    this.flash({ title: shortName(BY[id]) + ' · ' + SIDES[side].label, sub: sub, kind: 'ok' });
+    this.touched(false);
   }
   copy() {
     const self = this;
@@ -819,6 +1404,10 @@ class Component extends DCLogic {
     const W = isDesk ? 1280 : 360;
     const H = Number(p.height) || (isDesk ? 820 : 1120);
     const H_ = function (fn) { return function (e) { if (e && e.stopPropagation) e.stopPropagation(); fn(e); }; };
+    const v2 = isV2(p);
+    const alt = v2 && p.alt === 'tab3';
+    const locked = v2 && s.sync === 'offline';
+    const shared = v2 && s.mode === 'shared';
     const sides = s.sides;
     const loc = {};
     s.pairs.forEach(function (pr) { ['reves', 'derecha'].forEach(function (sd) { if (pr[sd]) loc[pr[sd]] = { pair: pr.id, side: sd }; }); });
@@ -850,7 +1439,8 @@ class Component extends DCLogic {
         name: pl ? shortName(pl) : '',
         fullName: pl ? pl.name : '',
         cname: pl ? compactName(pl) : (over ? 'Soltar aquí' : (target ? 'Colocar' : 'Libre')),
-        emptyText: over ? 'Soltar aquí' : (target ? 'Colocar aquí' : 'Añadir ' + SLOT[sd].label.toLowerCase()),
+        emptyText: locked ? 'Vacío' : (over ? 'Soltar aquí' : (target ? 'Colocar aquí' : 'Añadir ' + SLOT[sd].label.toLowerCase())),
+        lockShow: locked && !!id,
         pts: pl ? fmt(pl.points) : '',
         mismatch: mismatch,
         warnText: mismatch ? 'prefiere ' + SIDES[sides[id]].label : '',
@@ -860,7 +1450,7 @@ class Component extends DCLogic {
         removeAria: pl ? 'Quitar a ' + pl.name + ' de la pista ' + no : '',
         onTap: H_(function () { self.tapSlot(pr.id, sd); }),
         onRemove: H_(function () { self.remove(pr.id, sd); }),
-        onDragStart: function (e) { if (!id) return; try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: id, from: key }, sel: null, staticGhost: false }); },
+        onDragStart: function (e) { if (!id) return; if (locked) { e.preventDefault(); self.blocked(); return; } try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: id, from: key }, sel: null, staticGhost: false }); },
         onDragEnd: function () { self.setState({ drag: null, over: null }); },
         onDragOver: function (e) { if (!self.state.drag) return; e.preventDefault(); if (self.state.over !== key) self.setState({ over: key }); },
         onDrop: function (e) { e.preventDefault(); e.stopPropagation(); const d = self.state.drag; if (d) self.place(d.id, pr.id, sd); }
@@ -879,6 +1469,8 @@ class Component extends DCLogic {
         y: (no - 1) * stride,
         cy: (no - 1) * cstride,
         sumLabel: fmt(sum),
+        cls: 'court' + (s.changed.indexOf(pr.id) >= 0 ? ' is-changed' : ''),
+        changed: s.changed.indexOf(pr.id) >= 0,
         warn: slots[0].mismatch || slots[1].mismatch,
         aria: 'Pista ' + no + ', ' + fmt(sum) + ' puntos',
         slots: slots
@@ -920,8 +1512,8 @@ class Component extends DCLogic {
               };
             }),
             onTap: H_(function () { self.tapRow(x.id); }),
-            onPos: H_(function () { self.setState({ posFor: open ? null : x.id, sel: null, pickFor: null }); }),
-            onDragStart: function (e) { try { e.dataTransfer.setData('text/plain', x.id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: x.id, from: null }, sel: null, staticGhost: false }); },
+            onPos: H_(function () { if (self.blocked()) return; self.setState({ posFor: open ? null : x.id, sel: null, pickFor: null }); }),
+            onDragStart: function (e) { if (locked) { e.preventDefault(); self.blocked(); return; } try { e.dataTransfer.setData('text/plain', x.id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {} self.setState({ drag: { id: x.id, from: null }, sel: null, staticGhost: false }); },
             onDragEnd: function () { self.setState({ drag: null, over: null }); }
           };
         })
@@ -974,9 +1566,136 @@ class Component extends DCLogic {
     if (s.drag) compactHint = 'Suelta sobre un hueco para colocarlo';
     const ready = s.load === 'ok';
 
+    // v2 · alineaciones, espacio y sincronización
+    const stats = function (pairs) { let t = 0; let c = 0; pairs.forEach(function (pr) { t += pairSum(pr); if (pr.reves) c++; if (pr.derecha) c++; }); return { t: t, c: c }; };
+    const lineups = s.lineups.map(function (l) { return l.id === s.activeId ? Object.assign({}, l, { pairs: s.pairs }) : l; });
+    const active = v2 ? lineups.find(function (l) { return l.id === s.activeId; }) : null;
+    const hasActive = !v2 || !!active;
+    const listItems = lineups.map(function (l) {
+      const st = stats(l.pairs);
+      const isA = l.id === s.activeId;
+      const open = s.menuFor === l.id;
+      return {
+        name: l.name, date: l.date, hasDate: !!l.date, total: fmt(st.t), count: st.c, modified: l.modified,
+        isActive: isA, current: isA ? 'true' : 'false', cls: 'lrow' + (isA ? ' is-active' : ''),
+        menuOpen: open, menuAria: 'Más acciones para ' + l.name,
+        onPick: H_(function () { self.pickLineup(l.id); }),
+        onMenu: H_(function () { if (self.blocked()) return; self.setState({ menuFor: open ? null : l.id }); }),
+        onRename: H_(function () { self.setState({ form: { mode: 'rename', id: l.id, name: l.name, date: l.dateRaw || '', error: false }, menuFor: null }); }),
+        onDuplicate: H_(function () { self.setState({ form: { mode: 'new', name: 'Copia de ' + l.name, date: '', from: l.id, error: false }, menuFor: null }); }),
+        onDelete: H_(function () { self.setState({ del: l.id, menuFor: null }); })
+      };
+    });
+    const f = s.form;
+    const fromOpts = (f && f.mode === 'new') ? lineups.map(function (l) {
+      const st = stats(l.pairs);
+      return { title: 'Duplicar «' + l.name + '»', sub: st.c + '/10 · ' + fmt(st.t) + ' pts', checked: f.from === l.id, cls: 'opt' + (f.from === l.id ? ' is-on' : ''), onPick: function () { self.setState({ form: Object.assign({}, self.state.form, { from: l.id }) }); } };
+    }).concat([{ title: 'Vacía', sub: 'Las 5 pistas sin jugadores', checked: f.from === 'empty', cls: 'opt' + (f.from === 'empty' ? ' is-on' : ''), onPick: function () { self.setState({ form: Object.assign({}, self.state.form, { from: 'empty' }) }); } }]) : [];
+    const delItem = s.del ? lineups.find(function (l) { return l.id === s.del; }) : null;
+    let delText = shared ? 'Se borrará para todo el equipo y no se puede deshacer.' : 'Se borrará de este dispositivo y no se puede deshacer.';
+    if (delItem && delItem.id === s.activeId) {
+      const nx = lineups.filter(function (l) { return l.id !== delItem.id; })[0];
+      delText += nx ? ' Pasarás a ver «' + nx.name + '».' : '';
+    }
+    const syncState = !v2 ? 'ok' : (s.mode === 'local' ? 'local' : s.sync);
+    const syncLabels = { ok: 'Sincronizado', saving: 'Guardando…', offline: 'Sin conexión', local: 'Local' };
+    const syncArias = { ok: 'Sincronizado con el equipo. Abrir espacio del equipo', saving: 'Guardando cambios', offline: 'Sin conexión: solo lectura', local: 'Modo local: solo en este dispositivo. Compartir con el equipo' };
+    const syncLines = { ok: 'Sincronizado · en tiempo real', saving: 'Guardando cambios…', offline: 'Sin conexión · solo lectura', local: 'Solo en este dispositivo' };
+    const noActiveText = shared ? 'Crea la primera; el equipo la verá al momento.' : 'Crea la primera para empezar a montar parejas.';
+    const listsTab = alt && s.tab === 'lists';
+
     return {
       W: W, H: H, theme: theme,
-      rootCls: 'app l-' + layout + ' t-' + s.tab + (hasPlace ? ' has-place' : '') + (hasSelBar ? ' has-selbar' : ''),
+      rootCls: 'app l-' + layout + ' t-' + s.tab + (hasPlace ? ' has-place' : '') + (hasSelBar ? ' has-selbar' : '') + (v2 ? ' v2' : '') + (locked ? ' is-locked' : '') + (alt ? ' alt-tab3' : ''),
+      v2: v2,
+      notV2: !v2,
+      alt: alt,
+      locked: locked,
+      hasActive: hasActive,
+      noActive: v2 && ready && !active,
+      noActiveText: noActiveText,
+      teamBtnCls: 'teambtn' + (shared ? ' teambtn--icon' : ' teambtn--cta'),
+      teamBtnHasLabel: !shared,
+      teamBtnAria: shared ? 'Espacio del equipo: invitar o salir' : 'Compartir con el equipo',
+      activeEyebrow: active ? 'Alineación' + (active.date ? ' · ' + active.date : '') : 'Sin alineación',
+      activeName: active ? active.name : 'Crear o elegir alineación',
+      lselAria: active ? 'Alineación activa: ' + active.name + '. Cambiar de alineación' : 'Elegir o crear alineación',
+      syncCls: 'sync sync--' + syncState,
+      syncLabel: syncLabels[syncState],
+      syncAria: syncArias[syncState],
+      syncIsOk: syncState === 'ok',
+      syncIsSaving: syncState === 'saving',
+      syncIsOffline: syncState === 'offline',
+      syncIsLocal: syncState === 'local',
+      syncLineCls: 'syncline' + (syncState === 'offline' ? ' syncline--off' : (syncState === 'saving' ? ' syncline--saving' : '')),
+      syncLineText: syncLines[syncState],
+      showOffline: locked && ready,
+      posNote: !v2 ? 'Se guarda en este dispositivo. Ambos y Sin asignar nunca generan aviso.' : (shared ? 'Se comparte con todo el equipo al momento.' : 'Se guarda solo en este dispositivo.') + ' Ambos y Sin asignar nunca generan aviso.',
+      showLists: v2 && (s.sheet === 'lists' || listsTab),
+      showListsScrim: !listsTab,
+      listsEyebrow: (shared ? 'Espacio del equipo' : 'En este dispositivo') + ' · ' + lineups.length,
+      listItems: listItems,
+      listEmpty: lineups.length === 0,
+      listCount: lineups.length,
+      showLocalCard: v2 && !shared && lineups.length > 0,
+      tabListsCls: 'tab' + (s.tab === 'lists' ? ' is-active' : ''),
+      listsCurrent: s.tab === 'lists' ? 'page' : 'false',
+      showForm: v2 && !!f,
+      form: f || { name: '', date: '' },
+      formTitle: f ? (f.mode === 'new' ? 'Nueva alineación' : 'Renombrar alineación') : '',
+      formSubmit: f && f.mode === 'new' ? 'Crear' : 'Guardar',
+      formError: !!(f && f.error),
+      nameCls: 'inp' + (f && f.error ? ' is-invalid' : ''),
+      nameInvalid: f && f.error ? 'true' : 'false',
+      formIsNew: !!f && f.mode === 'new',
+      fromOpts: fromOpts,
+      showDel: v2 && !!delItem,
+      delName: delItem ? delItem.name : '',
+      delText: delText,
+      showTeamLocal: v2 && s.team === 'local',
+      showTeamCreate: v2 && s.team === 'createConfirm',
+      showTeamCreated: v2 && s.team === 'created',
+      showTeamJoin: v2 && s.team === 'join',
+      showTeamInvite: v2 && s.team === 'invite',
+      showTeamLeave: v2 && s.team === 'leave',
+      link: LINK,
+      joinText: s.joinText,
+      joinDisabled: !(s.joinText || '').trim(),
+      showDeleted: v2 && !!s.deletedNotice,
+      deletedName: s.deletedNotice ? s.deletedNotice.name : '',
+      deletedNow: s.deletedNotice ? s.deletedNotice.now : '',
+      showWelcome: v2 && s.screen === 'welcome',
+      showInvalid: v2 && s.screen === 'invalid',
+      badCode: s.badCode,
+      toastIsInfo: !!(s.toast && s.toast.kind === 'info'),
+      toastNotInfo: !(s.toast && s.toast.kind === 'info'),
+      openLists: H_(function () { if (alt) self.setState({ tab: 'lists', sel: null, pickFor: null }); else self.setState({ sheet: 'lists', sel: null, pickFor: null, posFor: null }); }),
+      goLists: H_(function () { self.setState({ tab: 'lists', sel: null, pickFor: null, posFor: null }); }),
+      onCloseSheets: H_(function () { self.setState({ sheet: null, menuFor: null }); }),
+      openTeam: H_(function () { self.setState({ team: self.state.mode === 'local' ? 'local' : 'invite', sheet: null, sel: null, pickFor: null }); }),
+      onCloseTeam: H_(function () { self.setState({ team: null }); }),
+      onAskCreate: H_(function () { self.setState({ team: 'createConfirm' }); }),
+      onConfirmCreate: H_(function () { self.setState({ mode: 'shared', sync: 'ok', team: 'created' }); }),
+      onOpenJoin: H_(function () { self.setState({ team: 'join' }); }),
+      onJoinText: function (e) { self.setState({ joinText: e.target.value }); },
+      onPasteJoin: H_(function () { try { navigator.clipboard.readText().then(function (t) { self.setState({ joinText: t }); }, function () {}); } catch (err) {} }),
+      onSubmitJoin: H_(function () { self.submitJoin(); }),
+      onEnterSpace: H_(function () { self.setState({ screen: null }); self.flash({ title: 'Estás en el espacio del equipo', sub: 'Los cambios se comparten al momento', kind: 'ok' }); }),
+      onInvalidPaste: H_(function () { self.setState({ screen: null, team: 'join', joinText: '' }); }),
+      onInvalidLocal: H_(function () { self.setState({ screen: null, mode: 'local', sync: 'local' }); }),
+      onAskLeave: H_(function () { self.setState({ team: 'leave' }); }),
+      onConfirmLeave: H_(function () { self.setState({ team: null, mode: 'local', sync: 'local' }); self.flash({ title: 'Has salido del espacio', sub: 'Este dispositivo vuelve al modo local', kind: 'ok' }); }),
+      onShareLink: H_(function () { if (navigator.share) { navigator.share({ title: TEAM, text: 'Alineaciones de ' + TEAM, url: LINK }).catch(function () {}); } else { self.copyStr(LINK, 'Enlace copiado', 'Pégalo en el grupo de WhatsApp'); } }),
+      onCopyLink: H_(function () { self.copyStr(LINK, 'Enlace copiado', 'Pégalo en el grupo de WhatsApp'); }),
+      onNew: H_(function () { if (self.blocked()) return; const ls = self.state.lineups; self.setState({ form: { mode: 'new', name: '', date: '', from: ls[0] ? ls[0].id : 'empty', error: false }, menuFor: null }); }),
+      onFormName: function (e) { self.setState({ form: Object.assign({}, self.state.form, { name: e.target.value, error: false }) }); },
+      onFormDate: function (e) { self.setState({ form: Object.assign({}, self.state.form, { date: e.target.value }) }); },
+      onCancelForm: H_(function () { self.setState({ form: null }); }),
+      onSubmitForm: H_(function () { self.submitForm(); }),
+      onCancelDel: H_(function () { self.setState({ del: null }); }),
+      onConfirmDel: H_(function () { self.confirmDelete(); }),
+      onAckDeleted: H_(function () { self.setState({ deletedNotice: null }); }),
+      onDeletedLists: H_(function () { self.setState({ deletedNotice: null, sheet: 'lists' }); }),
       isLoading: s.load === 'loading',
       isError: s.load === 'error',
       isReady: ready,
@@ -1015,16 +1734,17 @@ class Component extends DCLogic {
       rosterCurrent: s.tab === 'roster' ? 'page' : 'false',
       stop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
       onBackdrop: function () { const st = self.state; if (st.sel || st.pickFor || st.posFor) self.setState({ sel: null, pickFor: null, posFor: null }); },
-      onKey: function (e) { if (e.key === 'Escape') self.setState({ sel: null, pickFor: null, posFor: null, confirm: false, drag: null, over: null, staticGhost: false }); },
+      onKey: function (e) { if (e.key === 'Escape') self.setState({ sel: null, pickFor: null, posFor: null, confirm: false, drag: null, over: null, staticGhost: false, sheet: null, menuFor: null, form: null, del: null, team: null }); },
       onCancel: H_(function () { self.setState({ sel: null, pickFor: null, drag: null, over: null, staticGhost: false }); }),
       onRemoveSel: H_(function () { const l2 = self.state.sel && locate(self.state.pairs, self.state.sel.id); if (l2) self.remove(l2.pair, l2.side); }),
       goLineup: H_(function () { self.setState({ tab: 'lineup', posFor: null, pickFor: null }); }),
       goRoster: H_(function () { self.setState({ tab: 'roster', pickFor: null }); }),
-      onAskClear: H_(function () { self.setState({ confirm: true, sel: null, pickFor: null }); }),
+      onAskClear: H_(function () { if (self.blocked()) return; self.setState({ confirm: true, sel: null, pickFor: null }); }),
       onCancelClear: H_(function () { self.setState({ confirm: false }); }),
       onConfirmClear: H_(function () {
         self.setState({ confirm: false, pairs: self.state.pairs.map(function (x) { return { id: x.id, reves: null, derecha: null }; }) });
         self.flash({ title: 'Alineación vacía', sub: 'Las posiciones preferentes se mantienen', kind: 'ok' });
+        self.touched(true);
       }),
       onCopy: H_(function () { self.copy(); }),
       onShare: H_(function () { self.share(); }),

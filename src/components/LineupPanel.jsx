@@ -23,10 +23,39 @@ export function LineupPanel({
   isDesktop,
   selectedPlayer,
   dropEnabled,
+  locked,
+  changed = [],
+  hasLineup = true,
+  emptyText,
+  onNewLineup,
   actions,
 }) {
   const { height, stride } = LAYOUT[isDesktop ? "desktop" : "tabs"];
   const canAct = count > 0;
+
+  if (!hasLineup) {
+    return (
+      <section className="p-lineup" aria-label="Alineación">
+        <div className="lempty" style={{ paddingTop: 56 }}>
+          <div className="state__ic">
+            <Icon name="court" />
+          </div>
+          <h2 className="lempty__t">Aún no hay alineaciones</h2>
+          <p className="lempty__p">{emptyText}</p>
+          <button
+            type="button"
+            className="btn btn--primary"
+            style={{ minWidth: 220, marginTop: 8 }}
+            onClick={onNewLineup}
+            disabled={locked}
+          >
+            <Icon name="plus" />
+            Crear alineación
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="p-lineup" aria-label="Alineación">
@@ -75,7 +104,7 @@ export function LineupPanel({
           : "Toca un jugador y después un hueco, o arrástralo. Suelta en la plantilla para quitarlo."}
       </div>
 
-      {count === 0 && (
+      {count === 0 && !locked && (
         <div className="onb">
           <h2 className="onb__title">Monta la alineación</h2>
           <ol className="onb__steps">
@@ -105,7 +134,9 @@ export function LineupPanel({
               court={court}
               y={(court.court - 1) * stride}
               selectedPlayer={selectedPlayer}
-              dropEnabled={dropEnabled}
+              dropEnabled={dropEnabled && !locked}
+              locked={locked}
+              changed={changed.includes(pair.id)}
               actions={actions}
             />
           );
@@ -115,17 +146,18 @@ export function LineupPanel({
   );
 }
 
-function Court({ court, y, selectedPlayer, dropEnabled, actions }) {
+function Court({ court, y, selectedPlayer, dropEnabled, locked, changed, actions }) {
   const warn = SLOT_ORDER.some((slot) => court[slot]?.mismatch);
   return (
     <article
-      className="court"
+      className={"court" + (changed ? " is-changed" : "")}
       style={{ transform: `translateY(${y}px)` }}
       aria-label={`Pista ${court.court}, ${formatPoints(court.points)} puntos`}
     >
       <div className="court__head">
         <span className="court__badge">{court.court}</span>
         <span className="court__title">Pista {court.court}</span>
+        {changed && <span className="court__chg">Actualizada</span>}
         {warn && (
           <span className="court__warn" title="Hay un jugador fuera de su posición preferente">
             <Icon name="warn" size="sm" />
@@ -143,6 +175,7 @@ function Court({ court, y, selectedPlayer, dropEnabled, actions }) {
             slot={slot}
             selectedPlayer={selectedPlayer}
             dropEnabled={dropEnabled}
+            locked={locked}
             actions={actions}
           />
         ))}
@@ -151,7 +184,7 @@ function Court({ court, y, selectedPlayer, dropEnabled, actions }) {
   );
 }
 
-function Slot({ court, slot, selectedPlayer, dropEnabled, actions }) {
+function Slot({ court, slot, selectedPlayer, dropEnabled, locked, actions }) {
   const entry = court[slot];
   const player = entry?.player ?? null;
   const meta = SLOT_META[slot];
@@ -165,7 +198,7 @@ function Slot({ court, slot, selectedPlayer, dropEnabled, actions }) {
     id: `slotplayer:${court.pairId}:${slot}`,
     data: { playerId: player?.id, from: { pairId: court.pairId, slot } },
     attributes: { roleDescription: "arrastrable" },
-    disabled: !player,
+    disabled: !player || locked,
   });
 
   const state = slotState({
@@ -177,7 +210,13 @@ function Slot({ court, slot, selectedPlayer, dropEnabled, actions }) {
   });
 
   const points = player ? formatPoints(player.points) : "";
-  const emptyText = drop.isOver ? "Soltar aquí" : state.isTarget ? "Colocar aquí" : `Añadir ${meta.label.toLowerCase()}`;
+  const emptyText = locked
+    ? "Vacío"
+    : drop.isOver
+      ? "Soltar aquí"
+      : state.isTarget
+        ? "Colocar aquí"
+        : `Añadir ${meta.label.toLowerCase()}`;
 
   return (
     <div
@@ -189,7 +228,7 @@ function Slot({ court, slot, selectedPlayer, dropEnabled, actions }) {
         className="slot__tap"
         ref={drag.setNodeRef}
         // Hueco vacío: sin atributos de arrastre (dnd-kit pondría aria-disabled y lo anunciaría desactivado).
-        {...(player ? { ...drag.attributes, ...drag.listeners } : {})}
+        {...(player && !locked ? { ...drag.attributes, ...drag.listeners } : {})}
         onClick={() => actions.tapSlot(court.pairId, slot)}
         aria-label={`Pista ${court.court}, ${meta.label}: ${
           player
@@ -219,7 +258,13 @@ function Slot({ court, slot, selectedPlayer, dropEnabled, actions }) {
           )}
         </span>
       </button>
-      {player ? (
+      {locked ? (
+        player && (
+          <span className="slot__lock" aria-hidden="true">
+            <Icon name="lock" size="sm" />
+          </span>
+        )
+      ) : player ? (
         <button
           type="button"
           className="slot__x"

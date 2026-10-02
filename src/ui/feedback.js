@@ -60,11 +60,34 @@ export const MESSAGES = {
   cleared: { title: "Alineación vacía", sub: "Las posiciones preferentes se mantienen", kind: "ok" },
   pickFirst: { title: "Primero toca un jugador", sub: "Después toca este hueco para colocarlo", kind: "warn" },
   stillOffline: { title: "Sigue sin conexión", sub: "Se muestran los datos guardados", kind: "warn" },
-  readOnly: { title: "Sin conexión", sub: "La alineación se puede ver, pero no editar", kind: "warn" },
+  readOnly: {
+    title: "Sin conexión: no se puede editar",
+    sub: "Puedes ver y copiar la alineación. Podrás editar al volver la conexión.",
+    kind: "warn",
+  },
   notReady: { title: "Conectando…", sub: "Espera un momento para editar", kind: "warn" },
   saveFailed: { title: "No se ha guardado el cambio", sub: "Comprueba la conexión y vuelve a intentarlo", kind: "warn" },
   lineupGone: { title: "Esta alineación ya no existe", sub: "Otra persona la ha borrado", kind: "warn" },
-  remoteUpdate: { title: "Alineación actualizada", sub: "Cambios desde otro dispositivo", kind: "ok" },
-  invalidTeamCode: { title: "Enlace no válido", sub: "Se usa el modo local en este dispositivo", kind: "warn" },
+  linkCopied: { title: "Enlace copiado", sub: "Pégalo en el grupo de WhatsApp", kind: "ok" },
+  joined: { title: "Estás en el espacio del equipo", sub: "Los cambios se comparten al momento", kind: "ok" },
+  left: { title: "Has salido del espacio", sub: "Este dispositivo vuelve al modo local", kind: "ok" },
+  badJoinLink: { title: "Ese enlace no tiene código", sub: "Copia el enlace completo que te ha mandado el capitán", kind: "warn" },
+  remoteUpdate: (courts) => ({
+    title: "Alineación actualizada desde otro dispositivo",
+    sub: !courts.length
+      ? "Cambios desde otro dispositivo"
+      : courts.length === 1
+        ? `Ha cambiado la Pista ${courts[0]}`
+        : `Han cambiado las pistas ${courts.slice(0, -1).join(", ")} y ${courts.at(-1)}`,
+    kind: "info",
+  }),
+  lineupCreated: (fromName) => ({
+    title: "Alineación creada",
+    sub: fromName ? `Copiada de «${fromName}»` : "Empieza con las 5 pistas vacías",
+    kind: "ok",
+  }),
+  lineupRenamed: (name) => ({ title: "Alineación renombrada", sub: name, kind: "ok" }),
+  lineupDeleted: (name) => ({ title: "Alineación borrada", sub: `«${name}»`, kind: "ok" }),
+  viewing: (name) => ({ title: `Viendo «${name}»`, sub: "Cambia de alineación desde la cabecera", kind: "ok" }),
   refreshed: (count) => ({ title: "Plantilla actualizada", sub: `${count} jugadores descargados ahora`, kind: "ok" }),
 };

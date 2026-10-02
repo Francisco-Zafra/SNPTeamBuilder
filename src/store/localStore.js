@@ -13,7 +13,8 @@ function loadLineups() {
   const legacy = readJSON(STORAGE_KEYS.legacyLineup);
   if (Array.isArray(legacy)) return [{ id: newId(), ...newLineupFields({ from: { pairs: legacy } }) }];
 
-  return [];
+  // Primer uso: una alineación vacía para empezar a montar parejas directamente.
+  return [{ id: newId(), ...newLineupFields() }];
 }
 
 /**

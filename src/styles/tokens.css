@@ -24,6 +24,11 @@
   --c-scrim: rgba(10, 12, 9, .5);
   --shadow-sheet: 0 -10px 30px rgba(16, 20, 15, .18);
   --shadow-lift: 0 14px 30px rgba(16, 20, 15, .30);
+  /* Espacio compartido */
+  --c-sync-ok: #17733A;
+  --c-offline: #9A2C12; --c-offline-soft: #FBE3DA; --c-offline-line: #E7A48F;
+  --c-changed: #08719A; --c-on-changed: #FFFFFF; --c-changed-soft: #DDF1F8;
+  --dur-changed: 2400ms;
   color-scheme: light;
 }
 
@@ -43,6 +48,9 @@
     --c-scrim: rgba(0, 0, 0, .62);
     --shadow-sheet: 0 -10px 30px rgba(0, 0, 0, .5);
     --shadow-lift: 0 14px 30px rgba(0, 0, 0, .6);
+    --c-sync-ok: #6FD38E;
+    --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
+    --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
     color-scheme: dark;
   }
 }
@@ -62,6 +70,9 @@
   --c-scrim: rgba(0, 0, 0, .62);
   --shadow-sheet: 0 -10px 30px rgba(0, 0, 0, .5);
   --shadow-lift: 0 14px 30px rgba(0, 0, 0, .6);
+  --c-sync-ok: #6FD38E;
+  --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
+  --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
   color-scheme: dark;
 }
 

@@ -3,6 +3,7 @@ import { createEmptyLineup } from "./lineupReducer.js";
 import {
   countPlacedPlayers,
   getCourts,
+  getLineupStats,
   getPlayerCourtMap,
   getTotalPoints,
   indexPlayers,
@@ -73,6 +74,15 @@ describe("getCourts", () => {
     const [court] = getCourts(lineupOf({ "pair-1": ["ghost", "david"] }), players);
     expect(court.reves).toBeNull();
     expect(court.points).toBe(78500);
+  });
+});
+
+describe("getLineupStats", () => {
+  it("resume puntos y jugadores, ignorando IDs que no están en la plantilla", () => {
+    expect(getLineupStats(lineupOf({ "pair-1": ["david", "ghost"], "pair-2": ["seb"] }), players)).toEqual({
+      totalPoints: 78500,
+      count: 2,
+    });
   });
 });
 

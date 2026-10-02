@@ -55,6 +55,13 @@ describe("buildLineupText", () => {
     );
   });
 
+  it("usa el nombre de la alineación en el título", () => {
+    const courts = getCourts(createEmptyLineup(), players);
+    expect(
+      buildLineupText({ teamName: "IMPACTO 360", lineupName: "Jornada 4 · vs X", courts, totalPoints: 0 })
+    ).toMatch(/^IMPACTO 360 — Jornada 4 · vs X\n/);
+  });
+
   it("sin nombre de equipo usa un título genérico", () => {
     const courts = getCourts(createEmptyLineup(), players);
     expect(buildLineupText({ teamName: null, courts, totalPoints: 0 })).toMatch(/^Alineación\n/);

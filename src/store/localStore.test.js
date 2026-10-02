@@ -44,7 +44,8 @@ describe("createLocalStore", () => {
 
     await store.deleteLineup(a);
     state = latest(store);
-    expect(state.lineups.map((l) => l.id)).toEqual([b]);
+    expect(state.lineups.map((l) => l.id)).toContain(b);
+    expect(state.lineups.map((l) => l.id)).not.toContain(a);
   });
 
   it("aplica acciones limpiando jugadores que ya no están", async () => {
@@ -52,9 +53,17 @@ describe("createLocalStore", () => {
     const id = await store.createLineup();
     await store.applyAction(id, { type: "PLACE", playerId: "gone", pairId: "pair-1", slot: "reves" });
     await store.applyAction(id, { type: "PLACE", playerId: "p1", pairId: "pair-2", slot: "reves" }, { validIds: ["p1"] });
-    const [lineup] = latest(store).lineups;
+    const lineup = latest(store).lineups.find((l) => l.id === id);
     expect(lineup.pairs[0].reves).toBeNull();
     expect(lineup.pairs[1].reves).toBe("p1");
+  });
+
+  it("en el primer uso crea una alineación vacía; si se borran todas, no la recrea", async () => {
+    const store = createLocalStore();
+    const [first] = latest(store).lineups;
+    expect(first.name).toBe("Alineación");
+    await store.deleteLineup(first.id);
+    expect(latest(createLocalStore()).lineups).toEqual([]);
   });
 
   it("guarda las posiciones preferentes", async () => {

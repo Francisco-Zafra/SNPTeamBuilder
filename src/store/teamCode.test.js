@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { inviteLink, readCodeFromHash, resolveTeamCode } from "./teamCode.js";
+import { inviteLink, parseTeamLink, readCodeFromHash, resolveTeamCode } from "./teamCode.js";
 
 const CODE = "x7Fq92LmAb3dQz1K";
 
@@ -16,6 +16,20 @@ describe("readCodeFromHash", () => {
   });
 });
 
+describe("parseTeamLink", () => {
+  it("acepta el enlace completo o el código suelto", () => {
+    expect(parseTeamLink(`https://francisco-zafra.github.io/SNPTeamBuilder/#k=${CODE}`)).toBe(CODE);
+    expect(parseTeamLink(`  ${CODE}\n`)).toBe(CODE);
+    expect(parseTeamLink(`Mira: https://x.io/#k=${CODE}`)).toBe(CODE);
+  });
+
+  it("devuelve null si no hay código válido", () => {
+    expect(parseTeamLink("")).toBeNull();
+    expect(parseTeamLink("https://francisco-zafra.github.io/SNPTeamBuilder/")).toBeNull();
+    expect(parseTeamLink("hola")).toBeNull();
+  });
+});
+
 describe("resolveTeamCode", () => {
   const memory = () => {
     const data = new Map();
@@ -26,24 +40,29 @@ describe("resolveTeamCode", () => {
     };
     return data;
   };
+  const at = (hash) => ({ hash, pathname: "/SNPTeamBuilder/", search: "" });
 
-  it("guarda el código del enlace y lo quita de la URL", () => {
+  it("guarda el código del enlace, lo quita de la URL y marca la entrada", () => {
     const data = memory();
     const history = { replaceState: vi.fn() };
-    const code = resolveTeamCode({ hash: `#k=${CODE}`, pathname: "/SNPTeamBuilder/", search: "" }, history);
-    expect(code).toBe(CODE);
+    expect(resolveTeamCode(at(`#k=${CODE}`), history)).toEqual({ code: CODE, joined: true });
     expect(JSON.parse(data.get("snp:v1:team-code"))).toBe(CODE);
     expect(history.replaceState).toHaveBeenCalledWith(null, "", "/SNPTeamBuilder/");
   });
 
+  it("abrir otra vez el mismo enlace no cuenta como entrada nueva", () => {
+    memory().set("snp:v1:team-code", JSON.stringify(CODE));
+    expect(resolveTeamCode(at(`#k=${CODE}`), { replaceState: vi.fn() })).toEqual({ code: CODE, joined: false });
+  });
+
   it("sin enlace usa el código guardado", () => {
     memory().set("snp:v1:team-code", JSON.stringify(CODE));
-    expect(resolveTeamCode({ hash: "", pathname: "/", search: "" }, { replaceState: vi.fn() })).toBe(CODE);
+    expect(resolveTeamCode(at(""), { replaceState: vi.fn() })).toEqual({ code: CODE, joined: false });
   });
 
   it("sin enlace ni código guardado: modo local", () => {
     memory();
-    expect(resolveTeamCode({ hash: "", pathname: "/", search: "" }, { replaceState: vi.fn() })).toBeNull();
+    expect(resolveTeamCode(at(""), { replaceState: vi.fn() })).toEqual({ code: null, joined: false });
   });
 });
 

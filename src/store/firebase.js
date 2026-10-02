@@ -14,7 +14,8 @@ let firestorePromise = null;
 export function getFirestore() {
   firestorePromise ??= (async () => {
     const [{ initializeApp }, fs] = await Promise.all([import("firebase/app"), import("firebase/firestore")]);
-    const app = initializeApp(CONFIG.firebase ?? { projectId: "demo-snp", apiKey: "demo" });
+    // Con el emulador, siempre el proyecto de demo: nunca se toca el Firebase real.
+    const app = initializeApp(EMULATOR ? { projectId: "demo-snp", apiKey: "demo" } : CONFIG.firebase);
     const db = fs.initializeFirestore(app, {
       // Caché persistente: sin conexión se sigue viendo la última versión.
       localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() }),

@@ -37,6 +37,12 @@ export function getCourts(lineup, playersById) {
   return pairs.map(({ filled, index, ...court }, i) => ({ court: i + 1, ...court }));
 }
 
+/** Total de puntos y jugadores colocados de una alineación (para la lista). */
+export function getLineupStats(lineup, playersById) {
+  const courts = getCourts(lineup, playersById);
+  return { totalPoints: getTotalPoints(courts), count: countPlacedPlayers(courts) };
+}
+
 export const getTotalPoints = (courts) => courts.reduce((sum, c) => sum + c.points, 0);
 
 export const countPlacedPlayers = (courts) =>

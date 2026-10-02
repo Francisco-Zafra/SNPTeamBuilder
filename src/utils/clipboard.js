@@ -31,10 +31,10 @@ export const canShare = () => typeof navigator !== "undefined" && typeof navigat
  * Abre la hoja nativa de compartir. Devuelve "shared", "cancelled" o
  * "unsupported" (en ese caso el llamador copia al portapapeles).
  */
-export async function shareText({ title, text }) {
+export async function shareText({ title, text, url }) {
   if (!canShare()) return "unsupported";
   try {
-    await navigator.share({ title, text });
+    await navigator.share(url ? { title, text, url } : { title, text });
     return "shared";
   } catch (error) {
     return error?.name === "AbortError" ? "cancelled" : "unsupported";

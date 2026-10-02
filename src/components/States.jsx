@@ -53,9 +53,9 @@ export function CachedBanner({ fetchedAt, refreshing, onRetry }) {
 export function Toast({ toast }) {
   if (!toast) return null;
   return (
-    <div className={"toast" + (toast.kind === "warn" ? " toast--warn" : "")} role="status" aria-live="polite">
+    <div className={"toast" + (toast.kind === "ok" ? "" : ` toast--${toast.kind}`)} role="status" aria-live="polite">
       <span className="toast__ic">
-        <Icon name={toast.kind === "warn" ? "warn" : "check"} size="sm" />
+        <Icon name={toast.kind === "warn" ? "warn" : toast.kind === "info" ? "retry" : "check"} size="sm" />
       </span>
       <div>
         <div className="toast__t">{toast.title}</div>

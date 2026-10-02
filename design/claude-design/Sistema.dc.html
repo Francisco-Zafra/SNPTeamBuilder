@@ -34,7 +34,7 @@ body{margin:0}
 .rule b{font-weight:700}
 </style>
 </helmet>
-<div class="tk" style="width: 1280px; height: 2000px; padding: 56px; display: flex; flex-direction: column; gap: 32px">
+<div class="tk" style="width: 1280px; height: 2480px; padding: 56px; display: flex; flex-direction: column; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 12px">
 <h1 class="h1">Tokens de diseño</h1>
 <p class="lead">Variables CSS listas para React + Vite. Prefijos: --c color, --fs tamaño de letra, --sp espaciado, --r radio, --dur movimiento. Los colores se redefinen bajo [data-theme=dark] y prefers-color-scheme.</p>
@@ -88,6 +88,34 @@ body{margin:0}
 <div class="sw"><span class="sw__c" style="background: #FF7B6E"></span><div><div class="sw__n">--c-danger</div><div class="sw__u">Limpiar · texto tinta</div></div><span class="sw__h">#FF7B6E</span></div>
 </div>
 </div>
+</div>
+
+<div class="card" style="border: 2px solid #10140F">
+<div style="display: flex; align-items: baseline; gap: 12px"><h2 class="h2">Tokens nuevos · espacio compartido</h2><span class="h3">Sincronización, sin conexión y cambios de otros</span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px">
+<span class="h3" style="grid-column: 1 / -1">Claro</span>
+<div class="sw"><span class="sw__c" style="background: #17733A"></span><div><div class="sw__n">--c-sync-ok</div><div class="sw__u">Icono Sincronizado · 5,8:1</div></div><span class="sw__h">#17733A</span></div>
+<div class="sw"><span class="sw__c" style="background: #9A2C12"></span><div><div class="sw__n">--c-offline</div><div class="sw__u">Texto Sin conexión</div></div><span class="sw__h">#9A2C12</span></div>
+<div class="sw"><span class="sw__c" style="background: #FBE3DA"></span><div><div class="sw__n">--c-offline-soft</div><div class="sw__u">Chip y franja</div></div><span class="sw__h">#FBE3DA</span></div>
+<div class="sw"><span class="sw__c" style="background: #E7A48F"></span><div><div class="sw__n">--c-offline-line</div><div class="sw__u">Borde franja</div></div><span class="sw__h">#E7A48F</span></div>
+<div class="sw"><span class="sw__c" style="background: #08719A"></span><div><div class="sw__n">--c-changed</div><div class="sw__u">Borde y etiqueta «Actualizada»</div></div><span class="sw__h">#08719A</span></div>
+<div class="sw"><span class="sw__c" style="background: #DDF1F8"></span><div><div class="sw__n">--c-changed-soft</div><div class="sw__u">Fondo de pista cambiada</div></div><span class="sw__h">#DDF1F8</span></div>
+<div class="sw"><span class="sw__c" style="background: #FFFFFF"></span><div><div class="sw__n">--c-on-changed</div><div class="sw__u">Texto sobre --c-changed</div></div><span class="sw__h">#FFFFFF</span></div>
+<div class="sw"><span class="sw__c" style="background: #10140F"></span><div><div class="sw__n">--dur-changed</div><div class="sw__u">Duración del resalte</div></div><span class="sw__h">2400ms</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; padding: 16px; border-radius: 12px; background: #0D100C; color: #F3F6EF">
+<span class="h3" style="grid-column: 1 / -1; color: #A3AC9E">Oscuro</span>
+<div class="sw"><span class="sw__c" style="background: #6FD38E"></span><div><div class="sw__n">--c-sync-ok</div><div class="sw__u" style="color: #A3AC9E">Icono Sincronizado</div></div><span class="sw__h">#6FD38E</span></div>
+<div class="sw"><span class="sw__c" style="background: #FF9C80"></span><div><div class="sw__n">--c-offline</div><div class="sw__u" style="color: #A3AC9E">Texto Sin conexión</div></div><span class="sw__h">#FF9C80</span></div>
+<div class="sw"><span class="sw__c" style="background: #3A160C"></span><div><div class="sw__n">--c-offline-soft</div><div class="sw__u" style="color: #A3AC9E">Chip y franja</div></div><span class="sw__h">#3A160C</span></div>
+<div class="sw"><span class="sw__c" style="background: #7A3420"></span><div><div class="sw__n">--c-offline-line</div><div class="sw__u" style="color: #A3AC9E">Borde franja</div></div><span class="sw__h">#7A3420</span></div>
+<div class="sw"><span class="sw__c" style="background: #5CC8F0"></span><div><div class="sw__n">--c-changed</div><div class="sw__u" style="color: #A3AC9E">Borde y etiqueta</div></div><span class="sw__h">#5CC8F0</span></div>
+<div class="sw"><span class="sw__c" style="background: #0C2C38"></span><div><div class="sw__n">--c-changed-soft</div><div class="sw__u" style="color: #A3AC9E">Fondo de pista cambiada</div></div><span class="sw__h">#0C2C38</span></div>
+<div class="sw"><span class="sw__c" style="background: #06202A"></span><div><div class="sw__n">--c-on-changed</div><div class="sw__u" style="color: #A3AC9E">Texto sobre --c-changed</div></div><span class="sw__h">#06202A</span></div>
+</div>
+</div>
+<p style="font-size: 14px; color: #363D35">Sin conexión usa su propio rojo teja para no confundirse con el ámbar del aviso de posición, y el resalte de cambios usa azul petróleo, distinto del lima de selección y del azul de Revés por luminosidad.</p>
 </div>
 
 <div style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px">
@@ -173,6 +201,11 @@ body{margin:0}
   --c-scrim: rgba(10,12,9,.5);
   --shadow-sheet: 0 -10px 30px rgba(16,20,15,.18);
   --shadow-lift: 0 14px 30px rgba(16,20,15,.30);
+  /* nuevo · espacio compartido */
+  --c-sync-ok: #17733A;
+  --c-offline: #9A2C12; --c-offline-soft: #FBE3DA; --c-offline-line: #E7A48F;
+  --c-changed: #08719A; --c-on-changed: #FFFFFF; --c-changed-soft: #DDF1F8;
+  --dur-changed: 2400ms;
 }
 :root[data-theme="dark"] {
   --c-bg: #0D100C; --c-surface: #171B16; --c-surface-2: #232922; --c-surface-3: #2D342B;
@@ -187,6 +220,9 @@ body{margin:0}
   --c-warn: #FFCB5C; --c-warn-soft: #382A06; --c-warn-line: #6B5414;
   --c-danger: #FF7B6E; --c-on-danger: #10140F;
   --c-scrim: rgba(0,0,0,.62);
+  --c-sync-ok: #6FD38E;
+  --c-offline: #FF9C80; --c-offline-soft: #3A160C; --c-offline-line: #7A3420;
+  --c-changed: #5CC8F0; --c-on-changed: #06202A; --c-changed-soft: #0C2C38;
 }
 /* Repetir el bloque oscuro dentro de
    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { … } } */

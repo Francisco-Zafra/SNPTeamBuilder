@@ -12,19 +12,35 @@ export function readCodeFromHash(hash) {
   return isTeamCode(code) ? code : null;
 }
 
+/** Código a partir de lo que pega el usuario: el enlace completo o el código suelto. */
+export function parseTeamLink(text) {
+  const value = String(text ?? "").trim();
+  if (isTeamCode(value)) return value;
+  const hashAt = value.indexOf("#");
+  return hashAt >= 0 ? readCodeFromHash(value.slice(hashAt)) : null;
+}
+
+const storedCode = () => {
+  const stored = readJSON(STORAGE_KEYS.teamCode);
+  return isTeamCode(stored) ? stored : null;
+};
+
+export const rememberTeamCode = (code) => writeJSON(STORAGE_KEYS.teamCode, code);
+
 /**
  * Código activo en este dispositivo. Si llega en el enlace se guarda y se quita
  * de la barra de direcciones (para no compartirlo sin querer en una captura).
+ * `joined` indica que este dispositivo acaba de entrar con un código nuevo.
  */
 export function resolveTeamCode(loc = window.location, history = window.history) {
   const fromHash = readCodeFromHash(loc.hash);
+  const stored = storedCode();
   if (fromHash) {
-    writeJSON(STORAGE_KEYS.teamCode, fromHash);
+    rememberTeamCode(fromHash);
     history.replaceState(null, "", loc.pathname + loc.search);
-    return fromHash;
+    return { code: fromHash, joined: fromHash !== stored };
   }
-  const stored = readJSON(STORAGE_KEYS.teamCode);
-  return isTeamCode(stored) ? stored : null;
+  return { code: stored, joined: false };
 }
 
 export const forgetTeamCode = () => removeJSON(STORAGE_KEYS.teamCode);

@@ -720,4 +720,11 @@ teams/{código}/lineups/{id}    { name, date, pairs[5], createdAt, updatedAt }
 
 **Desarrollo con emulador:** `npm run emulator` (requiere Java) y, en otra terminal, `npm run dev:emulator`.
 
-**Pendiente de diseño:** lista y gestión de alineaciones (crear, duplicar, renombrar, borrar, elegir activa), indicador de sincronización, invitar/salir del espacio y resalte de pistas cambiadas. Hasta entonces se usa la alineación más reciente. La lógica ya está en `useLineupBuilder` (`sync`, `lineups`, `setActiveLineup`) y en los almacenes.
+**Interfaz (serie C del diseño, [design/claude-design/](design/claude-design/)):**
+- **Cabecera de dos filas:** equipo + botón del espacio; selector de la alineación activa + indicador de sincronización (Sincronizado · Guardando… · Conectando… · Sin conexión · Local).
+- **Hoja de alineaciones:** lista (más reciente primero, con fecha, total, x/10 y «Modificada hace…»), menú ⋯ (Renombrar, Duplicar, Borrar), «Nueva alineación» con «Empezar desde» (duplicar una existente o vacía). La alineación activa es por dispositivo (`snp:v1:active-lineup`).
+- **Sin conexión:** franja «Sin conexión · solo lectura», huecos con candado y sin arrastre; al tocar sale un aviso. Copiar sigue funcionando.
+- **Cambios de otro dispositivo:** las pistas cambiadas se resaltan («Actualizada», 2,4 s) y sale el aviso «Ha cambiado la Pista N».
+- **Si otra persona borra la alineación activa:** aviso y paso a la siguiente.
+- **Espacio:** en modo local, «Compartir» abre **Unirme** (pegar el enlace); en modo compartido abre **Invitar** (enlace con Compartir/Copiar) y **Salir del espacio** con confirmación. Al entrar con un enlace nuevo aparece la bienvenida; un código inválido muestra «Este enlace no funciona» (pegar otro o seguir en local).
+- **No se implementa «Crear espacio» desde la app:** el espacio es único y se crea con `npm run team-code`.
